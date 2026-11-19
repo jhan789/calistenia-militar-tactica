@@ -1,0 +1,4443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#151d17" />
+  <meta name="description" content="Aplicación táctica de calistenia militar para Hombre y Mujer enfocada en áreas localizadas, con guía biomecánica SVG, temporizador y modo offline." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Calistenia Militar" />
+  <meta name="application-name" content="Calistenia Militar" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon-tactico.svg" />
+  <link rel="apple-touch-icon" href="icon-tactico.svg" />
+  <title>Calistenia Militar Táctica | Entrenamiento Localizado</title>
+  <style>
+    :root {
+      --bg-primary: #0d120e;
+      --bg-secondary: #151d17;
+      --bg-card: #1b251e;
+      --bg-card-hover: #222f26;
+      --border: #2e3e33;
+      --accent: #a6d658;
+      --accent-strong: #87b839;
+      --accent-glow: rgba(166, 214, 88, 0.18);
+      --cyan-tactico: #4dd0e1;
+      --warning: #f5b041;
+      --danger: #e74c3c;
+      --danger-glow: rgba(231, 76, 60, 0.14);
+      --text-main: #f1f6f2;
+      --text-muted: #9eb0a2;
+      --radius: 12px;
+      --transition: 0.2s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #1b281e 0%, var(--bg-primary) 65%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2rem 1.25rem 4rem;
+      line-height: 1.5;
+    }
+
+    .contenedor {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* Encabezado táctico */
+    .encabezado {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, rgba(27, 37, 30, 0.95), rgba(18, 25, 20, 0.95));
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .encabezado-titulo h1 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .insignia-tactica {
+      font-size: 0.75rem;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+    }
+
+    .insignia-pwa {
+      font-size: 0.72rem;
+      background: rgba(77, 208, 225, 0.14);
+      color: var(--cyan-tactico);
+      border: 1px solid var(--cyan-tactico);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+    }
+
+    .insignia-pwa.offline {
+      background: rgba(245, 176, 65, 0.16);
+      color: var(--warning);
+      border-color: var(--warning);
+    }
+
+    .btn-instalar-pwa {
+      display: none;
+      margin-top: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #0e140f;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-instalar-pwa.visible {
+      display: inline-block;
+    }
+
+    .encabezado-titulo p {
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .estado-mision {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.1rem;
+      border-radius: 10px;
+      text-align: right;
+    }
+
+    .estado-mision small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .estado-mision strong {
+      color: var(--accent);
+      font-size: 1.05rem;
+    }
+
+    /* Maquetación principal */
+    .layout-principal {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .layout-principal {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-lateral {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: sticky;
+      top: 1.25rem;
+    }
+
+    .tarjeta-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .titulo-seccion {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.55rem;
+    }
+
+    .grupo-control {
+      margin-bottom: 1.1rem;
+    }
+
+    .grupo-control:last-child {
+      margin-bottom: 0;
+    }
+
+    .etiqueta-control {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+      font-weight: 600;
+    }
+
+    /* Botones segmentados de género */
+    .selector-segmentado {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .btn-segmento {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .btn-segmento:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    .btn-segmento.activo {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    .btn-accion-principal {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #0e140f;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+    }
+
+    .btn-accion-principal:hover {
+      background: var(--accent-strong);
+      color: #fff;
+    }
+
+    /* Temporizador de descanso */
+    .visor-temporizador {
+      text-align: center;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .tiempo-digital {
+      font-size: 2.6rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .tiempo-digital.alerta-final {
+      color: var(--warning);
+    }
+
+    .etiqueta-temporizador {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .barra-progreso-contenedor {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-secondary);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.75rem;
+    }
+
+    .barra-progreso-relleno {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+      width: 100%;
+      transition: width 0.25s linear;
+    }
+
+    .controles-temporizador {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-temporizador {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-temporizador.primario {
+      background: var(--accent);
+      color: #0f1510;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn-temporizador:hover {
+      border-color: var(--accent);
+    }
+
+    .atajos-tiempo {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+    }
+
+    .btn-atajo {
+      padding: 0.4rem;
+      font-size: 0.78rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-atajo:hover,
+    .btn-atajo.activo {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-sonido {
+      width: 100%;
+      margin-top: 0.75rem;
+      padding: 0.55rem;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-sonido.silenciado {
+      border-color: var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+    }
+
+    .btn-sonido:hover {
+      border-color: var(--accent);
+    }
+
+    .tiempo-digital.cuenta-final {
+      color: var(--warning);
+      animation: parpadeoCuentaFinal 1s steps(2, start) infinite;
+    }
+
+    @keyframes parpadeoCuentaFinal {
+      to { opacity: 0.45; }
+    }
+
+    /* Panel de progreso semanal estilo Strava Strength */
+    .barra-progreso-militar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) 1.55fr;
+      gap: 0.9rem;
+      background: linear-gradient(135deg, rgba(27, 37, 30, 0.98), rgba(17, 24, 19, 0.98));
+      border: 1px solid var(--border);
+      border-top: 3px solid #fc5200;
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 920px) {
+      .barra-progreso-militar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .bloque-rango-progreso {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .indicador-progreso {
+      text-align: center;
+      background: rgba(13, 18, 14, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.5rem;
+    }
+
+    .indicador-progreso .valor {
+      display: block;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .indicador-progreso .valor.strava-acento {
+      color: #ff6b2b;
+    }
+
+    .indicador-progreso .subvalor {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .grilla-semana-7dias {
+      display: flex;
+      justify-content: center;
+      gap: 0.28rem;
+      margin-top: 0.4rem;
+    }
+
+    .pill-dia-semana {
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .pill-dia-semana.activo {
+      background: #ff6b2b;
+      border-color: #ff9e6d;
+      color: #0d120e;
+      box-shadow: 0 0 8px rgba(255, 107, 43, 0.45);
+    }
+
+    /* Mapa anatómico de calor muscular en SVG */
+    .contenedor-mapa-muscular {
+      position: relative;
+      background: radial-gradient(circle at center, #18251d 0%, #0b100d 100%);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 0.6rem 0.7rem;
+      text-align: center;
+    }
+
+    .contenedor-mapa-muscular svg {
+      width: 100%;
+      max-width: 315px;
+      height: 270px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .silueta-base {
+      fill: #162019;
+      stroke: #324638;
+      stroke-width: 1.3;
+      stroke-linejoin: round;
+    }
+
+    .musculo-svg {
+      transition: fill 0.2s ease, filter 0.2s ease, opacity 0.2s ease, stroke-width 0.2s ease;
+      stroke-width: 1.15;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .musculo-svg.estado-inactivo {
+      fill: #223026;
+      stroke: #34473a;
+      opacity: 0.72;
+    }
+
+    .musculo-svg.estado-historial {
+      fill: #4dd0e1;
+      stroke: #88e6f2;
+      opacity: 0.88;
+    }
+
+    .musculo-svg.estado-secundario {
+      fill: #a6d658;
+      stroke: #d2f29c;
+      opacity: 0.94;
+    }
+
+    .musculo-svg.estado-primario {
+      fill: #ff6b2b;
+      stroke: #ffb08a;
+      filter: drop-shadow(0 0 6px rgba(255, 107, 43, 0.55));
+      opacity: 1;
+    }
+
+    .musculo-svg:hover,
+    .musculo-svg:focus,
+    .musculo-svg.seleccionado {
+      stroke: #ffffff;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.65));
+      opacity: 1;
+    }
+
+    .tooltip-mapa-muscular {
+      min-height: 2.3rem;
+      margin-top: 0.55rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      background: rgba(13, 18, 14, 0.92);
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      transition: var(--transition);
+    }
+
+    .tooltip-mapa-muscular.activo {
+      border-color: #ff6b2b;
+      color: var(--text-main);
+      background: rgba(255, 107, 43, 0.14);
+    }
+
+    .tooltip-porcentaje {
+      color: #ff6b2b;
+      font-weight: 800;
+    }
+
+    .tooltip-ejercicios-count {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .chip-musculo-estado {
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip-musculo-estado:hover,
+    .chip-musculo-estado.seleccionado {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 1px #ffffff;
+    }
+
+    /* Resaltado de tarjetas de ejercicios vinculadas al músculo tocado */
+    .tarjeta-ejercicio.resaltado-musculo {
+      border-color: #ff6b2b;
+      box-shadow: 0 0 0 2px rgba(255, 107, 43, 0.5), 0 8px 24px rgba(255, 107, 43, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .tarjeta-ejercicio.atenuado-musculo {
+      opacity: 0.42;
+    }
+
+    .leyenda-calor-muscular {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-top: 0.6rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .item-leyenda-calor {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .muestra-calor {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .muestra-calor.primario { background: #ff6b2b; }
+    .muestra-calor.secundario { background: #a6d658; }
+    .muestra-calor.historial { background: #4dd0e1; }
+
+    .grid-chips-musculares {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.45rem;
+      margin-top: 0.85rem;
+    }
+
+    .chip-musculo-estado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.38rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .chip-musculo-estado.estado-primario {
+      border-color: #ff6b2b;
+      color: #ffb08a;
+      background: rgba(255, 107, 43, 0.14);
+      font-weight: 700;
+    }
+
+    .chip-musculo-estado.estado-secundario {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+      font-weight: 700;
+    }
+
+    .chip-musculo-estado.estado-historial {
+      border-color: var(--cyan-tactico);
+      color: var(--cyan-tactico);
+      background: rgba(77, 208, 225, 0.12);
+    }
+
+    /* Botones de cierre de misión y tarjeta compartible */
+    .acciones-finalizar-entrenamiento {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .acciones-finalizar-entrenamiento {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn-completar-entrenamiento {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .btn-abrir-compartible {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid #ff6b2b;
+      background: rgba(255, 107, 43, 0.14);
+      color: #ff8c5a;
+      font-weight: 800;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-abrir-compartible:hover {
+      background: #ff6b2b;
+      color: #0e140f;
+    }
+
+    /* Tarjeta compartible estilo Strava Strength */
+    .tarjeta-resumen-strava {
+      background: linear-gradient(155deg, #17221a 0%, #0d120e 100%);
+      border: 2px solid #ff6b2b;
+      border-radius: 14px;
+      padding: 1.35rem;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+      margin-bottom: 1.15rem;
+    }
+
+    .cabecera-strava-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .marca-strava-tactica {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ff6b2b;
+    }
+
+    .cuerpo-strava-card {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 1.1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 650px) {
+      .cuerpo-strava-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metricas-strava-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .dato-strava {
+      background: rgba(21, 29, 23, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+    }
+
+    .dato-strava small {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .dato-strava strong {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .dato-strava strong.destacado {
+      color: #ff6b2b;
+    }
+
+    .acciones-compartir-modal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .acciones-compartir-modal {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn-compartir-accion {
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-compartir-accion.png {
+      background: #ff6b2b;
+      border-color: #ff6b2b;
+      color: #0e140f;
+    }
+
+    .btn-compartir-accion.whatsapp {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0e140f;
+    }
+
+    .estado-accion-compartir {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      text-align: center;
+      color: var(--accent);
+      min-height: 1.3em;
+    }
+
+    /* Botón destacado y Modo Entrenamiento Guiado a pantalla completa */
+    .btn-iniciar-guiado {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      border-radius: var(--radius);
+      border: 2px solid #ff8c5a;
+      background: linear-gradient(135deg, #ff6b2b 0%, #e04d0e 100%);
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 107, 43, 0.35);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .btn-iniciar-guiado:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 107, 43, 0.5);
+    }
+
+    .overlay-guiado {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top center, #18261d 0%, #090d0a 75%);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
+
+    .overlay-guiado.abierto {
+      display: flex;
+    }
+
+    .panel-guiado {
+      max-width: 780px;
+      width: 100%;
+      margin: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid #ff6b2b;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .cabecera-guiado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .progreso-ejercicios-guiado {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #ff6b2b;
+    }
+
+    .barra-global-guiado {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-primary);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .relleno-global-guiado {
+      height: 100%;
+      background: linear-gradient(90deg, #ff6b2b, var(--accent));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .encabezado-ejercicio-guiado {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .indicador-serie-guiado {
+      display: inline-block;
+      background: rgba(255, 107, 43, 0.16);
+      color: #ff8c5a;
+      border: 1px solid #ff6b2b;
+      padding: 0.3rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      margin-bottom: 0.55rem;
+    }
+
+    .encabezado-ejercicio-guiado h2 {
+      font-size: 1.55rem;
+      color: var(--text-main);
+      margin-bottom: 0.3rem;
+    }
+
+    .prescripcion-guiado {
+      font-size: 1.05rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .puntos-series-guiado {
+      display: flex;
+      justify-content: center;
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+
+    .punto-serie-guiado {
+      width: 28px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+    }
+
+    .punto-serie-guiado.completada {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .punto-serie-guiado.actual {
+      background: #ff6b2b;
+      border-color: #ffb08a;
+    }
+
+    .escenario-svg-guiado {
+      background: radial-gradient(circle at center, #18241b 0%, #0b100d 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .escenario-svg-guiado svg {
+      width: 100%;
+      max-width: 480px;
+      height: 220px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .panel-descanso-guiado {
+      display: none;
+      background: rgba(13, 18, 14, 0.95);
+      border: 2px solid var(--cyan-tactico);
+      border-radius: 12px;
+      padding: 1.15rem;
+      text-align: center;
+      margin-bottom: 1.15rem;
+    }
+
+    .panel-descanso-guiado.activo {
+      display: block;
+    }
+
+    .tiempo-descanso-guiado {
+      font-size: 3rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      color: var(--cyan-tactico);
+      line-height: 1.1;
+    }
+
+    .tiempo-descanso-guiado.cuenta-final {
+      color: var(--warning);
+    }
+
+    .btn-completar-serie-grande {
+      width: 100%;
+      padding: 1.15rem 1.25rem;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #0d120e;
+      font-weight: 900;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-completar-serie-grande:hover {
+      background: var(--accent-strong);
+      color: #ffffff;
+    }
+
+    .btn-completar-serie-grande:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-saltar-descanso {
+      margin-top: 0.85rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--cyan-tactico);
+      background: rgba(77, 208, 225, 0.14);
+      color: var(--cyan-tactico);
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-saltar-descanso:hover {
+      background: var(--cyan-tactico);
+      color: #0d120e;
+    }
+
+    .indicador-progreso .nombre {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+    }
+
+    .insignia-rango {
+      display: inline-block;
+      padding: 0.15rem 0.7rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      border: 1px solid currentColor;
+    }
+
+    .insignia-rango.rango-recluta { color: var(--text-muted); }
+    .insignia-rango.rango-operativo { color: var(--accent); }
+    .insignia-rango.rango-elite { color: var(--warning); }
+
+    .bloque-rango-progreso .texto-siguiente {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .bloque-rango-progreso .ultimo-entrenamiento {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.45rem;
+    }
+
+    .btn-completar-entrenamiento {
+      width: 100%;
+      margin-top: 1.25rem;
+      padding: 0.95rem 1rem;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--accent);
+      color: #0e140f;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-completar-entrenamiento:hover {
+      background: var(--accent-strong);
+      color: #fff;
+    }
+
+    .mensaje-progreso {
+      margin-top: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .mensaje-progreso.visible {
+      display: block;
+    }
+
+    .mensaje-progreso.exito {
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .mensaje-progreso.error {
+      background: var(--danger-glow);
+      border: 1px solid var(--danger);
+      color: #f5a9a1;
+    }
+
+    /* Secciones colapsables de Calentamiento y Recuperación */
+    .seccion-colapsable-tactica {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+
+    .seccion-colapsable-tactica.recuperacion {
+      margin-top: 1.25rem;
+      border-left-color: var(--cyan-tactico);
+    }
+
+    .cabecera-colapsable {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(21, 29, 23, 0.7);
+      transition: var(--transition);
+    }
+
+    .cabecera-colapsable::-webkit-details-marker {
+      display: none;
+    }
+
+    .cabecera-colapsable:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .titulo-colapsable {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .indicador-despliegue {
+      font-size: 0.8rem;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    details[open] .indicador-despliegue {
+      transform: rotate(90deg);
+    }
+
+    .meta-colapsable {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .badge-area-fase {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .seccion-colapsable-tactica.recuperacion .badge-area-fase {
+      background: rgba(77, 208, 225, 0.14);
+      color: var(--cyan-tactico);
+      border-color: var(--cyan-tactico);
+    }
+
+    .cuerpo-colapsable {
+      padding: 1.1rem 1.25rem 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .enfoque-fase {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .barra-mini-temporizador {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-mini-timer {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .visor-mini-tiempo {
+      font-size: 1.55rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      min-width: 72px;
+    }
+
+    .seccion-colapsable-tactica.recuperacion .visor-mini-tiempo {
+      color: var(--cyan-tactico);
+    }
+
+    .estado-mini-timer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .controles-mini-timer {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .btn-mini-timer {
+      padding: 0.42rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-mini-timer.primario {
+      background: var(--accent);
+      color: #0e140f;
+      border-color: var(--accent);
+    }
+
+    .btn-mini-timer:hover {
+      border-color: var(--accent);
+    }
+
+    .lista-movimientos-fase {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .item-movimiento-fase {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 0.95rem;
+    }
+
+    .item-movimiento-fase strong {
+      display: block;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .item-movimiento-fase p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .btn-tiempo-movimiento {
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .btn-tiempo-movimiento:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* Métricas superiores */
+    .grid-metricas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .tarjeta-metrica {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .tarjeta-metrica .valor {
+      display: block;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .tarjeta-metrica .nombre {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* Filtros rápidos de área */
+    .filtros-area-rapidos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .chip-area {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip-area:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    .chip-area.activo {
+      background: var(--accent);
+      color: #0e140f;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Lista de tarjetas de ejercicios */
+    .lista-ejercicios {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .tarjeta-ejercicio {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      transition: var(--transition);
+    }
+
+    .tarjeta-ejercicio:hover {
+      background: var(--bg-card-hover);
+      border-color: #3f5445;
+    }
+
+    .tarjeta-ejercicio.completado {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .cabecera-ejercicio {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .cabecera-ejercicio h3 {
+      font-size: 1.15rem;
+      color: var(--text-main);
+    }
+
+    .badge-volumen {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .descripcion-ejercicio {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .etiquetas-musculos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .etiqueta-musculo {
+      font-size: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 0.22rem 0.6rem;
+      border-radius: 6px;
+      color: var(--text-main);
+    }
+
+    .pie-ejercicio {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .prescripcion-detalle {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .prescripcion-detalle span strong {
+      color: var(--accent);
+    }
+
+    .acciones-ejercicio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .selector-series {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .btn-serie {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-serie.completada {
+      background: var(--accent);
+      color: #0e140f;
+      border-color: var(--accent);
+    }
+
+    .btn-tecnica-tarjeta {
+      padding: 0.45rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-tecnica-tarjeta:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-descanso-tarjeta {
+      padding: 0.45rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-descanso-tarjeta:hover {
+      background: var(--accent);
+      color: #0e140f;
+    }
+
+    /* Modal de Técnica Biomecánica */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 11, 8, 0.84);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 1000;
+    }
+
+    .modal-overlay.abierto {
+      display: flex;
+    }
+
+    .modal-contenido {
+      background: var(--bg-card);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.65);
+      padding: 1.6rem;
+    }
+
+    .modal-cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .modal-cabecera h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+
+    .modal-cabecera p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-cerrar-modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-cerrar-modal:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .escenario-svg {
+      --factor-velocidad: 1;
+      background: radial-gradient(circle at center, #18241b 0%, #0b100d 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .escenario-svg.camara-lenta {
+      --factor-velocidad: 2.5;
+    }
+
+    .escenario-svg.pausado svg * {
+      animation-play-state: paused !important;
+    }
+
+    .barra-herramientas-svg {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(46, 62, 51, 0.7);
+    }
+
+    .indicador-estado-svg {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--cyan-tactico);
+      font-weight: 700;
+    }
+
+    .controles-animacion-svg {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-control-svg {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-control-svg:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-control-svg.activo {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .escenario-svg svg {
+      width: 100%;
+      max-width: 520px;
+      height: 245px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .leyenda-svg {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.15rem;
+    }
+
+    .leyenda-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .dot-articulacion {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--warning);
+      border: 2px solid #fff;
+      display: inline-block;
+    }
+
+    .dot-vector {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--cyan-tactico);
+      display: inline-block;
+    }
+
+    .dot-suelo {
+      width: 14px;
+      height: 3px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    /* Animaciones CSS para las ilustraciones SVG */
+    @keyframes cicloVerticalCuerpo {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(26px); }
+    }
+
+    @keyframes cicloDominada {
+      0%, 100% { transform: translateY(22px); }
+      50% { transform: translateY(-22px); }
+    }
+
+    @keyframes cicloPiernaIzq {
+      0%, 100% { transform: rotate(-18deg); }
+      50% { transform: rotate(14deg); }
+    }
+
+    @keyframes cicloPiernaDer {
+      0%, 100% { transform: rotate(14deg); }
+      50% { transform: rotate(-18deg); }
+    }
+
+    @keyframes cicloTroncoSitup {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(40deg); }
+    }
+
+    @keyframes cicloCaderaPuente {
+      0%, 100% { transform: translateY(18px); }
+      45%, 65% { transform: translateY(-18px); }
+    }
+
+    @keyframes cicloAvanceOso {
+      0%, 100% { transform: translateX(-16px); }
+      50% { transform: translateX(16px); }
+    }
+
+    @keyframes pulsoArticulacion {
+      0%, 100% { r: 5.5px; opacity: 1; }
+      50% { r: 7.5px; opacity: 0.85; }
+    }
+
+    .anim-flexion {
+      animation: cicloVerticalCuerpo calc(2.2s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-dominada {
+      animation: cicloDominada calc(2.4s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-flutter-izq {
+      transform-origin: 185px 150px;
+      animation: cicloPiernaIzq calc(1.2s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-flutter-der {
+      transform-origin: 185px 150px;
+      animation: cicloPiernaDer calc(1.2s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-situp {
+      transform-origin: 195px 168px;
+      animation: cicloTroncoSitup calc(2.2s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-puente {
+      animation: cicloCaderaPuente calc(2.4s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .anim-bear {
+      animation: cicloAvanceOso calc(2s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .punto-articulacion {
+      fill: var(--warning);
+      stroke: #111612;
+      stroke-width: 2px;
+      animation: pulsoArticulacion calc(1.6s * var(--factor-velocidad)) ease-in-out infinite;
+    }
+
+    .etiqueta-articulacion {
+      font-size: 9px;
+      fill: #f8d082;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .texto-vector {
+      font-size: 9.5px;
+      fill: var(--cyan-tactico);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .modal-secciones {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 700px) {
+      .modal-secciones {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bloque-tecnica {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem;
+    }
+
+    .bloque-tecnica h3 {
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 0.85rem;
+      color: var(--accent);
+    }
+
+    .bloque-tecnica.errores h3 {
+      color: var(--warning);
+    }
+
+    .lista-pasos {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .lista-pasos li {
+      display: flex;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      align-items: flex-start;
+    }
+
+    .numero-paso {
+      min-width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #0e140f;
+      font-weight: 800;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
+    }
+
+    .lista-errores {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .lista-errores li {
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      background: var(--danger-glow);
+      border-left: 3px solid var(--danger);
+      padding: 0.55rem 0.7rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <h1>
+          Calistenia Militar Táctica
+          <span class="insignia-tactica">OPERACIONAL</span>
+          <span id="insignia-pwa" class="insignia-pwa">PWA OFFLINE LISTA</span>
+        </h1>
+        <p>Sistema de entrenamiento localizado para Hombre y Mujer con control de series, técnica y descanso</p>
+      </div>
+      <div class="estado-mision">
+        <small>Misión Activa</small>
+        <strong id="resumen-cabecera">Hombre • Tren Superior • Operativo</strong>
+        <div>
+          <button type="button" id="btn-instalar-pwa" class="btn-instalar-pwa">
+            📲 Instalar App
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section id="barra-progreso-militar" class="barra-progreso-militar" aria-label="Panel de progreso semanal y racha">
+      <div class="indicador-progreso">
+        <span class="valor strava-acento" id="progreso-dias-semana">0 / 7</span>
+        <span class="nombre">Días esta semana</span>
+        <div id="grilla-semana-7dias" class="grilla-semana-7dias" aria-label="Actividad de los últimos 7 días"></div>
+      </div>
+      <div class="indicador-progreso">
+        <span class="valor" id="progreso-volumen-semana">0</span>
+        <span class="nombre">Volumen semanal (Reps)</span>
+        <span class="subvalor">Total histórico: <strong id="progreso-dias">0</strong> días</span>
+      </div>
+      <div class="indicador-progreso">
+        <span class="valor" id="progreso-racha">0 días 🔥</span>
+        <span class="nombre">Racha activa</span>
+      </div>
+      <div class="indicador-progreso">
+        <span class="valor"><span id="progreso-rango" class="insignia-rango rango-recluta">Recluta</span></span>
+        <span class="nombre">Rango militar</span>
+      </div>
+      <div class="bloque-rango-progreso">
+        <div class="texto-siguiente">
+          <span id="progreso-texto-siguiente">10 días para Operativo</span>
+          <span id="progreso-porcentaje">0%</span>
+        </div>
+        <div class="barra-progreso-contenedor">
+          <div id="progreso-barra-rango" class="barra-progreso-relleno" style="width: 0%"></div>
+        </div>
+        <div id="progreso-ultimo" class="ultimo-entrenamiento">Aún no hay entrenamientos registrados.</div>
+      </div>
+    </section>
+
+    <main class="layout-principal">
+      <!-- Panel Lateral: Configuración y Temporizador -->
+      <aside class="panel-lateral">
+        <section class="tarjeta-panel" aria-label="Configuración de Rutina">
+          <h2 class="titulo-seccion">Configuración Táctica</h2>
+
+          <div class="grupo-control">
+            <span class="etiqueta-control">Perfil Fisiológico</span>
+            <div class="selector-segmentado" role="group" aria-label="Selector de género">
+              <button type="button" id="btn-genero-hombre" class="btn-segmento activo" data-genero="hombre">
+                Hombre
+              </button>
+              <button type="button" id="btn-genero-mujer" class="btn-segmento" data-genero="mujer">
+                Mujer
+              </button>
+            </div>
+          </div>
+
+          <div class="grupo-control">
+            <label class="etiqueta-control" for="select-area">Área Muscular Localizada</label>
+            <select id="select-area">
+              <option value="tren_superior">Tren Superior (Pecho, Espalda, Brazos)</option>
+              <option value="core">Core y Cintura Abdominal</option>
+              <option value="tren_inferior">Tren Inferior (Piernas y Glúteos)</option>
+              <option value="cuerpo_completo">Cuerpo Completo / Acondicionamiento</option>
+            </select>
+          </div>
+
+          <div class="grupo-control">
+            <label class="etiqueta-control" for="select-nivel">Rango / Nivel de Exigencia</label>
+            <select id="select-nivel">
+              <option value="recluta">Recluta (Iniciación - 75%)</option>
+              <option value="operativo" selected>Operativo (Estándar - 100%)</option>
+              <option value="fuerzas_especiales">Fuerzas Especiales (Élite - 135% +1 Serie)</option>
+            </select>
+          </div>
+
+          <button id="btn-generar" type="button" class="btn-accion-principal">
+            Actualizar Rutina
+          </button>
+        </section>
+
+        <!-- Temporizador de Descanso -->
+        <section class="tarjeta-panel" aria-label="Temporizador de Descanso">
+          <h2 class="titulo-seccion">
+            <span>Temporizador de Descanso</span>
+            <span id="estado-temporizador">LISTO</span>
+          </h2>
+
+          <div class="visor-temporizador">
+            <div id="tiempo-digital" class="tiempo-digital">01:00</div>
+            <p id="etiqueta-ejercicio-activo" class="etiqueta-temporizador">Descanso estándar: 60 s</p>
+            <div class="barra-progreso-contenedor">
+              <div id="barra-progreso-temporizador" class="barra-progreso-relleno"></div>
+            </div>
+          </div>
+
+          <div class="controles-temporizador">
+            <button type="button" id="btn-iniciar-pausar" class="btn-temporizador primario">
+              Iniciar
+            </button>
+            <button type="button" id="btn-reiniciar-timer" class="btn-temporizador">
+              Reiniciar
+            </button>
+          </div>
+
+          <div class="atajos-tiempo" role="group" aria-label="Atajos de segundos de descanso">
+            <button type="button" class="btn-atajo" data-segundos="45">45s</button>
+            <button type="button" class="btn-atajo activo" data-segundos="60">60s</button>
+            <button type="button" class="btn-atajo" data-segundos="75">75s</button>
+            <button type="button" class="btn-atajo" data-segundos="90">90s</button>
+          </div>
+
+          <button type="button" id="btn-sonido" class="btn-sonido" aria-pressed="true">
+            🔊 Sonido activado
+          </button>
+        </section>
+
+        <!-- Mapa Anatómico de Calor Muscular (Frontal y Posterior) -->
+        <section id="tarjeta-mapa-anatomico" class="tarjeta-panel" aria-label="Mapa anatómico de calor muscular">
+          <h2 class="titulo-seccion">
+            <span>Mapa de Calor Muscular</span>
+            <span id="subtitulo-mapa-area">TREN SUPERIOR</span>
+          </h2>
+          <div id="contenedor-mapa-muscular" class="contenedor-mapa-muscular"></div>
+          <div id="tooltip-mapa-muscular" class="tooltip-mapa-muscular" role="status" aria-live="polite">
+            Pasa el cursor o toca un músculo para ver su % de activación y resaltar ejercicios.
+          </div>
+          <div class="leyenda-calor-muscular">
+            <span class="item-leyenda-calor"><i class="muestra-calor primario"></i> Primario hoy</span>
+            <span class="item-leyenda-calor"><i class="muestra-calor secundario"></i> Secundario</span>
+            <span class="item-leyenda-calor"><i class="muestra-calor historial"></i> Semana (7d)</span>
+          </div>
+          <div id="lista-chips-musculares" class="grid-chips-musculares"></div>
+        </section>
+      </aside>
+
+      <!-- Panel Central: Métricas, Filtros rápidos y Tarjetas de Ejercicios -->
+      <section class="contenido-principal">
+        <div id="contenedor-metricas" class="grid-metricas"></div>
+
+        <div class="filtros-area-rapidos" role="tablist" aria-label="Filtros rápidos por área localizada">
+          <button type="button" class="chip-area activo" data-area="tren_superior">Tren Superior</button>
+          <button type="button" class="chip-area" data-area="core">Core Táctico</button>
+          <button type="button" class="chip-area" data-area="tren_inferior">Tren Inferior</button>
+          <button type="button" class="chip-area" data-area="cuerpo_completo">Cuerpo Completo</button>
+        </div>
+
+        <button type="button" id="btn-iniciar-guiado" class="btn-iniciar-guiado">
+          ▶ Iniciar Entrenamiento Guiado
+        </button>
+
+        <!-- Sección colapsable: Calentamiento Táctico (5 min) antes de los ejercicios -->
+        <details id="seccion-calentamiento" class="seccion-colapsable-tactica" open>
+          <summary class="cabecera-colapsable">
+            <div class="titulo-colapsable">
+              <span class="indicador-despliegue">▶</span>
+              <span>🔥 Calentamiento Táctico (5 min)</span>
+            </div>
+            <div class="meta-colapsable">
+              <span id="badge-area-calentamiento" class="badge-area-fase">Tren Superior</span>
+              <span>300 s</span>
+            </div>
+          </summary>
+          <div class="cuerpo-colapsable">
+            <p id="enfoque-calentamiento" class="enfoque-fase"></p>
+            <div class="barra-mini-temporizador" aria-label="Mini-temporizador de calentamiento">
+              <div class="info-mini-timer">
+                <span id="mini-tiempo-calentamiento" class="visor-mini-tiempo">05:00</span>
+                <span id="estado-mini-calentamiento" class="estado-mini-timer">Calentamiento completo (300 s)</span>
+              </div>
+              <div class="controles-mini-timer">
+                <button type="button" id="btn-iniciar-calentamiento" class="btn-mini-timer primario">
+                  Iniciar
+                </button>
+                <button type="button" id="btn-reiniciar-calentamiento" class="btn-mini-timer">
+                  Reiniciar (5m)
+                </button>
+              </div>
+            </div>
+            <ul id="lista-calentamiento" class="lista-movimientos-fase"></ul>
+          </div>
+        </details>
+
+        <div id="contenedor-ejercicios" class="lista-ejercicios"></div>
+
+        <!-- Sección colapsable: Recuperación / Estiramiento al final -->
+        <details id="seccion-recuperacion" class="seccion-colapsable-tactica recuperacion">
+          <summary class="cabecera-colapsable">
+            <div class="titulo-colapsable">
+              <span class="indicador-despliegue">▶</span>
+              <span>🧘 Recuperación / Estiramiento</span>
+            </div>
+            <div class="meta-colapsable">
+              <span id="badge-area-recuperacion" class="badge-area-fase">Tren Superior</span>
+              <span>180 s</span>
+            </div>
+          </summary>
+          <div class="cuerpo-colapsable">
+            <p id="enfoque-recuperacion" class="enfoque-fase"></p>
+            <div class="barra-mini-temporizador" aria-label="Mini-temporizador de recuperación">
+              <div class="info-mini-timer">
+                <span id="mini-tiempo-recuperacion" class="visor-mini-tiempo">03:00</span>
+                <span id="estado-mini-recuperacion" class="estado-mini-timer">Recuperación completa (180 s)</span>
+              </div>
+              <div class="controles-mini-timer">
+                <button type="button" id="btn-iniciar-recuperacion" class="btn-mini-timer primario">
+                  Iniciar
+                </button>
+                <button type="button" id="btn-reiniciar-recuperacion" class="btn-mini-timer">
+                  Reiniciar (3m)
+                </button>
+              </div>
+            </div>
+            <ul id="lista-recuperacion" class="lista-movimientos-fase"></ul>
+          </div>
+        </details>
+
+        <div class="acciones-finalizar-entrenamiento">
+          <button type="button" id="btn-completar-entrenamiento" class="btn-completar-entrenamiento">
+            ✅ Completar entrenamiento
+          </button>
+          <button type="button" id="btn-abrir-compartible" class="btn-abrir-compartible">
+            🏅 Ver tarjeta compartible
+          </button>
+        </div>
+        <div id="mensaje-progreso" class="mensaje-progreso" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de Tarjeta Compartible de Entrenamiento Completado (Estilo Strava Strength) -->
+  <div id="modal-tarjeta-compartible" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-compartible">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <div>
+          <h2 id="titulo-modal-compartible">Tarjeta de Misión Completada</h2>
+          <p>Descarga tu insignia de entrenamiento como imagen PNG o comparte el resumen por WhatsApp</p>
+        </div>
+        <button type="button" id="btn-cerrar-compartible" class="btn-cerrar-modal">✕ Cerrar</button>
+      </div>
+
+      <article id="tarjeta-resumen-visual" class="tarjeta-resumen-strava">
+        <div class="cabecera-strava-card">
+          <div>
+            <span class="marca-strava-tactica">⚡ CALISTENIA MILITAR TÁCTICA • STRAVA STRENGTH</span>
+            <h3 id="compartir-area" style="font-size: 1.35rem; margin-top: 0.2rem;">Tren Superior</h3>
+          </div>
+          <div style="text-align: right;">
+            <span id="compartir-rango" class="insignia-rango rango-recluta">Recluta</span>
+            <small id="compartir-fecha" style="display: block; color: var(--text-muted); margin-top: 0.25rem;">2026-11-19</small>
+          </div>
+        </div>
+
+        <div class="cuerpo-strava-card">
+          <div class="metricas-strava-card">
+            <div class="dato-strava">
+              <small>Volumen Total</small>
+              <strong id="compartir-repeticiones" class="destacado">185 reps</strong>
+            </div>
+            <div class="dato-strava">
+              <small>Tiempo Estimado</small>
+              <strong id="compartir-tiempo">26 min</strong>
+            </div>
+            <div class="dato-strava">
+              <small>Nivel / Perfil</small>
+              <strong id="compartir-nivel" style="font-size: 1rem;">Operativo • Hombre</strong>
+            </div>
+            <div class="dato-strava">
+              <small>Racha Activa</small>
+              <strong id="compartir-racha">1 día 🔥</strong>
+            </div>
+            <div class="dato-strava" style="grid-column: 1 / -1;">
+              <small>Músculos Activados</small>
+              <strong id="compartir-musculos-lista" style="font-size: 0.92rem; color: var(--accent);">Pectoral, Hombros, Espalda, Core</strong>
+            </div>
+          </div>
+
+          <div id="compartir-mapa-svg" class="contenedor-mapa-muscular"></div>
+        </div>
+      </article>
+
+      <div class="acciones-compartir-modal">
+        <button type="button" id="btn-descargar-png" class="btn-compartir-accion png">
+          📥 Descargar imagen PNG
+        </button>
+        <button type="button" id="btn-copiar-whatsapp" class="btn-compartir-accion whatsapp">
+          📋 Copiar resumen para WhatsApp
+        </button>
+      </div>
+      <p id="estado-accion-compartir" class="estado-accion-compartir" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- Modo Entrenamiento Guiado Paso a Paso a Pantalla Completa -->
+  <div id="overlay-entrenamiento-guiado" class="overlay-guiado" role="dialog" aria-modal="true" aria-labelledby="guiado-nombre-ejercicio">
+    <div class="panel-guiado">
+      <div class="cabecera-guiado">
+        <div>
+          <span id="guiado-progreso-ejercicio" class="progreso-ejercicios-guiado">Ejercicio 1 de 3</span>
+          <small id="guiado-area-subtitulo" style="display: block; color: var(--text-muted);">Entrenamiento Guiado • Tren Superior</small>
+        </div>
+        <button type="button" id="btn-salir-guiado" class="btn-cerrar-modal">✕ Salir</button>
+      </div>
+
+      <div class="barra-global-guiado" aria-label="Progreso total del entrenamiento guiado">
+        <div id="guiado-barra-global" class="relleno-global-guiado"></div>
+      </div>
+
+      <div class="encabezado-ejercicio-guiado">
+        <span id="guiado-indicador-serie" class="indicador-serie-guiado">Serie 1 de 4</span>
+        <h2 id="guiado-nombre-ejercicio">Flexiones Tácticas (Cadencia Militar)</h2>
+        <p id="guiado-prescripcion" class="prescripcion-guiado">20 repeticiones • Descanso: 60 s</p>
+        <p id="guiado-descripcion" style="font-size: 0.86rem; color: var(--text-muted); margin-top: 0.25rem;"></p>
+        <div id="guiado-puntos-series" class="puntos-series-guiado"></div>
+      </div>
+
+      <div id="guiado-svg-contenedor" class="escenario-svg-guiado"></div>
+
+      <div id="guiado-panel-descanso" class="panel-descanso-guiado" role="status" aria-live="polite">
+        <small style="text-transform: uppercase; letter-spacing: 0.8px; color: var(--cyan-tactico); font-weight: 800;">
+          ⏱ Descanso Táctico en Curso
+        </small>
+        <div id="guiado-tiempo-descanso" class="tiempo-descanso-guiado">01:00</div>
+        <p id="guiado-texto-siguiente" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+          Prepárate para la siguiente serie
+        </p>
+        <div class="barra-progreso-contenedor" style="margin-top: 0.6rem;">
+          <div id="guiado-barra-descanso" class="barra-progreso-relleno"></div>
+        </div>
+        <button type="button" id="btn-guiado-saltar-descanso" class="btn-saltar-descanso">
+          ⏭ Saltar descanso y continuar
+        </button>
+      </div>
+
+      <button type="button" id="btn-guiado-completar-serie" class="btn-completar-serie-grande">
+        ✅ Completar Serie
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Técnica del Ejercicio -->
+  <div id="modal-tecnica" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titulo-ejercicio">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <div>
+          <h2 id="modal-titulo-ejercicio">Técnica del Ejercicio</h2>
+          <p id="modal-musculos-ejercicio">Músculos implicados</p>
+        </div>
+        <button type="button" id="btn-cerrar-modal" class="btn-cerrar-modal">✕ Cerrar</button>
+      </div>
+
+      <div id="escenario-svg-modal" class="escenario-svg">
+        <div class="barra-herramientas-svg">
+          <span id="indicador-estado-animacion" class="indicador-estado-svg">
+            ● TELEMETRÍA BIOMECÁNICA: VELOCIDAD 1X
+          </span>
+          <div class="controles-animacion-svg" role="group" aria-label="Controles de animación biomecánica">
+            <button type="button" id="btn-pausar-svg" class="btn-control-svg">
+              ⏸ Pausar
+            </button>
+            <button type="button" id="btn-camara-lenta-svg" class="btn-control-svg">
+              🐢 Cámara lenta (0.5x)
+            </button>
+          </div>
+        </div>
+
+        <div id="contenedor-svg-animado"></div>
+
+        <div class="leyenda-svg">
+          <span class="leyenda-item"><i class="dot-suelo"></i> Línea de suelo de referencia</span>
+          <span class="leyenda-item"><i class="dot-articulacion"></i> Articulaciones (Hombro, Codo, Cadera, Rodilla)</span>
+          <span class="leyenda-item"><i class="dot-vector"></i> Flechas de dirección del movimiento</span>
+        </div>
+      </div>
+
+      <div class="modal-secciones">
+        <div class="bloque-tecnica">
+          <h3>Pasos de Ejecución</h3>
+          <ol id="lista-pasos-modal" class="lista-pasos"></ol>
+        </div>
+        <div class="bloque-tecnica errores">
+          <h3>⚠ Errores Comunes a Evitar</h3>
+          <ul id="lista-errores-modal" class="lista-errores"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conexión directa con el módulo de lógica src/calisteniaMilitar.js -->
+  <script src="src/calisteniaMilitar.js"></script>
+  <script src="src/progresoEntrenamiento.js"></script>
+  <script>
+    /**
+     * Estado reactivo de la aplicación web de Calistenia Militar.
+     */
+    const estadoApp = {
+      genero: 'hombre',
+      area: 'tren_superior',
+      nivel: 'operativo',
+      rutinaActual: null,
+      mapaCalorActual: null,
+      musculoSeleccionado: null,
+      seriesCompletadasPorEjercicio: {},
+      animacionModal: {
+        pausada: false,
+        camaraLenta: false
+      },
+      sonido: {
+        activado: true,
+        contextoAudio: null
+      },
+      temporizador: {
+        segundosBase: 60,
+        segundosRestantes: 60,
+        enMarcha: false,
+        idIntervalo: null,
+        etiqueta: 'Descanso estándar: 60 s'
+      },
+      miniTemporizadores: {
+        calentamiento: {
+          segundosBase: 300,
+          segundosRestantes: 300,
+          enMarcha: false,
+          idIntervalo: null,
+          etiqueta: 'Calentamiento completo (300 s)'
+        },
+        recuperacion: {
+          segundosBase: 180,
+          segundosRestantes: 180,
+          enMarcha: false,
+          idIntervalo: null,
+          etiqueta: 'Recuperación completa (180 s)'
+        }
+      },
+      guiado: {
+        activo: false,
+        indiceEjercicio: 0,
+        serieActual: 1,
+        enDescanso: false,
+        segundosBaseDescanso: 60,
+        segundosRestantesDescanso: 60,
+        idIntervalo: null
+      }
+    };
+
+    const NOMBRES_AREAS = {
+      tren_superior: 'Tren Superior',
+      core: 'Core Táctico',
+      tren_inferior: 'Tren Inferior',
+      cuerpo_completo: 'Cuerpo Completo'
+    };
+
+    const NOMBRES_NIVELES = {
+      recluta: 'Recluta',
+      operativo: 'Operativo',
+      fuerzas_especiales: 'Fuerzas Especiales'
+    };
+
+    /**
+     * Genera las definiciones SVG reutilizables (marcadores de punta de flecha, cuadrícula y línea de suelo).
+     *
+     * @returns {string} Bloque SVG con `<defs>` y línea de suelo de referencia graduada.
+     */
+    function obtenerBaseDidacticaSVG() {
+      return `
+        <defs>
+          <marker id="flecha-cyan" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#4dd0e1" />
+          </marker>
+          <marker id="flecha-verde" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#a6d658" />
+          </marker>
+        </defs>
+        <!-- Cuadrícula táctica de fondo -->
+        <line x1="25" y1="55" x2="455" y2="55" stroke="#18261c" stroke-width="1" />
+        <line x1="25" y1="105" x2="455" y2="105" stroke="#18261c" stroke-width="1" />
+        <line x1="25" y1="155" x2="455" y2="155" stroke="#18261c" stroke-width="1" />
+        <!-- Línea de suelo de referencia con marcas de escala -->
+        <g class="svg-suelo-referencia" aria-label="Línea de suelo de referencia">
+          <line x1="20" y1="202" x2="460" y2="202" stroke="#a6d658" stroke-width="3" />
+          <line x1="20" y1="208" x2="460" y2="208" stroke="#2e3e33" stroke-width="2" stroke-dasharray="8 6" />
+          <text x="26" y="220" fill="#a6d658" font-size="9.5" font-weight="700">NIVEL DE SUELO DE REFERENCIA (0.00 m)</text>
+          <text x="360" y="220" fill="#9eb0a2" font-size="9">PLANO HORIZONTAL</text>
+        </g>
+      `;
+    }
+
+    /**
+     * Genera el código SVG animado y didáctico que ilustra biomecánicamente el movimiento del ejercicio,
+     * incluyendo línea de suelo de referencia, articulaciones resaltadas (hombros, codos, cadera y rodillas)
+     * y flechas indicadoras de dirección del movimiento.
+     *
+     * @param {string} tipoAnimacion - Identificador del patrón de movimiento ('flexion', 'dominada', 'fondo', 'plancha', 'flutter', 'situp', 'sentadilla', 'zancada', 'puente', 'burpee', 'bear_crawl').
+     * @returns {string} Cadena HTML con el elemento SVG animado.
+     */
+    function generarIlustracionSVGAnimada(tipoAnimacion) {
+      const base = obtenerBaseDidacticaSVG();
+
+      switch (tipoAnimacion) {
+        case 'dominada':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de dominada táctica">
+              ${base}
+              <!-- Estructura de barra fija -->
+              <line x1="100" y1="24" x2="380" y2="24" stroke="#9eb0a2" stroke-width="6" stroke-linecap="round" />
+              <line x1="120" y1="24" x2="120" y2="202" stroke="#2e3e33" stroke-width="4" />
+              <line x1="360" y1="24" x2="360" y2="202" stroke="#2e3e33" stroke-width="4" />
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flechas de dirección vertical">
+                <line x1="70" y1="135" x2="70" y2="55" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="32" y="45" class="texto-vector">↑ TRACCIÓN</text>
+                <text x="32" y="152" class="texto-vector">↓ DESCENSO</text>
+              </g>
+              <!-- Antebrazos de agarre -->
+              <line x1="195" y1="24" x2="210" y2="62" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+              <line x1="285" y1="24" x2="270" y2="62" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+              <g class="anim-dominada">
+                <!-- Cabeza y segmentos corporales -->
+                <circle cx="240" cy="48" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+                <line x1="210" y1="62" x2="222" y2="74" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <line x1="270" y1="62" x2="258" y2="74" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <line x1="222" y1="74" x2="258" y2="74" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="240" y1="74" x2="240" y2="126" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+                <line x1="240" y1="126" x2="228" y2="156" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="240" y1="126" x2="252" y2="156" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="228" y1="156" x2="225" y2="182" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <line x1="252" y1="156" x2="255" y2="182" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <!-- Puntos de articulación resaltados -->
+                <circle cx="210" cy="62" r="6" class="punto-articulacion" />
+                <text x="165" y="65" class="etiqueta-articulacion">Codo</text>
+                <circle cx="222" cy="74" r="6" class="punto-articulacion" />
+                <text x="266" y="77" class="etiqueta-articulacion">Hombro</text>
+                <circle cx="240" cy="126" r="6" class="punto-articulacion" />
+                <text x="252" y="129" class="etiqueta-articulacion">Cadera</text>
+                <circle cx="228" cy="156" r="6" class="punto-articulacion" />
+                <text x="182" y="160" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+            </svg>
+          `;
+
+        case 'flutter':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de patadas de tijera">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flechas de batida alterna">
+                <line x1="385" y1="100" x2="385" y2="175" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="396" y="128" class="texto-vector">↑↓ BATIDA</text>
+                <text x="396" y="142" class="texto-vector">ALTERNA</text>
+              </g>
+              <!-- Cabeza, torso y brazos apoyados -->
+              <circle cx="88" cy="170" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+              <line x1="102" y1="178" x2="185" y2="188" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+              <line x1="120" y1="180" x2="152" y2="194" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+              <line x1="152" y1="194" x2="182" y2="196" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+              <!-- Piernas animadas con rodillas articuladas -->
+              <g class="anim-flutter-izq">
+                <line x1="185" y1="150" x2="270" y2="145" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
+                <line x1="270" y1="145" x2="345" y2="142" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <circle cx="270" cy="145" r="6" class="punto-articulacion" />
+                <text x="260" y="133" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+              <g class="anim-flutter-der">
+                <line x1="185" y1="150" x2="270" y2="168" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
+                <line x1="270" y1="168" x2="345" y2="172" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
+              </g>
+              <!-- Articulaciones de hombro, codo y cadera -->
+              <circle cx="120" cy="180" r="6" class="punto-articulacion" />
+              <text x="100" y="154" class="etiqueta-articulacion">Hombro</text>
+              <circle cx="152" cy="194" r="6" class="punto-articulacion" />
+              <text x="136" y="172" class="etiqueta-articulacion">Codo</text>
+              <circle cx="185" cy="188" r="6" class="punto-articulacion" />
+              <text x="175" y="172" class="etiqueta-articulacion">Cadera</text>
+            </svg>
+          `;
+
+        case 'situp':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de abdominales sit-up">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flecha de flexión de tronco">
+                <path d="M 135 125 Q 175 75 230 95" fill="none" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="145" y="72" class="texto-vector">↗ FLEXIÓN TRONCO / ↙ CONTROL</text>
+              </g>
+              <g class="anim-situp">
+                <circle cx="105" cy="160" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+                <line x1="120" y1="168" x2="195" y2="168" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
+                <line x1="132" y1="168" x2="164" y2="146" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
+                <circle cx="132" cy="168" r="6" class="punto-articulacion" />
+                <text x="108" y="186" class="etiqueta-articulacion">Hombro</text>
+                <circle cx="164" cy="146" r="6" class="punto-articulacion" />
+                <text x="148" y="135" class="etiqueta-articulacion">Codo</text>
+              </g>
+              <!-- Piernas ancladas -->
+              <line x1="195" y1="168" x2="265" y2="122" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+              <line x1="265" y1="122" x2="325" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+              <circle cx="195" cy="168" r="6" class="punto-articulacion" />
+              <text x="185" y="190" class="etiqueta-articulacion">Cadera</text>
+              <circle cx="265" cy="122" r="6" class="punto-articulacion" />
+              <text x="255" y="110" class="etiqueta-articulacion">Rodilla</text>
+            </svg>
+          `;
+
+        case 'sentadilla':
+        case 'zancada':
+        case 'burpee':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de tren inferior y potencia">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flechas de descenso y empuje vertical">
+                <line x1="115" y1="55" x2="115" y2="155" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="35" y="75" class="texto-vector">↑ EXPLOSIÓN</text>
+                <text x="35" y="145" class="texto-vector">↓ EXCÉNTRICA</text>
+              </g>
+              <g class="anim-flexion">
+                <circle cx="235" cy="48" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+                <!-- Torso y brazo con codo marcado -->
+                <line x1="235" y1="64" x2="222" y2="124" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+                <line x1="232" y1="74" x2="262" y2="92" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <line x1="262" y1="92" x2="282" y2="76" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <!-- Muslo y pantorrilla -->
+                <line x1="222" y1="124" x2="266" y2="152" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
+                <line x1="266" y1="152" x2="245" y2="196" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <!-- Articulaciones resaltadas -->
+                <circle cx="232" cy="74" r="6" class="punto-articulacion" />
+                <text x="178" y="76" class="etiqueta-articulacion">Hombro</text>
+                <circle cx="262" cy="92" r="6" class="punto-articulacion" />
+                <text x="272" y="102" class="etiqueta-articulacion">Codo</text>
+                <circle cx="222" cy="124" r="6" class="punto-articulacion" />
+                <text x="170" y="128" class="etiqueta-articulacion">Cadera</text>
+                <circle cx="266" cy="152" r="6" class="punto-articulacion" />
+                <text x="278" y="156" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+            </svg>
+          `;
+
+        case 'puente':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de puente de glúteo unilateral">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flecha de extensión de cadera">
+                <line x1="225" y1="175" x2="225" y2="95" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="165" y="82" class="texto-vector">↑ EXTENSIÓN CADERA (PAUSA 2s)</text>
+              </g>
+              <circle cx="95" cy="182" r="12" fill="none" stroke="#a6d658" stroke-width="4" />
+              <!-- Brazo y codo apoyados en el suelo -->
+              <line x1="118" y1="186" x2="155" y2="196" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+              <circle cx="118" cy="186" r="6" class="punto-articulacion" />
+              <text x="85" y="162" class="etiqueta-articulacion">Hombro</text>
+              <circle cx="155" cy="196" r="6" class="punto-articulacion" />
+              <text x="145" y="182" class="etiqueta-articulacion">Codo</text>
+              <g class="anim-puente">
+                <line x1="118" y1="186" x2="225" y2="138" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
+                <line x1="225" y1="138" x2="295" y2="120" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="225" y1="138" x2="345" y2="96" stroke="#a6d658" stroke-width="4" stroke-dasharray="5 3" />
+                <circle cx="225" cy="138" r="6" class="punto-articulacion" />
+                <text x="205" y="125" class="etiqueta-articulacion">Cadera</text>
+                <circle cx="295" cy="120" r="6" class="punto-articulacion" />
+                <text x="285" y="108" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+              <line x1="295" y1="120" x2="320" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          `;
+
+        case 'bear_crawl':
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de desplazamiento del oso">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flecha de avance horizontal">
+                <line x1="145" y1="72" x2="315" y2="72" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="165" y="60" class="texto-vector">↔ AVANCE CUADRÚPEDO CRUZADO</text>
+              </g>
+              <g class="anim-bear">
+                <circle cx="325" cy="118" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+                <!-- Torso horizontal -->
+                <line x1="175" y1="120" x2="305" y2="120" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
+                <!-- Brazo con hombro y codo -->
+                <line x1="295" y1="120" x2="282" y2="158" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="282" y1="158" x2="298" y2="198" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <!-- Pierna con cadera y rodilla a 5 cm del suelo -->
+                <line x1="175" y1="120" x2="205" y2="166" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+                <line x1="205" y1="166" x2="155" y2="198" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
+                <!-- Articulaciones resaltadas -->
+                <circle cx="295" cy="120" r="6" class="punto-articulacion" />
+                <text x="275" y="106" class="etiqueta-articulacion">Hombro</text>
+                <circle cx="282" cy="158" r="6" class="punto-articulacion" />
+                <text x="242" y="162" class="etiqueta-articulacion">Codo</text>
+                <circle cx="175" cy="120" r="6" class="punto-articulacion" />
+                <text x="155" y="106" class="etiqueta-articulacion">Cadera</text>
+                <circle cx="205" cy="166" r="6" class="punto-articulacion" />
+                <text x="215" y="172" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+            </svg>
+          `;
+
+        case 'flexion':
+        case 'fondo':
+        case 'plancha':
+        default:
+          return `
+            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de empuje y plancha táctica">
+              ${base}
+              <!-- Flechas de dirección del movimiento -->
+              <g class="flecha-direccion" aria-label="Flechas de descenso excéntrico y empuje concéntrico">
+                <line x1="385" y1="68" x2="385" y2="162" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="396" y="95" class="texto-vector">↑ EMPUJE</text>
+                <text x="396" y="142" class="texto-vector">↓ DESCENSO</text>
+              </g>
+              <g class="anim-flexion">
+                <circle cx="332" cy="100" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
+                <!-- Línea corporal hombro-cadera-rodilla-tobillo -->
+                <line x1="105" y1="168" x2="215" y2="136" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+                <line x1="215" y1="136" x2="312" y2="108" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
+                <!-- Brazo y antebrazo con codo a 45 grados -->
+                <line x1="292" y1="114" x2="268" y2="154" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
+                <line x1="268" y1="154" x2="295" y2="198" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
+                <!-- Puntos de articulación resaltados (Hombro, Codo, Cadera, Rodilla) -->
+                <circle cx="292" cy="114" r="6" class="punto-articulacion" />
+                <text x="272" y="98" class="etiqueta-articulacion">Hombro</text>
+                <circle cx="268" cy="154" r="6" class="punto-articulacion" />
+                <text x="228" y="160" class="etiqueta-articulacion">Codo</text>
+                <circle cx="215" cy="136" r="6" class="punto-articulacion" />
+                <text x="195" y="120" class="etiqueta-articulacion">Cadera</text>
+                <circle cx="155" cy="153" r="6" class="punto-articulacion" />
+                <text x="135" y="138" class="etiqueta-articulacion">Rodilla</text>
+              </g>
+              <!-- Apoyo de pies en el suelo -->
+              <line x1="105" y1="168" x2="96" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          `;
+      }
+    }
+
+    /**
+     * Sincroniza las clases CSS y textos de los controles de animación (pausa y cámara lenta) del modal SVG.
+     *
+     * @returns {void}
+     */
+    function actualizarControlesAnimacionModal() {
+      const escenario = document.getElementById('escenario-svg-modal');
+      const btnPausar = document.getElementById('btn-pausar-svg');
+      const btnCamaraLenta = document.getElementById('btn-camara-lenta-svg');
+      const indicador = document.getElementById('indicador-estado-animacion');
+
+      escenario.classList.toggle('pausado', estadoApp.animacionModal.pausada);
+      escenario.classList.toggle('camara-lenta', estadoApp.animacionModal.camaraLenta);
+
+      btnPausar.classList.toggle('activo', estadoApp.animacionModal.pausada);
+      btnPausar.textContent = estadoApp.animacionModal.pausada ? '▶ Reanudar' : '⏸ Pausar';
+
+      btnCamaraLenta.classList.toggle('activo', estadoApp.animacionModal.camaraLenta);
+      btnCamaraLenta.textContent = estadoApp.animacionModal.camaraLenta
+        ? '⚡ Velocidad normal (1x)'
+        : '🐢 Cámara lenta (0.5x)';
+
+      if (estadoApp.animacionModal.pausada) {
+        indicador.textContent = '⏸ TELEMETRÍA BIOMECÁNICA: ANIMACIÓN EN PAUSA';
+      } else if (estadoApp.animacionModal.camaraLenta) {
+        indicador.textContent = '🐢 TELEMETRÍA BIOMECÁNICA: CÁMARA LENTA (0.5X)';
+      } else {
+        indicador.textContent = '● TELEMETRÍA BIOMECÁNICA: VELOCIDAD 1X';
+      }
+    }
+
+    /**
+     * Alterna entre pausa y reproducción de la ilustración SVG animada del modal.
+     *
+     * @returns {void}
+     */
+    function alternarPausaAnimacionSVG() {
+      estadoApp.animacionModal.pausada = !estadoApp.animacionModal.pausada;
+      actualizarControlesAnimacionModal();
+    }
+
+    /**
+     * Alterna entre cámara lenta (0.5x) y velocidad normal (1x) en la ilustración SVG del modal.
+     *
+     * @returns {void}
+     */
+    function alternarCamaraLentaSVG() {
+      estadoApp.animacionModal.camaraLenta = !estadoApp.animacionModal.camaraLenta;
+      actualizarControlesAnimacionModal();
+    }
+
+    /**
+     * Abre el modal de técnica biomecánica para el ejercicio indicado por su identificador.
+     *
+     * @param {string} idEjercicio - Identificador único del ejercicio a consultar.
+     * @returns {void}
+     */
+    function abrirModalTecnica(idEjercicio) {
+      const infoTecnica = window.CalisteniaMilitar.obtenerTecnicaEjercicio(idEjercicio);
+
+      estadoApp.animacionModal.pausada = false;
+      estadoApp.animacionModal.camaraLenta = false;
+      actualizarControlesAnimacionModal();
+
+      document.getElementById('modal-titulo-ejercicio').textContent = infoTecnica.nombre;
+      document.getElementById('modal-musculos-ejercicio').textContent =
+        `Músculos implicados: ${infoTecnica.musculos.join(' • ')}`;
+
+      document.getElementById('contenedor-svg-animado').innerHTML =
+        generarIlustracionSVGAnimada(infoTecnica.tipoAnimacion);
+
+      document.getElementById('lista-pasos-modal').innerHTML = infoTecnica.pasos
+        .map(
+          (paso, idx) => `
+            <li>
+              <span class="numero-paso">${idx + 1}</span>
+              <span>${paso}</span>
+            </li>
+          `
+        )
+        .join('');
+
+      document.getElementById('lista-errores-modal').innerHTML = infoTecnica.erroresComunes
+        .map((error) => `<li><span>✕</span><span>${error}</span></li>`)
+        .join('');
+
+      document.getElementById('modal-tecnica').classList.add('abierto');
+    }
+
+    /**
+     * Cierra el modal de técnica biomecánica.
+     *
+     * @returns {void}
+     */
+    function cerrarModalTecnica() {
+      document.getElementById('modal-tecnica').classList.remove('abierto');
+    }
+
+    /**
+     * Formatea una cantidad de segundos en texto con formato MM:SS.
+     *
+     * @param {number} totalSegundos - Cantidad de segundos a formatear.
+     * @returns {string} Tiempo formateado como "MM:SS".
+     */
+    function formatearTiempo(totalSegundos) {
+      const segundosLimpios = Math.max(0, Math.floor(totalSegundos));
+      const minutos = String(Math.floor(segundosLimpios / 60)).padStart(2, '0');
+      const segundos = String(segundosLimpios % 60).padStart(2, '0');
+      return `${minutos}:${segundos}`;
+    }
+
+    /**
+     * Calcula el número total de series marcadas como completadas en la rutina activa.
+     *
+     * @returns {number} Cantidad de series completadas por el usuario.
+     */
+    function contarSeriesCompletadas() {
+      return Object.values(estadoApp.seriesCompletadasPorEjercicio).reduce(
+        (acumulado, conjuntoSeries) => acumulado + conjuntoSeries.size,
+        0
+      );
+    }
+
+    /**
+     * Actualiza la visualización del temporizador de descanso y su barra de progreso.
+     *
+     * @returns {void}
+     */
+    function actualizarVistaTemporizador() {
+      const { segundosBase, segundosRestantes, enMarcha, etiqueta } = estadoApp.temporizador;
+      const visorTiempo = document.getElementById('tiempo-digital');
+      const visorEtiqueta = document.getElementById('etiqueta-ejercicio-activo');
+      const barra = document.getElementById('barra-progreso-temporizador');
+      const btnIniciarPausar = document.getElementById('btn-iniciar-pausar');
+      const estadoTexto = document.getElementById('estado-temporizador');
+
+      visorTiempo.textContent = formatearTiempo(segundosRestantes);
+      visorEtiqueta.textContent = etiqueta;
+
+      const porcentaje = segundosBase > 0 ? (segundosRestantes / segundosBase) * 100 : 0;
+      barra.style.width = `${Math.max(0, Math.min(100, porcentaje))}%`;
+
+      visorTiempo.classList.toggle('cuenta-final', enMarcha && segundosRestantes > 0 && segundosRestantes <= 3);
+
+      if (segundosRestantes === 0) {
+        visorTiempo.classList.add('alerta-final');
+        estadoTexto.textContent = '¡TIEMPO CUMPLIDO!';
+        btnIniciarPausar.textContent = 'Iniciar';
+      } else {
+        visorTiempo.classList.remove('alerta-final');
+        estadoTexto.textContent = enMarcha ? 'EN CURSO' : 'LISTO';
+        btnIniciarPausar.textContent = enMarcha ? 'Pausar' : 'Iniciar';
+      }
+    }
+
+    /**
+     * Configura el temporizador de descanso con una duración específica y opcionalmente lo inicia.
+     *
+     * @param {number} segundos - Duración del descanso en segundos.
+     * @param {string} [motivo='Descanso táctico'] - Descripción o nombre del ejercicio asociado.
+     * @param {boolean} [autoIniciar=false] - Indica si debe comenzar la cuenta regresiva automáticamente.
+     * @returns {void}
+     */
+    function configurarTemporizador(segundos, motivo = 'Descanso táctico', autoIniciar = false) {
+      detenerIntervaloTemporizador();
+      estadoApp.temporizador.segundosBase = segundos;
+      estadoApp.temporizador.segundosRestantes = segundos;
+      estadoApp.temporizador.etiqueta = `${motivo} (${segundos} s)`;
+
+      document.querySelectorAll('.btn-atajo').forEach((btn) => {
+        btn.classList.toggle('activo', Number(btn.dataset.segundos) === segundos);
+      });
+
+      actualizarVistaTemporizador();
+      if (autoIniciar) {
+        alternarTemporizador();
+      }
+    }
+
+    /**
+     * Detiene el intervalo activo del temporizador de descanso si existe.
+     *
+     * @returns {void}
+     */
+    function detenerIntervaloTemporizador() {
+      if (estadoApp.temporizador.idIntervalo) {
+        clearInterval(estadoApp.temporizador.idIntervalo);
+        estadoApp.temporizador.idIntervalo = null;
+      }
+      estadoApp.temporizador.enMarcha = false;
+    }
+
+    /**
+     * Inicia o pausa la cuenta regresiva del temporizador de descanso.
+     *
+     * @returns {void}
+     */
+    function alternarTemporizador() {
+      if (estadoApp.temporizador.enMarcha) {
+        detenerIntervaloTemporizador();
+        actualizarVistaTemporizador();
+        return;
+      }
+
+      if (estadoApp.temporizador.segundosRestantes <= 0) {
+        estadoApp.temporizador.segundosRestantes = estadoApp.temporizador.segundosBase;
+      }
+
+      desbloquearContextoAudio();
+      estadoApp.temporizador.enMarcha = true;
+      actualizarVistaTemporizador();
+
+      estadoApp.temporizador.idIntervalo = setInterval(() => {
+        if (estadoApp.temporizador.segundosRestantes > 0) {
+          estadoApp.temporizador.segundosRestantes -= 1;
+          actualizarVistaTemporizador();
+          emitirAlertaPorSegundo(estadoApp.temporizador.segundosRestantes);
+        }
+        if (estadoApp.temporizador.segundosRestantes <= 0) {
+          detenerIntervaloTemporizador();
+          actualizarVistaTemporizador();
+        }
+      }, 1000);
+    }
+
+    /**
+     * Obtiene (o crea de forma diferida) el AudioContext de Web Audio API.
+     * Los navegadores exigen crearlo/reanudarlo tras un gesto del usuario.
+     *
+     * @returns {AudioContext|null} Contexto de audio listo, o null si el navegador no soporta Web Audio API.
+     */
+    function obtenerContextoAudio() {
+      const ClaseContexto = window.AudioContext || window.webkitAudioContext;
+      if (!ClaseContexto) {
+        return null;
+      }
+      if (!estadoApp.sonido.contextoAudio) {
+        estadoApp.sonido.contextoAudio = new ClaseContexto();
+      }
+      return estadoApp.sonido.contextoAudio;
+    }
+
+    /**
+     * Reanuda el AudioContext si fue suspendido por la política de autoplay del navegador.
+     * Debe llamarse desde un gesto del usuario (clic) para habilitar el sonido.
+     *
+     * @returns {void}
+     */
+    function desbloquearContextoAudio() {
+      const contexto = obtenerContextoAudio();
+      if (contexto && contexto.state === 'suspended') {
+        contexto.resume().catch(() => {});
+      }
+    }
+
+    /**
+     * Sintetiza un tono con un oscilador y una envolvente de volumen (sin archivos de audio externos).
+     *
+     * @param {number} frecuencia - Frecuencia del tono en hercios (Hz).
+     * @param {number} duracion - Duración del tono en segundos.
+     * @param {number} [retardo=0] - Segundos de espera antes de iniciar el tono.
+     * @param {OscillatorType} [tipoOnda='square'] - Forma de onda ('sine', 'square', 'sawtooth', 'triangle').
+     * @param {number} [volumen=0.18] - Volumen máximo entre 0 y 1.
+     * @returns {void}
+     */
+    function reproducirTono(frecuencia, duracion, retardo = 0, tipoOnda = 'square', volumen = 0.18) {
+      const contexto = obtenerContextoAudio();
+      if (!contexto || !estadoApp.sonido.activado) {
+        return;
+      }
+
+      const inicio = contexto.currentTime + retardo;
+      const oscilador = contexto.createOscillator();
+      const ganancia = contexto.createGain();
+
+      oscilador.type = tipoOnda;
+      oscilador.frequency.setValueAtTime(frecuencia, inicio);
+
+      // Envolvente rápida para evitar chasquidos al inicio y al final del tono
+      ganancia.gain.setValueAtTime(0.0001, inicio);
+      ganancia.gain.exponentialRampToValueAtTime(volumen, inicio + 0.01);
+      ganancia.gain.exponentialRampToValueAtTime(0.0001, inicio + duracion);
+
+      oscilador.connect(ganancia);
+      ganancia.connect(contexto.destination);
+      oscilador.start(inicio);
+      oscilador.stop(inicio + duracion + 0.02);
+    }
+
+    /**
+     * Activa la vibración del dispositivo móvil si la Vibration API está disponible y el sonido no está silenciado.
+     *
+     * @param {number|number[]} patron - Duración en ms o patrón [vibrar, pausa, vibrar, ...].
+     * @returns {void}
+     */
+    function vibrarDispositivo(patron) {
+      if (estadoApp.sonido.activado && typeof navigator.vibrate === 'function') {
+        navigator.vibrate(patron);
+      }
+    }
+
+    /**
+     * Emite el pitido corto de aviso de cuenta regresiva (últimos 3 segundos).
+     *
+     * @returns {void}
+     */
+    function emitirPitidoAviso() {
+      reproducirTono(880, 0.12, 0, 'square', 0.15);
+      vibrarDispositivo(80);
+    }
+
+    /**
+     * Emite el tono táctico de confirmación al llegar a 00:00:
+     * secuencia ascendente de tres notas tipo corneta militar más un tono final sostenido.
+     *
+     * @returns {void}
+     */
+    function emitirTonoConfirmacion() {
+      reproducirTono(523.25, 0.14, 0, 'sawtooth', 0.14);
+      reproducirTono(659.25, 0.14, 0.16, 'sawtooth', 0.14);
+      reproducirTono(783.99, 0.14, 0.32, 'sawtooth', 0.14);
+      reproducirTono(1046.5, 0.5, 0.5, 'square', 0.16);
+      vibrarDispositivo([200, 100, 200, 100, 400]);
+    }
+
+    /**
+     * Decide qué alerta emitir según los segundos restantes del temporizador.
+     *
+     * @param {number} segundosRestantes - Segundos que quedan en la cuenta regresiva.
+     * @returns {void}
+     */
+    function emitirAlertaPorSegundo(segundosRestantes) {
+      if (segundosRestantes >= 1 && segundosRestantes <= 3) {
+        emitirPitidoAviso();
+      } else if (segundosRestantes === 0) {
+        emitirTonoConfirmacion();
+      }
+    }
+
+    /**
+     * Alterna entre sonido activado y silenciado, actualizando el botón correspondiente.
+     *
+     * @returns {void}
+     */
+    function alternarSonido() {
+      estadoApp.sonido.activado = !estadoApp.sonido.activado;
+      if (estadoApp.sonido.activado) {
+        desbloquearContextoAudio();
+        reproducirTono(660, 0.08, 0, 'sine', 0.12);
+      } else if (typeof navigator.vibrate === 'function') {
+        navigator.vibrate(0);
+      }
+
+      const boton = document.getElementById('btn-sonido');
+      boton.classList.toggle('silenciado', !estadoApp.sonido.activado);
+      boton.setAttribute('aria-pressed', String(estadoApp.sonido.activado));
+      boton.textContent = estadoApp.sonido.activado ? '🔊 Sonido activado' : '🔇 Sonido silenciado';
+    }
+
+    /**
+     * Reinicia el temporizador a su tiempo base configurado actualmente.
+     *
+     * @returns {void}
+     */
+    function reiniciarTemporizador() {
+      detenerIntervaloTemporizador();
+      estadoApp.temporizador.segundosRestantes = estadoApp.temporizador.segundosBase;
+      actualizarVistaTemporizador();
+    }
+
+    /**
+     * Marca o desmarca una serie individual de un ejercicio y actualiza las métricas de progreso.
+     *
+     * @param {string} idEjercicio - Identificador único del ejercicio.
+     * @param {number} numeroSerie - Número de serie (1..N).
+     * @param {number} descansoSegundos - Segundos de descanso recomendados para ese ejercicio.
+     * @param {string} nombreEjercicio - Nombre legible del ejercicio.
+     * @returns {void}
+     */
+    function alternarSerieCompletada(idEjercicio, numeroSerie, descansoSegundos, nombreEjercicio) {
+      if (!estadoApp.seriesCompletadasPorEjercicio[idEjercicio]) {
+        estadoApp.seriesCompletadasPorEjercicio[idEjercicio] = new Set();
+      }
+      const conjunto = estadoApp.seriesCompletadasPorEjercicio[idEjercicio];
+      if (conjunto.has(numeroSerie)) {
+        conjunto.delete(numeroSerie);
+      } else {
+        conjunto.add(numeroSerie);
+        configurarTemporizador(descansoSegundos, `Descanso: ${nombreEjercicio}`, true);
+      }
+      renderizarMetricas();
+      renderizarFasesCalentamientoYRecuperacion();
+      renderizarTarjetasEjercicios();
+    }
+
+    /**
+     * Actualiza la vista digital y el botón de un mini-temporizador ('calentamiento' o 'recuperacion').
+     *
+     * @param {'calentamiento'|'recuperacion'} tipo - Identificador del mini-temporizador.
+     * @returns {void}
+     */
+    function actualizarVistaMiniTemporizador(tipo) {
+      const mini = estadoApp.miniTemporizadores[tipo];
+      if (!mini) return;
+
+      const visor = document.getElementById(`mini-tiempo-${tipo}`);
+      const etiqueta = document.getElementById(`estado-mini-${tipo}`);
+      const boton = document.getElementById(`btn-iniciar-${tipo}`);
+
+      visor.textContent = formatearTiempo(mini.segundosRestantes);
+      etiqueta.textContent = mini.segundosRestantes === 0 ? '¡Fase completada!' : mini.etiqueta;
+      boton.textContent = mini.enMarcha ? 'Pausar' : 'Iniciar';
+    }
+
+    /**
+     * Detiene el intervalo activo de un mini-temporizador ('calentamiento' o 'recuperacion').
+     *
+     * @param {'calentamiento'|'recuperacion'} tipo - Identificador del mini-temporizador.
+     * @returns {void}
+     */
+    function detenerMiniTemporizador(tipo) {
+      const mini = estadoApp.miniTemporizadores[tipo];
+      if (!mini) return;
+      if (mini.idIntervalo) {
+        clearInterval(mini.idIntervalo);
+        mini.idIntervalo = null;
+      }
+      mini.enMarcha = false;
+    }
+
+    /**
+     * Configura la duración de un mini-temporizador y opcionalmente inicia su cuenta regresiva.
+     *
+     * @param {'calentamiento'|'recuperacion'} tipo - Identificador del mini-temporizador.
+     * @param {number} segundos - Segundos a cargar en el mini-temporizador.
+     * @param {string} descripcion - Etiqueta descriptiva del movimiento o bloque.
+     * @param {boolean} [autoIniciar=false] - Si es true, inicia la cuenta inmediatamente.
+     * @returns {void}
+     */
+    function configurarMiniTemporizador(tipo, segundos, descripcion, autoIniciar = false) {
+      detenerMiniTemporizador(tipo);
+      const mini = estadoApp.miniTemporizadores[tipo];
+      mini.segundosBase = segundos;
+      mini.segundosRestantes = segundos;
+      mini.etiqueta = `${descripcion} (${segundos} s)`;
+      actualizarVistaMiniTemporizador(tipo);
+
+      if (autoIniciar) {
+        alternarMiniTemporizador(tipo);
+      }
+    }
+
+    /**
+     * Inicia o pausa la cuenta regresiva de un mini-temporizador ('calentamiento' o 'recuperacion').
+     *
+     * @param {'calentamiento'|'recuperacion'} tipo - Identificador del mini-temporizador.
+     * @returns {void}
+     */
+    function alternarMiniTemporizador(tipo) {
+      const mini = estadoApp.miniTemporizadores[tipo];
+      if (!mini) return;
+
+      if (mini.enMarcha) {
+        detenerMiniTemporizador(tipo);
+        actualizarVistaMiniTemporizador(tipo);
+        return;
+      }
+
+      if (mini.segundosRestantes <= 0) {
+        mini.segundosRestantes = mini.segundosBase;
+      }
+
+      desbloquearContextoAudio();
+      mini.enMarcha = true;
+      actualizarVistaMiniTemporizador(tipo);
+
+      mini.idIntervalo = setInterval(() => {
+        if (mini.segundosRestantes > 0) {
+          mini.segundosRestantes -= 1;
+          actualizarVistaMiniTemporizador(tipo);
+          emitirAlertaPorSegundo(mini.segundosRestantes);
+        }
+        if (mini.segundosRestantes <= 0) {
+          detenerMiniTemporizador(tipo);
+          actualizarVistaMiniTemporizador(tipo);
+        }
+      }, 1000);
+    }
+
+    /**
+     * Renderiza las secciones colapsables de Calentamiento Táctico (5 min) y Recuperación / Estiramiento
+     * adaptadas automáticamente al área muscular activa.
+     *
+     * @returns {void}
+     */
+    function renderizarFasesCalentamientoYRecuperacion() {
+      const rutina = estadoApp.rutinaActual;
+      if (!rutina || !rutina.calentamiento || !rutina.recuperacion) return;
+
+      const nombreArea = NOMBRES_AREAS[rutina.areaLocalizada] || rutina.areaLocalizada;
+
+      // Calentamiento Táctico (5 min)
+      document.getElementById('badge-area-calentamiento').textContent = nombreArea;
+      document.getElementById('enfoque-calentamiento').textContent =
+        `Enfoque táctico: ${rutina.calentamiento.enfoque}.`;
+      document.getElementById('lista-calentamiento').innerHTML = rutina.calentamiento.movimientos
+        .map(
+          (mov) => `
+            <li class="item-movimiento-fase">
+              <div>
+                <strong>${mov.nombre}</strong>
+                <p>${mov.indicacion}</p>
+              </div>
+              <button
+                type="button"
+                class="btn-tiempo-movimiento"
+                data-mini-tipo="calentamiento"
+                data-segundos="${mov.duracionSegundos}"
+                data-nombre="${mov.nombre}"
+              >
+                ⏱ ${mov.duracionSegundos}s
+              </button>
+            </li>
+          `
+        )
+        .join('');
+
+      // Recuperación / Estiramiento
+      document.getElementById('badge-area-recuperacion').textContent = nombreArea;
+      document.getElementById('enfoque-recuperacion').textContent =
+        `Enfoque de descarga: ${rutina.recuperacion.enfoque}.`;
+      document.getElementById('lista-recuperacion').innerHTML = rutina.recuperacion.movimientos
+        .map(
+          (mov) => `
+            <li class="item-movimiento-fase">
+              <div>
+                <strong>${mov.nombre}</strong>
+                <p>${mov.indicacion}</p>
+              </div>
+              <button
+                type="button"
+                class="btn-tiempo-movimiento"
+                data-mini-tipo="recuperacion"
+                data-segundos="${mov.duracionSegundos}"
+                data-nombre="${mov.nombre}"
+              >
+                ⏱ ${mov.duracionSegundos}s
+              </button>
+            </li>
+          `
+        )
+        .join('');
+    }
+
+    /**
+     * Renderiza las tarjetas superiores de métricas de la rutina activa.
+     *
+     * @returns {void}
+     */
+    function renderizarMetricas() {
+      const rutina = estadoApp.rutinaActual;
+      if (!rutina) return;
+
+      const seriesHechas = contarSeriesCompletadas();
+      const contenedorMetricas = document.getElementById('contenedor-metricas');
+      contenedorMetricas.innerHTML = `
+        <div class="tarjeta-metrica">
+          <span class="valor" id="metrica-ejercicios">${rutina.totalEjercicios}</span>
+          <span class="nombre">Ejercicios</span>
+        </div>
+        <div class="tarjeta-metrica">
+          <span class="valor" id="metrica-series">${seriesHechas} / ${rutina.seriesTotales}</span>
+          <span class="nombre">Series Completadas</span>
+        </div>
+        <div class="tarjeta-metrica">
+          <span class="valor" id="metrica-repeticiones">${rutina.repeticionesTotales}</span>
+          <span class="nombre">Repeticiones Totales</span>
+        </div>
+        <div class="tarjeta-metrica">
+          <span class="valor" id="metrica-duracion">${rutina.duracionEstimadaMinutos} min</span>
+          <span class="nombre">Duración Estimada</span>
+        </div>
+      `;
+    }
+
+    /**
+     * Renderiza la lista de tarjetas de ejercicios correspondientes a la rutina actual.
+     *
+     * @returns {void}
+     */
+    function renderizarTarjetasEjercicios() {
+      const rutina = estadoApp.rutinaActual;
+      if (!rutina) return;
+
+      const contenedor = document.getElementById('contenedor-ejercicios');
+      contenedor.innerHTML = rutina.ejercicios.map((ejercicio) => {
+        const seriesCompletadas = estadoApp.seriesCompletadasPorEjercicio[ejercicio.id] || new Set();
+        const todasCompletas = seriesCompletadas.size === ejercicio.series;
+
+        const botonesSeries = Array.from({ length: ejercicio.series }, (_, idx) => {
+          const numSerie = idx + 1;
+          const activa = seriesCompletadas.has(numSerie) ? 'completada' : '';
+          return `
+            <button
+              type="button"
+              class="btn-serie ${activa}"
+              data-accion="serie"
+              data-id="${ejercicio.id}"
+              data-serie="${numSerie}"
+              data-descanso="${ejercicio.descansoSegundos}"
+              data-nombre="${ejercicio.nombre}"
+              title="Marcar serie ${numSerie}"
+            >S${numSerie}</button>
+          `;
+        }).join('');
+
+        return `
+          <article class="tarjeta-ejercicio ${todasCompletas ? 'completado' : ''}" data-ejercicio-id="${ejercicio.id}">
+            <div class="cabecera-ejercicio">
+              <h3>${ejercicio.nombre}</h3>
+              <span class="badge-volumen">${ejercicio.volumenEjercicio} reps totales</span>
+            </div>
+            <p class="descripcion-ejercicio">${ejercicio.descripcion}</p>
+            <div class="etiquetas-musculos">
+              ${ejercicio.musculos.map((musculo) => `<span class="etiqueta-musculo">${musculo}</span>`).join('')}
+            </div>
+            <div class="pie-ejercicio">
+              <div class="prescripcion-detalle">
+                <span>Series: <strong>${ejercicio.series}</strong></span>
+                <span>Repeticiones: <strong>${ejercicio.repeticiones}</strong></span>
+                <span>Descanso: <strong>${ejercicio.descansoSegundos} s</strong></span>
+              </div>
+              <div class="acciones-ejercicio">
+                <div class="selector-series" aria-label="Control de series completadas">
+                  ${botonesSeries}
+                </div>
+                <button
+                  type="button"
+                  class="btn-tecnica-tarjeta"
+                  data-accion="tecnica"
+                  data-id="${ejercicio.id}"
+                >
+                  🎯 Ver técnica
+                </button>
+                <button
+                  type="button"
+                  class="btn-descanso-tarjeta"
+                  data-accion="descanso"
+                  data-descanso="${ejercicio.descansoSegundos}"
+                  data-nombre="${ejercicio.nombre}"
+                >
+                  ⏱ Descanso (${ejercicio.descansoSegundos}s)
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Sincroniza los controles visuales (botones de género, selectores y chips de área)
+     * y genera la rutina llamando a window.CalisteniaMilitar.generarRutinaMilitar.
+     *
+     * @returns {void}
+     * @throws {Error} Si el módulo CalisteniaMilitar no está cargado correctamente.
+     */
+    function actualizarRutinaActiva() {
+      if (!window.CalisteniaMilitar || typeof window.CalisteniaMilitar.generarRutinaMilitar !== 'function') {
+        throw new Error('El módulo CalisteniaMilitar no se cargó correctamente.');
+      }
+
+      estadoApp.seriesCompletadasPorEjercicio = {};
+      estadoApp.rutinaActual = window.CalisteniaMilitar.generarRutinaMilitar({
+        genero: estadoApp.genero,
+        area: estadoApp.area,
+        nivel: estadoApp.nivel
+      });
+
+      // Actualizar botones de género
+      document.querySelectorAll('.btn-segmento').forEach((btn) => {
+        btn.classList.toggle('activo', btn.dataset.genero === estadoApp.genero);
+      });
+
+      // Actualizar selectores desplegables
+      document.getElementById('select-area').value = estadoApp.area;
+      document.getElementById('select-nivel').value = estadoApp.nivel;
+
+      // Actualizar chips rápidos de área
+      document.querySelectorAll('.chip-area').forEach((chip) => {
+        chip.classList.toggle('activo', chip.dataset.area === estadoApp.area);
+      });
+
+      // Actualizar resumen del encabezado
+      const generoTexto = estadoApp.genero === 'hombre' ? 'Hombre' : 'Mujer';
+      document.getElementById('resumen-cabecera').textContent =
+        `${generoTexto} • ${NOMBRES_AREAS[estadoApp.area]} • ${NOMBRES_NIVELES[estadoApp.nivel]}`;
+
+      renderizarMetricas();
+      renderizarFasesCalentamientoYRecuperacion();
+      renderizarTarjetasEjercicios();
+      renderizarMapaAnatomicoMuscular();
+    }
+
+    /**
+     * Genera el código SVG con las siluetas atléticas estilizadas Frontal (Anterior) y Posterior (Espalda),
+     * detallando cabeza, cuello, deltoides, pectorales, bíceps, abdominales, dorsales, tríceps,
+     * glúteos, cuádriceps, isquiotibiales y pantorrillas, con zonas interactivas por músculo.
+     *
+     * @param {Object} mapaCalor - Resultado de calcularMapaCalorMuscular con estado y porcentaje de cada músculo.
+     * @returns {string} Código SVG de las siluetas frontal y posterior con atributos interactivos.
+     */
+    function generarSVGMapaAnatomicoMuscular(mapaCalor) {
+      const m = mapaCalor.musculos;
+      const attrs = (grupo) => {
+        const info = m[grupo] || { nombre: grupo, estado: 'inactivo', porcentajeActivacion: 0 };
+        const sel = estadoApp.musculoSeleccionado === grupo ? ' seleccionado' : '';
+        return `data-musculo="${grupo}" data-nombre="${info.nombre}" data-estado="${info.estado}" data-porcentaje="${info.porcentajeActivacion}" class="musculo-svg estado-${info.estado}${sel}" tabindex="0" role="button" aria-label="${info.nombre}: ${info.porcentajeActivacion}% de activación"`;
+      };
+
+      return `
+        <svg viewBox="0 0 320 275" role="img" aria-label="Mapa anatómico atlético frontal y posterior de calor muscular">
+          <!-- Etiquetas de vista -->
+          <text x="82" y="15" text-anchor="middle" fill="#9eb0a2" font-size="9.5" font-weight="800" letter-spacing="1">FRONTAL</text>
+          <text x="238" y="15" text-anchor="middle" fill="#9eb0a2" font-size="9.5" font-weight="800" letter-spacing="1">POSTERIOR</text>
+
+          <!-- ==================== SILUETA FRONTAL ATLÉTICA (X: 82) ==================== -->
+          <!-- Cabeza y cuello estilizados -->
+          <path d="M82 22 C73 22 69 29 70 38 C71 45 76 50 82 50 C88 50 93 45 94 38 C95 29 91 22 82 22 Z" class="silueta-base" />
+          <path d="M75 49 L89 49 L93 58 L71 58 Z" class="silueta-base" />
+          <!-- Antebrazos y manos base -->
+          <path d="M36 108 L45 108 L41 142 L32 140 Z" class="silueta-base" />
+          <path d="M128 108 L119 108 L123 142 L132 140 Z" class="silueta-base" />
+          <!-- Rodillas y tobillos base -->
+          <ellipse cx="68" cy="196" rx="8" ry="6" class="silueta-base" />
+          <ellipse cx="96" cy="196" rx="8" ry="6" class="silueta-base" />
+          <path d="M62 252 L73 252 L75 264 L58 264 Z" class="silueta-base" />
+          <path d="M91 252 L102 252 L106 264 L89 264 Z" class="silueta-base" />
+
+          <!-- Deltoides (Hombros frontales) -->
+          <g ${attrs('hombros')}>
+            <title>Deltoides: ${m.hombros.porcentajeActivacion}%</title>
+            <path d="M55 58 C44 59 38 67 39 79 C46 80 53 75 56 67 Z" />
+            <path d="M109 58 C120 59 126 67 125 79 C118 80 111 75 108 67 Z" />
+          </g>
+
+          <!-- Pectorales -->
+          <g ${attrs('pectoral')}>
+            <title>Pectorales: ${m.pectoral.porcentajeActivacion}%</title>
+            <path d="M57 59 L81 61 L81 84 C70 86 60 83 56 76 Z" />
+            <path d="M107 59 L83 61 L83 84 C94 86 104 83 108 76 Z" />
+          </g>
+
+          <!-- Bíceps -->
+          <g ${attrs('biceps')}>
+            <title>Bíceps: ${m.biceps.porcentajeActivacion}%</title>
+            <path d="M40 80 C36 90 36 100 39 107 L48 106 C51 98 51 88 49 79 Z" />
+            <path d="M124 80 C128 90 128 100 125 107 L116 106 C113 98 113 88 115 79 Z" />
+          </g>
+
+          <!-- Abdominales (Core: Recto abdominal + Oblicuos) -->
+          <g ${attrs('core')}>
+            <title>Abdominales / Core: ${m.core.porcentajeActivacion}%</title>
+            <path d="M63 87 L101 87 L98 134 L66 134 Z" />
+            <!-- Oblicuos laterales -->
+            <path d="M57 84 L62 88 L64 132 L58 124 Z" />
+            <path d="M107 84 L102 88 L100 132 L106 124 Z" />
+            <!-- Definición six-pack -->
+            <line x1="82" y1="88" x2="82" y2="133" stroke="#0d120e" stroke-width="1.4" />
+            <line x1="65" y1="100" x2="99" y2="100" stroke="#0d120e" stroke-width="1.2" />
+            <line x1="66" y1="113" x2="98" y2="113" stroke="#0d120e" stroke-width="1.2" />
+            <line x1="67" y1="125" x2="97" y2="125" stroke="#0d120e" stroke-width="1.2" />
+          </g>
+
+          <!-- Cuádriceps -->
+          <g ${attrs('cuadriceps')}>
+            <title>Cuádriceps: ${m.cuadriceps.porcentajeActivacion}%</title>
+            <path d="M60 137 L80 140 L76 191 L60 190 C56 173 56 153 60 137 Z" />
+            <path d="M104 137 L84 140 L88 191 L104 190 C108 173 108 153 104 137 Z" />
+          </g>
+
+          <!-- Pantorrillas (Vista anterior / tibiales) -->
+          <g ${attrs('pantorrillas')}>
+            <title>Pantorrillas: ${m.pantorrillas.porcentajeActivacion}%</title>
+            <path d="M61 203 L74 203 C76 220 75 237 72 251 L62 251 C58 236 58 219 61 203 Z" />
+            <path d="M90 203 L103 203 C106 219 106 236 102 251 L92 251 C89 237 88 220 90 203 Z" />
+          </g>
+
+          <!-- ==================== SILUETA POSTERIOR ATLÉTICA (X: 238) ==================== -->
+          <!-- Cabeza y cuello posterior -->
+          <path d="M238 22 C229 22 225 29 226 38 C227 45 232 50 238 50 C244 50 249 45 250 38 C251 29 247 22 238 22 Z" class="silueta-base" />
+          <path d="M231 49 L245 49 L249 58 L227 58 Z" class="silueta-base" />
+          <!-- Antebrazos y manos posteriores -->
+          <path d="M192 108 L201 108 L197 142 L188 140 Z" class="silueta-base" />
+          <path d="M284 108 L275 108 L279 142 L288 140 Z" class="silueta-base" />
+          <!-- Tobillos y pies posteriores -->
+          <path d="M218 252 L229 252 L231 264 L214 264 Z" class="silueta-base" />
+          <path d="M247 252 L258 252 L262 264 L245 264 Z" class="silueta-base" />
+
+          <!-- Deltoides posteriores -->
+          <g ${attrs('hombros')}>
+            <title>Deltoides: ${m.hombros.porcentajeActivacion}%</title>
+            <path d="M211 58 C200 59 194 67 195 79 C202 80 209 75 212 67 Z" />
+            <path d="M265 58 C276 59 282 67 281 79 C274 80 267 75 264 67 Z" />
+          </g>
+
+          <!-- Dorsales y Trapecio (Espalda en V) -->
+          <g ${attrs('espalda')}>
+            <title>Dorsales / Espalda: ${m.espalda.porcentajeActivacion}%</title>
+            <path d="M213 58 L263 58 L256 120 L220 120 Z" />
+            <line x1="238" y1="58" x2="238" y2="120" stroke="#0d120e" stroke-width="1.5" />
+            <path d="M225 58 L238 78 L251 58" fill="none" stroke="#0d120e" stroke-width="1.3" />
+          </g>
+
+          <!-- Tríceps -->
+          <g ${attrs('triceps')}>
+            <title>Tríceps: ${m.triceps.porcentajeActivacion}%</title>
+            <path d="M196 80 C192 90 192 100 195 107 L204 106 C207 98 207 88 205 79 Z" />
+            <path d="M280 80 C284 90 284 100 281 107 L272 106 C269 98 269 88 271 79 Z" />
+          </g>
+
+          <!-- Glúteos -->
+          <g ${attrs('gluteos')}>
+            <title>Glúteos: ${m.gluteos.porcentajeActivacion}%</title>
+            <path d="M218 122 L237 122 L237 152 C226 154 216 147 215 137 Z" />
+            <path d="M258 122 L239 122 L239 152 C250 154 260 147 261 137 Z" />
+          </g>
+
+          <!-- Isquiotibiales -->
+          <g ${attrs('isquiotibiales')}>
+            <title>Isquiotibiales: ${m.isquiotibiales.porcentajeActivacion}%</title>
+            <path d="M216 154 L236 154 L233 196 L218 196 C214 182 214 167 216 154 Z" />
+            <path d="M260 154 L240 154 L243 196 L258 196 C262 182 262 167 260 154 Z" />
+          </g>
+
+          <!-- Pantorrillas (Gemelos posteriores) -->
+          <g ${attrs('pantorrillas')}>
+            <title>Pantorrillas: ${m.pantorrillas.porcentajeActivacion}%</title>
+            <path d="M218 202 L232 202 C236 218 234 235 229 251 L219 251 C214 235 213 218 218 202 Z" />
+            <path d="M244 202 L258 202 C263 218 262 235 257 251 L247 251 C242 235 240 218 244 202 Z" />
+          </g>
+        </svg>
+      `;
+    }
+
+    /**
+     * Muestra en el tooltip interactivo el porcentaje de activación del músculo indicado
+     * y resalta en la lista los ejercicios de la rutina activa que lo trabajan.
+     *
+     * @param {string} idMusculo - Identificador del músculo (p. ej. 'pectoral', 'biceps', 'cuadriceps').
+     * @returns {void}
+     */
+    function mostrarTooltipYResaltarEjercicios(idMusculo) {
+      const mapa = estadoApp.mapaCalorActual;
+      const tooltip = document.getElementById('tooltip-mapa-muscular');
+      if (!mapa || !mapa.musculos[idMusculo] || !tooltip) return;
+
+      const info = mapa.musculos[idMusculo];
+      const ejerciciosActivos = estadoApp.rutinaActual ? estadoApp.rutinaActual.ejercicios : [];
+      const idsAsociados = window.ProgresoEntrenamiento.obtenerEjerciciosPorMusculo(idMusculo, ejerciciosActivos);
+
+      const textoEjercicios =
+        idsAsociados.length > 0
+          ? `${idsAsociados.length} ${idsAsociados.length === 1 ? 'ejercicio resaltado' : 'ejercicios resaltados'}`
+          : 'Sin ejercicios en el área actual';
+
+      tooltip.classList.add('activo');
+      tooltip.innerHTML = `
+        <strong>${info.nombre}</strong>
+        <span class="tooltip-porcentaje">${info.porcentajeActivacion}% activación</span>
+        <span>•</span>
+        <span class="tooltip-ejercicios-count">${textoEjercicios}</span>
+      `;
+
+      // Resaltar visualmente el músculo en SVG y en chips
+      document.querySelectorAll('#contenedor-mapa-muscular [data-musculo]').forEach((el) => {
+        el.classList.toggle('seleccionado', el.dataset.musculo === idMusculo);
+      });
+      document.querySelectorAll('#lista-chips-musculares [data-chip-musculo]').forEach((chip) => {
+        chip.classList.toggle('seleccionado', chip.dataset.chipMusculo === idMusculo);
+      });
+
+      // Resaltar tarjetas de ejercicios vinculadas
+      document.querySelectorAll('#contenedor-ejercicios .tarjeta-ejercicio').forEach((tarjeta) => {
+        const coincide = idsAsociados.includes(tarjeta.dataset.ejercicioId);
+        tarjeta.classList.toggle('resaltado-musculo', coincide);
+        tarjeta.classList.toggle('atenuado-musculo', idsAsociados.length > 0 && !coincide);
+      });
+    }
+
+    /**
+     * Limpia el resaltado temporal de músculos y ejercicios cuando no hay ningún músculo fijado por clic/toque.
+     *
+     * @returns {void}
+     */
+    function limpiarResaltadoMuscular() {
+      if (estadoApp.musculoSeleccionado) {
+        mostrarTooltipYResaltarEjercicios(estadoApp.musculoSeleccionado);
+        return;
+      }
+
+      const tooltip = document.getElementById('tooltip-mapa-muscular');
+      if (tooltip) {
+        tooltip.classList.remove('activo');
+        tooltip.textContent =
+          'Pasa el cursor o toca un músculo para ver su % de activación y resaltar ejercicios.';
+      }
+
+      document.querySelectorAll('#contenedor-mapa-muscular [data-musculo], #lista-chips-musculares [data-chip-musculo]')
+        .forEach((el) => el.classList.remove('seleccionado'));
+
+      document.querySelectorAll('#contenedor-ejercicios .tarjeta-ejercicio').forEach((tarjeta) => {
+        tarjeta.classList.remove('resaltado-musculo', 'atenuado-musculo');
+      });
+    }
+
+    /**
+     * Configura los eventos de puntero, toque y teclado para el mapa anatómico SVG y sus chips.
+     *
+     * @returns {void}
+     */
+    function inicializarInteractividadMapaMuscular() {
+      const contenedorMapa = document.getElementById('contenedor-mapa-muscular');
+      const contenedorChips = document.getElementById('lista-chips-musculares');
+      if (!contenedorMapa || !contenedorChips) return;
+
+      const manejarHover = (evento) => {
+        const nodo = evento.target.closest('[data-musculo], [data-chip-musculo]');
+        if (!nodo) return;
+        const idMusculo = nodo.dataset.musculo || nodo.dataset.chipMusculo;
+        mostrarTooltipYResaltarEjercicios(idMusculo);
+      };
+
+      const manejarClick = (evento) => {
+        const nodo = evento.target.closest('[data-musculo], [data-chip-musculo]');
+        if (!nodo) return;
+        const idMusculo = nodo.dataset.musculo || nodo.dataset.chipMusculo;
+        estadoApp.musculoSeleccionado = estadoApp.musculoSeleccionado === idMusculo ? null : idMusculo;
+        if (estadoApp.musculoSeleccionado) {
+          mostrarTooltipYResaltarEjercicios(estadoApp.musculoSeleccionado);
+        } else {
+          limpiarResaltadoMuscular();
+        }
+      };
+
+      contenedorMapa.addEventListener('mouseover', manejarHover);
+      contenedorMapa.addEventListener('mouseout', limpiarResaltadoMuscular);
+      contenedorMapa.addEventListener('click', manejarClick);
+
+      contenedorChips.addEventListener('mouseover', manejarHover);
+      contenedorChips.addEventListener('mouseout', limpiarResaltadoMuscular);
+      contenedorChips.addEventListener('click', manejarClick);
+    }
+
+    /**
+     * Renderiza el mapa anatómico de calor muscular en el panel lateral y actualiza
+     * las etiquetas de estado y porcentaje de activación según el área seleccionada y el historial semanal.
+     *
+     * @returns {void}
+     */
+    function renderizarMapaAnatomicoMuscular() {
+      const contenedorSVG = document.getElementById('contenedor-mapa-muscular');
+      const contenedorChips = document.getElementById('lista-chips-musculares');
+      const subtituloArea = document.getElementById('subtitulo-mapa-area');
+      if (!contenedorSVG || !contenedorChips || !window.ProgresoEntrenamiento) return;
+
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const historial = almacenamiento ? window.ProgresoEntrenamiento.cargarHistorial(almacenamiento) : [];
+      const mapaCalor = window.ProgresoEntrenamiento.calcularMapaCalorMuscular(estadoApp.area, historial);
+      estadoApp.mapaCalorActual = mapaCalor;
+      estadoApp.musculoSeleccionado = null;
+
+      if (subtituloArea) {
+        subtituloArea.textContent = (NOMBRES_AREAS[estadoApp.area] || estadoApp.area).toUpperCase();
+      }
+
+      contenedorSVG.innerHTML = generarSVGMapaAnatomicoMuscular(mapaCalor);
+
+      contenedorChips.innerHTML = Object.values(mapaCalor.musculos)
+        .map(
+          (item) => `
+            <div class="chip-musculo-estado estado-${item.estado}" data-chip-musculo="${item.id}" role="button" tabindex="0">
+              <span>${item.nombre}</span>
+              <small>${item.porcentajeActivacion > 0 ? `${item.porcentajeActivacion}%` : 'Descanso'}</small>
+            </div>
+          `
+        )
+        .join('');
+
+      limpiarResaltadoMuscular();
+    }
+
+    /**
+     * Obtiene el almacenamiento local del navegador de forma segura.
+     *
+     * @returns {Storage|null} window.localStorage, o null si no está disponible (p. ej. bloqueado por el navegador).
+     */
+    function obtenerAlmacenamientoLocal() {
+      try {
+        return window.localStorage;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    /**
+     * Convierte una fecha 'AAAA-MM-DD' en texto legible en español (p. ej. "18 nov 2026").
+     *
+     * @param {string} fechaTexto - Fecha en formato 'AAAA-MM-DD'.
+     * @returns {string} Fecha formateada para mostrar al usuario.
+     */
+    function formatearFechaLegible(fechaTexto) {
+      const [anio, mes, dia] = fechaTexto.split('-').map(Number);
+      return new Date(anio, mes - 1, dia).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    /**
+     * Muestra un mensaje de estado debajo del botón "Completar entrenamiento".
+     *
+     * @param {string} texto - Mensaje a mostrar.
+     * @param {'exito'|'error'} tipo - Tipo visual del mensaje.
+     * @returns {void}
+     */
+    function mostrarMensajeProgreso(texto, tipo) {
+      const mensaje = document.getElementById('mensaje-progreso');
+      mensaje.textContent = texto;
+      mensaje.className = `mensaje-progreso visible ${tipo}`;
+    }
+
+    /**
+     * Lee el historial de localStorage y actualiza la barra superior con días entrenados,
+     * racha actual, rango militar y progreso hacia el siguiente rango.
+     *
+     * @returns {void}
+     */
+    function renderizarBarraProgreso() {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const historial = almacenamiento ? window.ProgresoEntrenamiento.cargarHistorial(almacenamiento) : [];
+      const resumen = window.ProgresoEntrenamiento.calcularResumenProgreso(historial);
+      const { rango, semanal } = resumen;
+
+      document.getElementById('progreso-dias-semana').textContent = `${semanal.diasEntrenadosSemana} / 7`;
+      document.getElementById('progreso-volumen-semana').textContent = semanal.repeticionesSemana;
+      document.getElementById('progreso-dias').textContent = resumen.diasEntrenados;
+      document.getElementById('progreso-racha').textContent =
+        `${resumen.rachaActual} ${resumen.rachaActual === 1 ? 'día' : 'días'} 🔥`;
+
+      const grilla7Dias = document.getElementById('grilla-semana-7dias');
+      if (grilla7Dias) {
+        grilla7Dias.innerHTML = semanal.actividadUltimos7Dias
+          .map(
+            (d) => `
+              <span
+                class="pill-dia-semana ${d.entrenado ? 'activo' : ''}"
+                title="${d.fecha}: ${d.repeticiones} reps"
+              >${d.etiquetaDia}</span>
+            `
+          )
+          .join('');
+      }
+
+      const insignia = document.getElementById('progreso-rango');
+      insignia.textContent = rango.nombre;
+      insignia.className = `insignia-rango rango-${rango.id}`;
+
+      document.getElementById('progreso-texto-siguiente').textContent = rango.siguiente
+        ? `${rango.diasParaSiguiente} ${rango.diasParaSiguiente === 1 ? 'día' : 'días'} para ${rango.siguiente}`
+        : 'Rango máximo alcanzado';
+      document.getElementById('progreso-porcentaje').textContent = `${rango.porcentajeProgreso}%`;
+      document.getElementById('progreso-barra-rango').style.width = `${rango.porcentajeProgreso}%`;
+
+      const ultimo = resumen.ultimoRegistro;
+      document.getElementById('progreso-ultimo').textContent = ultimo
+        ? `Último: ${formatearFechaLegible(ultimo.fecha)} • ${NOMBRES_AREAS[ultimo.area] || ultimo.area} • ${ultimo.repeticionesTotales} reps`
+        : 'Aún no hay entrenamientos registrados.';
+
+      renderizarMapaAnatomicoMuscular();
+    }
+
+    /**
+     * Obtiene los datos consolidados de la tarjeta compartible para la rutina y progreso actuales.
+     *
+     * @returns {Object} Objeto con fecha, área, nivel, rango, duración, repeticiones, racha y mapa de calor.
+     */
+    function obtenerDatosTarjetaCompartible() {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const historial = almacenamiento ? window.ProgresoEntrenamiento.cargarHistorial(almacenamiento) : [];
+      const resumen = window.ProgresoEntrenamiento.calcularResumenProgreso(historial);
+      const rutina = estadoApp.rutinaActual;
+      const mapaCalor = window.ProgresoEntrenamiento.calcularMapaCalorMuscular(estadoApp.area, historial);
+      const fechaHoy = window.ProgresoEntrenamiento.formatearFechaLocal(new Date());
+
+      return {
+        fecha: fechaHoy,
+        fechaLegible: formatearFechaLegible(fechaHoy),
+        areaNombre: NOMBRES_AREAS[rutina.areaLocalizada] || rutina.areaLocalizada,
+        nivelNombre: NOMBRES_NIVELES[rutina.nivelMilitar] || rutina.nivelMilitar,
+        perfilNombre: rutina.perfil === 'hombre' ? 'Hombre' : 'Mujer',
+        rangoId: resumen.rango.id,
+        rangoNombre: resumen.rango.nombre,
+        duracionMinutos: rutina.duracionEstimadaMinutos,
+        repeticionesTotales: rutina.repeticionesTotales,
+        rachaActual: resumen.rachaActual,
+        musculosActivos: mapaCalor.listaActivos,
+        mapaCalor
+      };
+    }
+
+    /**
+     * Abre el modal con la tarjeta compartible de entrenamiento completado (estilo Strava Strength).
+     *
+     * @returns {void}
+     */
+    function abrirModalTarjetaCompartible() {
+      if (!estadoApp.rutinaActual) return;
+      const datos = obtenerDatosTarjetaCompartible();
+
+      document.getElementById('compartir-area').textContent = datos.areaNombre;
+      const elRango = document.getElementById('compartir-rango');
+      elRango.textContent = datos.rangoNombre;
+      elRango.className = `insignia-rango rango-${datos.rangoId}`;
+      document.getElementById('compartir-fecha').textContent = datos.fechaLegible;
+      document.getElementById('compartir-repeticiones').textContent = `${datos.repeticionesTotales} reps`;
+      document.getElementById('compartir-tiempo').textContent = `${datos.duracionMinutos} min`;
+      document.getElementById('compartir-nivel').textContent = `${datos.nivelNombre} • ${datos.perfilNombre}`;
+      document.getElementById('compartir-racha').textContent =
+        `${datos.rachaActual} ${datos.rachaActual === 1 ? 'día' : 'días'} 🔥`;
+      document.getElementById('compartir-musculos-lista').textContent =
+        datos.musculosActivos.join(', ');
+      document.getElementById('compartir-mapa-svg').innerHTML =
+        generarSVGMapaAnatomicoMuscular(datos.mapaCalor);
+      document.getElementById('estado-accion-compartir').textContent = '';
+
+      document.getElementById('modal-tarjeta-compartible').classList.add('abierto');
+    }
+
+    /**
+     * Cierra el modal de la tarjeta compartible de entrenamiento completado.
+     *
+     * @returns {void}
+     */
+    function cerrarModalTarjetaCompartible() {
+      document.getElementById('modal-tarjeta-compartible').classList.remove('abierto');
+    }
+
+    /**
+     * Renderiza la tarjeta de entrenamiento completado en un elemento Canvas de alta resolución
+     * y descarga la imagen como archivo PNG ('mision-calistenia-militar.png').
+     *
+     * @returns {void}
+     */
+    function descargarTarjetaEntrenamientoPNG() {
+      const datos = obtenerDatosTarjetaCompartible();
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 520;
+      const ctx = canvas.getContext('2d');
+
+      // Fondo táctico
+      const grad = ctx.createLinearGradient(0, 0, 800, 520);
+      grad.addColorStop(0, '#17231b');
+      grad.addColorStop(1, '#0d120e');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 800, 520);
+
+      // Marco naranja Strava
+      ctx.strokeStyle = '#ff6b2b';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(12, 12, 776, 496);
+
+      // Encabezado
+      ctx.fillStyle = '#ff6b2b';
+      ctx.font = 'bold 16px Segoe UI, sans-serif';
+      ctx.fillText('⚡ CALISTENIA MILITAR TÁCTICA • STRAVA STRENGTH', 38, 56);
+
+      ctx.fillStyle = '#f1f6f2';
+      ctx.font = 'bold 34px Segoe UI, sans-serif';
+      ctx.fillText(datos.areaNombre.toUpperCase(), 38, 100);
+
+      ctx.fillStyle = '#a6d658';
+      ctx.font = 'bold 18px Segoe UI, sans-serif';
+      ctx.fillText(`Rango: ${datos.rangoNombre}  |  Fecha: ${datos.fecha}`, 38, 134);
+
+      // Bloques de métricas
+      const cajas = [
+        { titulo: 'VOLUMEN TOTAL', valor: `${datos.repeticionesTotales} REPS`, x: 38, y: 170, color: '#ff6b2b' },
+        { titulo: 'TIEMPO ESTIMADO', valor: `${datos.duracionMinutos} MIN`, x: 280, y: 170, color: '#f1f6f2' },
+        { titulo: 'NIVEL / PERFIL', valor: `${datos.nivelNombre} (${datos.perfilNombre})`, x: 38, y: 280, color: '#a6d658' },
+        { titulo: 'RACHA ACTIVA', valor: `${datos.rachaActual} DÍAS`, x: 280, y: 280, color: '#f5b041' }
+      ];
+
+      cajas.forEach((c) => {
+        ctx.fillStyle = '#151d17';
+        ctx.fillRect(c.x, c.y, 220, 90);
+        ctx.strokeStyle = '#2e3e33';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(c.x, c.y, 220, 90);
+
+        ctx.fillStyle = '#9eb0a2';
+        ctx.font = 'bold 13px Segoe UI, sans-serif';
+        ctx.fillText(c.titulo, c.x + 16, c.y + 30);
+
+        ctx.fillStyle = c.color;
+        ctx.font = 'bold 24px Segoe UI, sans-serif';
+        ctx.fillText(c.valor, c.x + 16, c.y + 66);
+      });
+
+      // Músculos activados
+      ctx.fillStyle = '#9eb0a2';
+      ctx.font = 'bold 14px Segoe UI, sans-serif';
+      ctx.fillText('MÚSCULOS ACTIVADOS EN ESTA MISIÓN:', 38, 415);
+      ctx.fillStyle = '#a6d658';
+      ctx.font = 'bold 20px Segoe UI, sans-serif';
+      ctx.fillText(datos.musculosActivos.join(' • '), 38, 445);
+
+      // Silueta térmica simplificada a la derecha
+      const colorEstado = (grupo) => {
+        const est = datos.mapaCalor.musculos[grupo]?.estado;
+        if (est === 'primario') return '#ff6b2b';
+        if (est === 'secundario') return '#a6d658';
+        if (est === 'historial') return '#4dd0e1';
+        return '#26332a';
+      };
+
+      ctx.fillStyle = '#121914';
+      ctx.fillRect(535, 65, 225, 395);
+      ctx.strokeStyle = '#2e3e33';
+      ctx.strokeRect(535, 65, 225, 395);
+
+      // Silueta Frontal en Canvas (X centro: 600)
+      ctx.fillStyle = colorEstado('hombros');
+      ctx.fillRect(566, 136, 14, 18);
+      ctx.fillRect(620, 136, 14, 18);
+      ctx.fillStyle = colorEstado('pectoral');
+      ctx.fillRect(582, 136, 36, 26);
+      ctx.fillStyle = colorEstado('core');
+      ctx.fillRect(584, 166, 32, 48);
+      ctx.fillStyle = colorEstado('cuadriceps');
+      ctx.fillRect(582, 220, 15, 56);
+      ctx.fillRect(603, 220, 15, 56);
+
+      // Silueta Posterior en Canvas (X centro: 695)
+      ctx.fillStyle = colorEstado('espalda');
+      ctx.fillRect(677, 136, 36, 62);
+      ctx.fillStyle = colorEstado('gluteos');
+      ctx.fillRect(677, 202, 36, 32);
+
+      const urlPNG = canvas.toDataURL('image/png');
+      const enlace = document.createElement('a');
+      enlace.href = urlPNG;
+      enlace.download = `mision-${datos.fecha}-${estadoApp.area}.png`;
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+
+      document.getElementById('estado-accion-compartir').textContent =
+        '📥 Imagen PNG generada y descargada correctamente.';
+    }
+
+    /**
+     * Copia al portapapeles el resumen limpio del entrenamiento listo para compartir por WhatsApp.
+     *
+     * @returns {Promise<void>} Promesa que se resuelve al copiar el texto.
+     */
+    async function copiarResumenEntrenamientoWhatsApp() {
+      const datos = obtenerDatosTarjetaCompartible();
+      const texto = window.ProgresoEntrenamiento.generarTextoCompartibleWhatsApp(datos);
+
+      let copiado = false;
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        try {
+          await navigator.clipboard.writeText(texto);
+          copiado = true;
+        } catch (error) {
+          copiado = false;
+        }
+      }
+
+      if (!copiado) {
+        const areaTemp = document.createElement('textarea');
+        areaTemp.value = texto;
+        areaTemp.style.position = 'fixed';
+        areaTemp.style.opacity = '0';
+        document.body.appendChild(areaTemp);
+        areaTemp.select();
+        try {
+          document.execCommand('copy');
+        } catch (error) {
+          // Ignorar si execCommand no está permitido
+        }
+        document.body.removeChild(areaTemp);
+      }
+
+      window.__ultimoTextoWhatsApp = texto;
+      document.getElementById('estado-accion-compartir').textContent =
+        '✅ ¡Resumen copiado al portapapeles para WhatsApp!';
+    }
+
+    /**
+     * Guarda en localStorage el entrenamiento actual (fecha, área trabajada y repeticiones totales)
+     * y actualiza la barra de progreso y racha.
+     *
+     * @returns {void}
+     */
+    function completarEntrenamiento() {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const rutina = estadoApp.rutinaActual;
+      if (!almacenamiento) {
+        mostrarMensajeProgreso('No se pudo acceder al almacenamiento local del navegador. El progreso no se guardó.', 'error');
+        return;
+      }
+      if (!rutina) {
+        mostrarMensajeProgreso('No hay ninguna rutina activa para registrar.', 'error');
+        return;
+      }
+
+      const rangoAnterior = window.ProgresoEntrenamiento.calcularResumenProgreso(
+        window.ProgresoEntrenamiento.cargarHistorial(almacenamiento)
+      ).rango.nombre;
+
+      try {
+        const registro = window.ProgresoEntrenamiento.crearRegistroEntrenamiento({
+          fecha: window.ProgresoEntrenamiento.formatearFechaLocal(new Date()),
+          area: rutina.areaLocalizada,
+          repeticionesTotales: rutina.repeticionesTotales,
+          genero: rutina.perfil,
+          nivel: rutina.nivelMilitar,
+          seriesCompletadas: contarSeriesCompletadas(),
+          seriesTotales: rutina.seriesTotales
+        });
+        window.ProgresoEntrenamiento.guardarRegistro(almacenamiento, registro);
+      } catch (error) {
+        mostrarMensajeProgreso(`No se pudo guardar el entrenamiento: ${error.message}`, 'error');
+        return;
+      }
+
+      renderizarBarraProgreso();
+      const resumen = window.ProgresoEntrenamiento.calcularResumenProgreso(
+        window.ProgresoEntrenamiento.cargarHistorial(almacenamiento)
+      );
+      const ascenso = resumen.rango.nombre !== rangoAnterior ? ` ¡Ascenso a ${resumen.rango.nombre}!` : '';
+      mostrarMensajeProgreso(
+        `Entrenamiento registrado: ${NOMBRES_AREAS[rutina.areaLocalizada]} • ${rutina.repeticionesTotales} reps. Racha: ${resumen.rachaActual} ${resumen.rachaActual === 1 ? 'día' : 'días'}.${ascenso}`,
+        'exito'
+      );
+      abrirModalTarjetaCompartible();
+    }
+
+    /**
+     * Detiene el intervalo de descanso del modo Entrenamiento Guiado si está corriendo.
+     *
+     * @returns {void}
+     */
+    function detenerDescansoGuiado() {
+      if (estadoApp.guiado.idIntervalo) {
+        clearInterval(estadoApp.guiado.idIntervalo);
+        estadoApp.guiado.idIntervalo = null;
+      }
+      estadoApp.guiado.enDescanso = false;
+    }
+
+    /**
+     * Abre el modo Entrenamiento Guiado paso a paso a pantalla completa iniciando en el primer ejercicio y serie 1.
+     *
+     * @returns {void}
+     */
+    function abrirEntrenamientoGuiado() {
+      if (!estadoApp.rutinaActual || estadoApp.rutinaActual.ejercicios.length === 0) return;
+
+      desbloquearContextoAudio();
+      detenerDescansoGuiado();
+      estadoApp.guiado.activo = true;
+      estadoApp.guiado.indiceEjercicio = 0;
+      estadoApp.guiado.serieActual = 1;
+
+      renderizarVistaEntrenamientoGuiado();
+      document.getElementById('overlay-entrenamiento-guiado').classList.add('abierto');
+    }
+
+    /**
+     * Cierra el modo Entrenamiento Guiado y detiene cualquier descanso activo.
+     *
+     * @returns {void}
+     */
+    function cerrarEntrenamientoGuiado() {
+      detenerDescansoGuiado();
+      estadoApp.guiado.activo = false;
+      document.getElementById('overlay-entrenamiento-guiado').classList.remove('abierto');
+    }
+
+    /**
+     * Renderiza el ejercicio actual, su ilustración SVG animada, el indicador de serie ("Serie X de Y")
+     * y la barra de progreso global dentro del overlay de Entrenamiento Guiado.
+     *
+     * @returns {void}
+     */
+    function renderizarVistaEntrenamientoGuiado() {
+      const rutina = estadoApp.rutinaActual;
+      if (!rutina) return;
+
+      const { indiceEjercicio, serieActual, enDescanso } = estadoApp.guiado;
+      const ejercicios = rutina.ejercicios;
+      const ejercicio = ejercicios[indiceEjercicio];
+      if (!ejercicio) return;
+
+      // Calcular series completadas antes del paso actual para la barra global
+      let seriesPrevias = 0;
+      for (let i = 0; i < indiceEjercicio; i += 1) {
+        seriesPrevias += ejercicios[i].series;
+      }
+      seriesPrevias += serieActual - 1;
+      const porcentajeGlobal = Math.round((seriesPrevias / Math.max(1, rutina.seriesTotales)) * 100);
+
+      document.getElementById('guiado-progreso-ejercicio').textContent =
+        `Ejercicio ${indiceEjercicio + 1} de ${ejercicios.length}`;
+      document.getElementById('guiado-area-subtitulo').textContent =
+        `Entrenamiento Guiado • ${NOMBRES_AREAS[rutina.areaLocalizada] || rutina.areaLocalizada}`;
+      document.getElementById('guiado-barra-global').style.width = `${porcentajeGlobal}%`;
+
+      document.getElementById('guiado-indicador-serie').textContent =
+        `Serie ${serieActual} de ${ejercicio.series}`;
+      document.getElementById('guiado-nombre-ejercicio').textContent = ejercicio.nombre;
+      document.getElementById('guiado-prescripcion').textContent =
+        `${ejercicio.repeticiones} repeticiones • Descanso: ${ejercicio.descansoSegundos} s`;
+      document.getElementById('guiado-descripcion').textContent = ejercicio.descripcion;
+
+      document.getElementById('guiado-puntos-series').innerHTML = Array.from(
+        { length: ejercicio.series },
+        (_, idx) => {
+          const num = idx + 1;
+          const clase = num < serieActual ? 'completada' : num === serieActual ? 'actual' : '';
+          return `<span class="punto-serie-guiado ${clase}" title="Serie ${num}"></span>`;
+        }
+      ).join('');
+
+      document.getElementById('guiado-svg-contenedor').innerHTML =
+        generarIlustracionSVGAnimada(ejercicio.tecnica.tipoAnimacion);
+
+      const panelDescanso = document.getElementById('guiado-panel-descanso');
+      const btnCompletar = document.getElementById('btn-guiado-completar-serie');
+      panelDescanso.classList.toggle('activo', enDescanso);
+      btnCompletar.disabled = enDescanso;
+
+      const esUltimoEjercicio = indiceEjercicio === ejercicios.length - 1;
+      const esUltimaSerie = serieActual === ejercicio.series;
+      btnCompletar.textContent =
+        esUltimoEjercicio && esUltimaSerie
+          ? '🏆 Finalizar Última Serie y Completar Rutina'
+          : '✅ Completar Serie';
+    }
+
+    /**
+     * Inicia el temporizador de descanso dentro del modo Entrenamiento Guiado
+     * emitiendo alertas sonoras en los últimos 3 segundos y al llegar a 00:00.
+     *
+     * @param {number} segundos - Duración del descanso en segundos.
+     * @param {string} mensajeSiguiente - Texto indicando qué ejercicio o serie viene a continuación.
+     * @returns {void}
+     */
+    function iniciarDescansoGuiado(segundos, mensajeSiguiente) {
+      detenerDescansoGuiado();
+      estadoApp.guiado.enDescanso = true;
+      estadoApp.guiado.segundosBaseDescanso = segundos;
+      estadoApp.guiado.segundosRestantesDescanso = segundos;
+
+      const panelDescanso = document.getElementById('guiado-panel-descanso');
+      const visor = document.getElementById('guiado-tiempo-descanso');
+      const textoSiguiente = document.getElementById('guiado-texto-siguiente');
+      const barra = document.getElementById('guiado-barra-descanso');
+      const btnCompletar = document.getElementById('btn-guiado-completar-serie');
+
+      panelDescanso.classList.add('activo');
+      btnCompletar.disabled = true;
+      textoSiguiente.textContent = mensajeSiguiente;
+      visor.textContent = formatearTiempo(segundos);
+      visor.classList.remove('cuenta-final');
+      barra.style.width = '100%';
+
+      estadoApp.guiado.idIntervalo = setInterval(() => {
+        if (estadoApp.guiado.segundosRestantesDescanso > 0) {
+          estadoApp.guiado.segundosRestantesDescanso -= 1;
+          const rest = estadoApp.guiado.segundosRestantesDescanso;
+          visor.textContent = formatearTiempo(rest);
+          visor.classList.toggle('cuenta-final', rest > 0 && rest <= 3);
+          barra.style.width = `${Math.max(0, (rest / estadoApp.guiado.segundosBaseDescanso) * 100)}%`;
+          emitirAlertaPorSegundo(rest);
+        }
+        if (estadoApp.guiado.segundosRestantesDescanso <= 0) {
+          avanzarDespuesDeDescansoGuiado();
+        }
+      }, 1000);
+    }
+
+    /**
+     * Finaliza el descanso guiado (ya sea al llegar a 00:00 o al pulsar "Saltar descanso")
+     * y muestra la siguiente serie o el siguiente ejercicio listo para ejecutar.
+     *
+     * @returns {void}
+     */
+    function avanzarDespuesDeDescansoGuiado() {
+      detenerDescansoGuiado();
+      renderizarVistaEntrenamientoGuiado();
+    }
+
+    /**
+     * Registra la serie actual como completada dentro del modo Entrenamiento Guiado,
+     * activa el descanso con alerta sonora o finaliza la rutina si era la última serie del último ejercicio.
+     *
+     * @returns {void}
+     */
+    function completarSerieGuiada() {
+      const rutina = estadoApp.rutinaActual;
+      if (!rutina || estadoApp.guiado.enDescanso) return;
+
+      const ejercicios = rutina.ejercicios;
+      const ejercicioActual = ejercicios[estadoApp.guiado.indiceEjercicio];
+      if (!ejercicioActual) return;
+
+      // Sincronizar serie marcada con la vista principal
+      if (!estadoApp.seriesCompletadasPorEjercicio[ejercicioActual.id]) {
+        estadoApp.seriesCompletadasPorEjercicio[ejercicioActual.id] = new Set();
+      }
+      estadoApp.seriesCompletadasPorEjercicio[ejercicioActual.id].add(estadoApp.guiado.serieActual);
+      renderizarMetricas();
+      renderizarTarjetasEjercicios();
+
+      const descanso = ejercicioActual.descansoSegundos;
+      const quedanSeries = estadoApp.guiado.serieActual < ejercicioActual.series;
+      const quedanEjercicios = estadoApp.guiado.indiceEjercicio < ejercicios.length - 1;
+
+      if (quedanSeries) {
+        estadoApp.guiado.serieActual += 1;
+        iniciarDescansoGuiado(
+          descanso,
+          `Siguiente: ${ejercicioActual.nombre} — Serie ${estadoApp.guiado.serieActual} de ${ejercicioActual.series}`
+        );
+      } else if (quedanEjercicios) {
+        estadoApp.guiado.indiceEjercicio += 1;
+        estadoApp.guiado.serieActual = 1;
+        const siguienteEjercicio = ejercicios[estadoApp.guiado.indiceEjercicio];
+        iniciarDescansoGuiado(
+          descanso,
+          `Siguiente ejercicio: ${siguienteEjercicio.nombre} (Serie 1 de ${siguienteEjercicio.series})`
+        );
+      } else {
+        // Rutina completada al 100%
+        emitirTonoConfirmacion();
+        cerrarEntrenamientoGuiado();
+        completarEntrenamiento();
+      }
+    }
+
+    /**
+     * Inicializa todos los escuchadores de eventos de la interfaz gráfica.
+     *
+     * @returns {void}
+     */
+    function inicializarEventosUI() {
+      // Botones de género (Hombre / Mujer)
+      document.querySelectorAll('.btn-segmento').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          estadoApp.genero = btn.dataset.genero;
+          actualizarRutinaActiva();
+        });
+      });
+
+      // Selector de área localizada
+      document.getElementById('select-area').addEventListener('change', (evento) => {
+        estadoApp.area = evento.target.value;
+        actualizarRutinaActiva();
+      });
+
+      // Selector de nivel militar
+      document.getElementById('select-nivel').addEventListener('change', (evento) => {
+        estadoApp.nivel = evento.target.value;
+        actualizarRutinaActiva();
+      });
+
+      // Botón principal Actualizar Rutina
+      document.getElementById('btn-generar').addEventListener('click', () => {
+        actualizarRutinaActiva();
+      });
+
+      // Chips rápidos de área localizada
+      document.querySelectorAll('.chip-area').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          estadoApp.area = chip.dataset.area;
+          actualizarRutinaActiva();
+        });
+      });
+
+      // Controles del temporizador
+      document.getElementById('btn-iniciar-pausar').addEventListener('click', alternarTemporizador);
+      document.getElementById('btn-reiniciar-timer').addEventListener('click', reiniciarTemporizador);
+      document.getElementById('btn-sonido').addEventListener('click', alternarSonido);
+      document.getElementById('btn-completar-entrenamiento').addEventListener('click', completarEntrenamiento);
+      document.getElementById('btn-iniciar-guiado').addEventListener('click', abrirEntrenamientoGuiado);
+      document.getElementById('btn-salir-guiado').addEventListener('click', cerrarEntrenamientoGuiado);
+      document.getElementById('btn-guiado-completar-serie').addEventListener('click', completarSerieGuiada);
+      document.getElementById('btn-guiado-saltar-descanso').addEventListener('click', avanzarDespuesDeDescansoGuiado);
+      document.getElementById('btn-abrir-compartible').addEventListener('click', abrirModalTarjetaCompartible);
+      document.getElementById('btn-cerrar-compartible').addEventListener('click', cerrarModalTarjetaCompartible);
+      document.getElementById('btn-descargar-png').addEventListener('click', descargarTarjetaEntrenamientoPNG);
+      document.getElementById('btn-copiar-whatsapp').addEventListener('click', copiarResumenEntrenamientoWhatsApp);
+      document.getElementById('modal-tarjeta-compartible').addEventListener('click', (evento) => {
+        if (evento.target.id === 'modal-tarjeta-compartible') {
+          cerrarModalTarjetaCompartible();
+        }
+      });
+
+      // Controles de los mini-temporizadores de Calentamiento y Recuperación
+      document.getElementById('btn-iniciar-calentamiento').addEventListener('click', () => {
+        alternarMiniTemporizador('calentamiento');
+      });
+      document.getElementById('btn-reiniciar-calentamiento').addEventListener('click', () => {
+        configurarMiniTemporizador('calentamiento', 300, 'Calentamiento completo', false);
+      });
+      document.getElementById('btn-iniciar-recuperacion').addEventListener('click', () => {
+        alternarMiniTemporizador('recuperacion');
+      });
+      document.getElementById('btn-reiniciar-recuperacion').addEventListener('click', () => {
+        configurarMiniTemporizador('recuperacion', 180, 'Recuperación completa', false);
+      });
+
+      document.querySelectorAll('#seccion-calentamiento, #seccion-recuperacion').forEach((seccion) => {
+        seccion.addEventListener('click', (evento) => {
+          const btnMov = evento.target.closest('button[data-mini-tipo]');
+          if (!btnMov) return;
+          configurarMiniTemporizador(
+            btnMov.dataset.miniTipo,
+            Number(btnMov.dataset.segundos),
+            btnMov.dataset.nombre,
+            true
+          );
+        });
+      });
+
+      // Desbloquear el AudioContext con el primer gesto del usuario (política de autoplay)
+      document.addEventListener('pointerdown', desbloquearContextoAudio, { once: true });
+
+      document.querySelectorAll('.btn-atajo').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const segundos = Number(btn.dataset.segundos);
+          configurarTemporizador(segundos, 'Descanso personalizado', false);
+        });
+      });
+
+      // Delegación de eventos en tarjetas de ejercicios
+      document.getElementById('contenedor-ejercicios').addEventListener('click', (evento) => {
+        const boton = evento.target.closest('button[data-accion]');
+        if (!boton) return;
+
+        const accion = boton.dataset.accion;
+        if (accion === 'serie') {
+          alternarSerieCompletada(
+            boton.dataset.id,
+            Number(boton.dataset.serie),
+            Number(boton.dataset.descanso),
+            boton.dataset.nombre
+          );
+        } else if (accion === 'tecnica') {
+          abrirModalTecnica(boton.dataset.id);
+        } else if (accion === 'descanso') {
+          configurarTemporizador(
+            Number(boton.dataset.descanso),
+            `Descanso: ${boton.dataset.nombre}`,
+            true
+          );
+        }
+      });
+
+      // Controles de la animación SVG dentro del modal
+      document.getElementById('btn-pausar-svg').addEventListener('click', alternarPausaAnimacionSVG);
+      document.getElementById('btn-camara-lenta-svg').addEventListener('click', alternarCamaraLentaSVG);
+
+      // Eventos de cierre del modal de técnica
+      document.getElementById('btn-cerrar-modal').addEventListener('click', cerrarModalTecnica);
+      document.getElementById('modal-tecnica').addEventListener('click', (evento) => {
+        if (evento.target.id === 'modal-tecnica') {
+          cerrarModalTecnica();
+        }
+      });
+      document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape') {
+          cerrarModalTecnica();
+          cerrarModalTarjetaCompartible();
+          cerrarEntrenamientoGuiado();
+        }
+      });
+    }
+
+    /**
+     * Actualiza la insignia visual de estado de conexión y disponibilidad offline de la PWA.
+     *
+     * @returns {void}
+     */
+    function actualizarEstadoConexionPWA() {
+      const insignia = document.getElementById('insignia-pwa');
+      if (!insignia) return;
+
+      if (navigator.onLine === false) {
+        insignia.textContent = 'MODO SIN CONEXIÓN';
+        insignia.classList.add('offline');
+      } else {
+        insignia.textContent = 'PWA OFFLINE LISTA';
+        insignia.classList.remove('offline');
+      }
+    }
+
+    /**
+     * Registra el Service Worker (sw.js) para habilitar el almacenamiento en caché
+     * y el funcionamiento sin conexión a internet.
+     *
+     * @returns {Promise<ServiceWorkerRegistration|null>} Promesa con el registro del Service Worker o null si no está soportado.
+     */
+    async function registrarServiceWorkerPWA() {
+      if (!('serviceWorker' in navigator)) {
+        return null;
+      }
+      try {
+        const registro = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+        actualizarEstadoConexionPWA();
+        return registro;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    /**
+     * Gestiona el evento beforeinstallprompt para permitir instalar la PWA en la pantalla de inicio.
+     *
+     * @returns {void}
+     */
+    function inicializarInstalacionPWA() {
+      let eventoDiferido = null;
+      const botonInstalar = document.getElementById('btn-instalar-pwa');
+
+      window.addEventListener('beforeinstallprompt', (evento) => {
+        evento.preventDefault();
+        eventoDiferido = evento;
+        if (botonInstalar) {
+          botonInstalar.classList.add('visible');
+        }
+      });
+
+      if (botonInstalar) {
+        botonInstalar.addEventListener('click', async () => {
+          if (!eventoDiferido) return;
+          eventoDiferido.prompt();
+          await eventoDiferido.userChoice;
+          eventoDiferido = null;
+          botonInstalar.classList.remove('visible');
+        });
+      }
+
+      window.addEventListener('appinstalled', () => {
+        eventoDiferido = null;
+        if (botonInstalar) {
+          botonInstalar.classList.remove('visible');
+        }
+      });
+
+      window.addEventListener('online', actualizarEstadoConexionPWA);
+      window.addEventListener('offline', actualizarEstadoConexionPWA);
+    }
+
+    // Inicialización al cargar la página
+    inicializarEventosUI();
+    inicializarInteractividadMapaMuscular();
+    actualizarRutinaActiva();
+    actualizarVistaTemporizador();
+    renderizarBarraProgreso();
+    inicializarInstalacionPWA();
+    registrarServiceWorkerPWA();
+  </script>
+</body>
+</html>

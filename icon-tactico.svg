@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Insignia de Calistenia Militar Táctica">
+  <defs>
+    <linearGradient id="fondoMilitar" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b281e" />
+      <stop offset="100%" stop-color="#0d120e" />
+    </linearGradient>
+    <linearGradient id="acentoVerde" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b8e66c" />
+      <stop offset="100%" stop-color="#87b839" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo cuadrado redondeado adaptable (maskable) -->
+  <rect width="512" height="512" rx="96" fill="url(#fondoMilitar)" />
+
+  <!-- Escudo táctico exterior -->
+  <path
+    d="M256 56 L420 112 L420 252 C420 354 348 426 256 460 C164 426 92 354 92 252 L92 112 Z"
+    fill="#151d17"
+    stroke="url(#acentoVerde)"
+    stroke-width="14"
+    stroke-linejoin="round"
+  />
+
+  <!-- Chevrón de rango militar -->
+  <path
+    d="M156 218 L256 154 L356 218"
+    fill="none"
+    stroke="url(#acentoVerde)"
+    stroke-width="20"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M156 266 L256 202 L356 266"
+    fill="none"
+    stroke="#f1f6f2"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Barra táctica de dominadas / fuerza -->
+  <line x1="138" y1="326" x2="374" y2="326" stroke="url(#acentoVerde)" stroke-width="18" stroke-linecap="round" />
+  <rect x="122" y="298" width="22" height="56" rx="6" fill="#f1f6f2" />
+  <rect x="368" y="298" width="22" height="56" rx="6" fill="#f1f6f2" />
+
+  <!-- Estrella táctica superior -->
+  <polygon
+    points="256,96 267,120 293,123 274,141 279,167 256,154 233,167 238,141 219,123 245,120"
+    fill="url(#acentoVerde)"
+  />
+</svg>
