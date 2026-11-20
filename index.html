@@ -45,7 +45,7 @@
       background: radial-gradient(circle at top right, #1b281e 0%, var(--bg-primary) 65%);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 2rem 1.25rem 4rem;
+      padding: 2rem 1.25rem 6.8rem;
       line-height: 1.5;
     }
 
@@ -1061,6 +1061,779 @@
       color: #0d120e;
     }
 
+    /* Pestañas principales (Entrenamiento vs Perfil y Progreso Táctico) */
+    .nav-pestanas-principales {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-pestana-principal {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-pestana-principal:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+
+    .btn-pestana-principal.activo {
+      background: linear-gradient(135deg, rgba(166, 214, 88, 0.18), rgba(255, 107, 43, 0.14));
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .vista-oculta {
+      display: none !important;
+    }
+
+    /* Banner de recomendación según objetivo activo */
+    .banner-objetivo-rutina {
+      background: rgba(77, 208, 225, 0.09);
+      border: 1px solid rgba(77, 208, 225, 0.45);
+      border-left: 4px solid var(--cyan-tactico);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.15rem;
+      font-size: 0.86rem;
+      color: var(--text-main);
+    }
+
+    .banner-objetivo-rutina strong {
+      color: var(--cyan-tactico);
+    }
+
+    /* Selector RPE 1-10 antes de completar entrenamiento */
+    .panel-rpe-registro {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin-top: 1.25rem;
+    }
+
+    .cabecera-rpe {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.85rem;
+    }
+
+    .cabecera-rpe strong {
+      color: #ff6b2b;
+    }
+
+    .botones-rpe {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.35rem;
+    }
+
+    @media (max-width: 540px) {
+      .botones-rpe {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .btn-rpe {
+      padding: 0.45rem 0;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-rpe:hover {
+      border-color: #ff6b2b;
+      color: var(--text-main);
+    }
+
+    .btn-rpe.activo {
+      background: #ff6b2b;
+      border-color: #ff9e6d;
+      color: #0d120e;
+    }
+
+    /* Vista Perfil y Progreso Táctico */
+    .vista-perfil-contenedor {
+      display: grid;
+      gap: 1.35rem;
+    }
+
+    .grid-perfil-dos-col {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 1.35rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-perfil-dos-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .fila-nombre-perfil {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .input-tactico {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .input-tactico:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-secundario-tactico {
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-secundario-tactico:hover {
+      background: var(--accent);
+      color: #0d120e;
+    }
+
+    .editor-meta-semanal {
+      margin-top: 0.75rem;
+      padding: 0.85rem;
+      border-radius: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      display: none;
+    }
+
+    .editor-meta-semanal.abierto {
+      display: block;
+    }
+
+    .grid-objetivos-tacticos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .tarjeta-objetivo {
+      text-align: left;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tarjeta-objetivo:hover {
+      border-color: var(--accent);
+    }
+
+    .tarjeta-objetivo.activo {
+      background: linear-gradient(145deg, rgba(166, 214, 88, 0.16), rgba(21, 29, 23, 0.95));
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .tarjeta-objetivo strong {
+      display: block;
+      font-size: 0.96rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .tarjeta-objetivo p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .contenedor-grafica-svg {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+    }
+
+    .contenedor-grafica-svg svg {
+      width: 100%;
+      height: 210px;
+      display: block;
+    }
+
+    /* Vitrina de Trofeos Hexagonales */
+    .grid-trofeos-hexagonales {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 1rem;
+    }
+
+    .tarjeta-trofeo {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 0.9rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .tarjeta-trofeo.desbloqueado {
+      border-color: var(--accent);
+      background: linear-gradient(160deg, rgba(166, 214, 88, 0.12), rgba(21, 29, 23, 0.95));
+    }
+
+    .medalla-hexagonal {
+      width: 82px;
+      height: 92px;
+      margin: 0 auto 0.75rem;
+      clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      position: relative;
+    }
+
+    .medalla-hexagonal.bloqueado {
+      background: linear-gradient(145deg, #242f28, #141b16);
+      filter: grayscale(0.8);
+      opacity: 0.7;
+    }
+
+    .medalla-hexagonal.desbloqueado {
+      background: linear-gradient(145deg, #f5b041, #a6d658);
+      box-shadow: 0 0 22px rgba(166, 214, 88, 0.55);
+      filter: drop-shadow(0 0 10px rgba(245, 176, 65, 0.6));
+    }
+
+    .tarjeta-trofeo h4 {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .tarjeta-trofeo p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .badge-progreso-trofeo {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .tarjeta-trofeo.desbloqueado .badge-progreso-trofeo {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .kpis-fitness-fatiga {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .kpis-fitness-fatiga {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kpi-curva {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      text-align: center;
+    }
+
+    .kpi-curva small {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .kpi-curva strong {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    /* Barra de navegación inferior fija estilo app móvil */
+    .nav-inferior-app {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 950;
+      padding: 0.5rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(180deg, rgba(13, 18, 14, 0) 0%, rgba(13, 18, 14, 0.96) 28%);
+      pointer-events: none;
+    }
+
+    .nav-inferior-interna {
+      pointer-events: auto;
+      max-width: 720px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(21, 29, 23, 0.97);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.4rem 0.35rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    }
+
+    .btn-nav-inferior {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15rem;
+      padding: 0.4rem 0.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 700;
+      transition: var(--transition);
+    }
+
+    .btn-nav-inferior .icono-nav {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .btn-nav-inferior:hover {
+      color: var(--text-main);
+    }
+
+    .btn-nav-inferior.activo {
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-nav-entrenar-central {
+      background: linear-gradient(135deg, #ff6b2b 0%, #e04d0e 100%);
+      color: #ffffff;
+      border: 2px solid #ff9e6d;
+      border-radius: 16px;
+      padding: 0.55rem 0.25rem;
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(255, 107, 43, 0.45);
+    }
+
+    .btn-nav-entrenar-central:hover {
+      color: #ffffff;
+      transform: translateY(-8px);
+    }
+
+    /* Carrusel horizontal de Programas y Series Tácticas (Estilo Strava Strength Studio) */
+    .seccion-programas-inicio {
+      margin-bottom: 1.35rem;
+    }
+
+    .carrusel-programas-tacticos {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.65rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .tarjeta-programa-tactico {
+      flex: 0 0 292px;
+      scroll-snap-align: start;
+      background: #1e1f23;
+      border: 1px solid #2c2e35;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .tarjeta-programa-tactico:hover {
+      border-color: #fc5200;
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65);
+    }
+
+    .escenario-negro-programa {
+      background: #040406;
+      height: 192px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .escenario-negro-programa svg {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    .pie-programa-tactico {
+      background: #1e1f23;
+      padding: 1rem 1.15rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .info-programa-strava h3 {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.28rem;
+      letter-spacing: 0.2px;
+    }
+
+    .meta-programa-strava {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      color: #b0b3bc;
+      line-height: 1.3;
+    }
+
+    .icono-pesa-strava {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: #b0b3bc;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .btn-play-programa {
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: none;
+      background: #fc5200;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(252, 82, 0, 0.45);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-play-programa:hover {
+      background: #ff6b2b;
+      transform: scale(1.08);
+    }
+
+    .badge-dificultad-prog {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(252, 82, 0, 0.16);
+      color: #ff8c5a;
+      border: 1px solid #fc5200;
+    }
+
+    /* Sección Retos y Formulario Crear Reto */
+    .grid-retos-tacticos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .tarjeta-reto-tactico {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .tarjeta-reto-tactico.completado {
+      border-color: var(--accent);
+      background: linear-gradient(155deg, rgba(166, 214, 88, 0.14), rgba(21, 29, 23, 0.95));
+    }
+
+    .form-crear-reto {
+      display: none;
+      margin: 0.9rem 0 1.1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--accent);
+    }
+
+    .form-crear-reto.abierto {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 0.7fr auto;
+      gap: 0.65rem;
+      align-items: end;
+    }
+
+    @media (max-width: 720px) {
+      .form-crear-reto.abierto {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Equipamiento casero y respaldo en Perfil */
+    .grid-equipamiento-casero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .chip-equipo {
+      padding: 0.5rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip-equipo.activo {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .acciones-perfil-respaldo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    /* Animaciones 60 FPS de estudio deportivo y resaltado muscular en tiempo real */
+    @keyframes pulsoFuerzaMuscular {
+      0%, 100% {
+        fill: #a6d658;
+        opacity: 0.45;
+        filter: drop-shadow(0 0 2px rgba(166, 214, 88, 0.35));
+      }
+      45%, 60% {
+        fill: #ff6b2b;
+        opacity: 0.98;
+        filter: drop-shadow(0 0 9px rgba(255, 107, 43, 0.85));
+      }
+    }
+
+    @keyframes sombraDinamicaSuelo {
+      0%, 100% { transform: scaleX(0.92); opacity: 0.35; }
+      50% { transform: scaleX(1.08); opacity: 0.65; }
+    }
+
+    .musculo-en-tension {
+      animation: pulsoFuerzaMuscular calc(2.2s * var(--factor-velocidad, 1)) ease-in-out infinite;
+      will-change: opacity, filter;
+    }
+
+    .sombra-atleta-suelo {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: sombraDinamicaSuelo calc(2.2s * var(--factor-velocidad, 1)) ease-in-out infinite;
+    }
+
+    .atleta-anim-smooth {
+      will-change: transform;
+    }
+
+    /* Tarjetas interactivas estilo Mazo 3D ("Entrenamientos Instantáneos") */
+    .seccion-mazo-3d {
+      margin-bottom: 1.35rem;
+    }
+
+    .selector-modos-mazo {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .selector-modos-mazo {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .btn-modo-mazo {
+      padding: 0.55rem 0.65rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-modo-mazo:hover {
+      border-color: #ff6b2b;
+      color: var(--text-main);
+    }
+
+    .btn-modo-mazo.activo {
+      background: rgba(255, 107, 43, 0.16);
+      border-color: #ff6b2b;
+      color: #ff8c5a;
+      box-shadow: 0 4px 12px rgba(255, 107, 43, 0.2);
+    }
+
+    .escenario-mazo-3d {
+      position: relative;
+      height: 235px;
+      max-width: 480px;
+      margin: 0 auto 0.9rem;
+      perspective: 1100px;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .tarjeta-mazo-3d {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1.25rem 1.35rem;
+      background: linear-gradient(140deg, #213127 0%, #121914 60%, #1c241d 100%);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, border-color 0.25s ease;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+
+    .tarjeta-mazo-3d.pos-0 {
+      z-index: 30;
+      border-color: #ff6b2b;
+      transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+      opacity: 1;
+      cursor: grab;
+    }
+
+    .tarjeta-mazo-3d.pos-1 {
+      z-index: 20;
+      transform: translate3d(0, 14px, -45px) rotateX(-3deg) scale(0.95);
+      opacity: 0.72;
+      pointer-events: none;
+    }
+
+    .tarjeta-mazo-3d.pos-2 {
+      z-index: 10;
+      transform: translate3d(0, 26px, -90px) rotateX(-5deg) scale(0.9);
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .tarjeta-mazo-3d.oculta-mazo {
+      z-index: 1;
+      transform: translate3d(0, 36px, -130px) scale(0.84);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes barridoBrilloDiagonal {
+      0% { transform: translateX(-140%) skewX(-25deg); }
+      40%, 100% { transform: translateX(240%) skewX(-25deg); }
+    }
+
+    .brillo-diagonal-3d {
+      position: absolute;
+      inset: 0;
+      width: 55%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+      pointer-events: none;
+      animation: barridoBrilloDiagonal 4.2s ease-in-out infinite;
+    }
+
+    .controles-mazo-3d {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .indicador-mazo-3d {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+    }
+
     .indicador-progreso .nombre {
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -1911,6 +2684,328 @@
       padding: 0.55rem 0.7rem;
       border-radius: 6px;
     }
+
+    /* ================= LISTA DE INICIACIÓN (ONBOARDING 4 PASOS) ================= */
+    .tarjeta-onboarding {
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(252, 76, 2, 0.45);
+      background: linear-gradient(145deg, rgba(28, 36, 28, 0.96), rgba(18, 22, 18, 0.98));
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .cabecera-onboarding {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.65rem;
+    }
+
+    .cabecera-onboarding h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contador-onboarding {
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(252, 76, 2, 0.16);
+      border: 1px solid rgba(252, 76, 2, 0.5);
+      color: #ff9c6e;
+    }
+
+    .barra-onboarding-contenedor {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      margin-bottom: 0.85rem;
+    }
+
+    .barra-onboarding-relleno {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fc4c02, #9fe870);
+      transition: width 0.35s ease;
+    }
+
+    .lista-pasos-onboarding {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .paso-onboarding {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(14, 19, 15, 0.85);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .paso-onboarding:hover {
+      transform: translateY(-1px);
+      border-color: #fc4c02;
+      background: rgba(252, 76, 2, 0.1);
+    }
+
+    .paso-onboarding.completado {
+      border-color: rgba(159, 232, 112, 0.55);
+      background: rgba(159, 232, 112, 0.09);
+    }
+
+    .paso-onboarding-info {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .paso-onboarding-estado {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .paso-onboarding.completado .paso-onboarding-estado {
+      background: #9fe870;
+      border-color: #9fe870;
+      color: #0e140f;
+    }
+
+    .paso-onboarding-texto strong {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--text-main);
+    }
+
+    .paso-onboarding.completado .paso-onboarding-texto strong {
+      text-decoration: line-through;
+      color: #c8e6b4;
+    }
+
+    .paso-onboarding-texto small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* ================= SELECTOR DE INTENSIDAD INSTANTÁNEA EN ENTRENAR ================= */
+    .panel-intensidad-guiado {
+      margin: 0.85rem 0;
+      padding: 0.85rem;
+      border-radius: 12px;
+      background: rgba(15, 21, 17, 0.9);
+      border: 1px solid var(--border);
+    }
+
+    .titulo-intensidad-guiado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .grid-intensidad-circular {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.55rem;
+    }
+
+    .btn-intensidad-circular {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: transform 0.18s ease, color 0.2s ease;
+    }
+
+    .btn-intensidad-circular:hover {
+      transform: translateY(-2px);
+      color: var(--text-main);
+    }
+
+    .circulo-intensidad {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .btn-intensidad-circular.activo {
+      color: var(--text-main);
+    }
+
+    .btn-intensidad-circular.activo .circulo-intensidad {
+      background: rgba(252, 76, 2, 0.2);
+      border-color: #fc4c02;
+      box-shadow: 0 0 18px rgba(252, 76, 2, 0.35);
+      transform: scale(1.06);
+    }
+
+    .etiqueta-intensidad-circular {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.15;
+    }
+
+    .descripcion-intensidad-guiado {
+      margin-top: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(252, 76, 2, 0.08);
+      border-left: 3px solid #fc4c02;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      text-align: left;
+    }
+
+    /* ================= REGISTRO RÁPIDO (SIN TEMPORIZADOR) ================= */
+    .btn-registro-rapido {
+      flex: 1 1 220px;
+      padding: 0.85rem 1.1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      background: linear-gradient(135deg, rgba(14, 116, 144, 0.35), rgba(15, 23, 42, 0.9));
+      color: #e0f2fe;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-registro-rapido:hover {
+      transform: translateY(-1px);
+      border-color: #38bdf8;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.22);
+    }
+
+    .modal-registro-rapido-contenido {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .form-registro-rapido {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+
+    .grupo-campo-rapido {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .grupo-campo-rapido label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .grupo-campo-rapido select,
+    .grupo-campo-rapido input {
+      width: 100%;
+      padding: 0.7rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0e140f;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .chips-reps-rapidas {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+
+    .chip-rep-rapida {
+      padding: 0.32rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .chip-rep-rapida:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .grid-rpe-rapido {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.4rem;
+    }
+
+    .btn-rpe-rapido {
+      padding: 0.5rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .btn-rpe-rapido.activo {
+      background: #fc4c02;
+      border-color: #fc4c02;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(252, 76, 2, 0.35);
+    }
   </style>
 </head>
 <body>
@@ -1966,7 +3061,62 @@
       </div>
     </section>
 
-    <main class="layout-principal">
+    <!-- ================= VISTA 1: INICIO ================= -->
+    <div id="vista-inicio">
+      <!-- Lista de Iniciación Interactiva ("¡No pierdas el ritmo! (X/4)") -->
+      <section id="tarjeta-onboarding-inicio" class="tarjeta-panel tarjeta-onboarding" aria-label="Lista de iniciación táctica">
+        <div class="cabecera-onboarding">
+          <h2>
+            <span>🚀 ¡No pierdas el ritmo!</span>
+            <span id="contador-onboarding" class="contador-onboarding">0/4</span>
+          </h2>
+          <small style="color: var(--text-muted);">Completa estos 4 pasos iniciales para dominar la app</small>
+        </div>
+        <div class="barra-onboarding-contenedor" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barra-onboarding-aria">
+          <div id="barra-onboarding-relleno" class="barra-onboarding-relleno"></div>
+        </div>
+        <div id="lista-pasos-onboarding" class="lista-pasos-onboarding"></div>
+      </section>
+
+      <!-- Selector de Objetivo Activo ("¿Cuál es tu objetivo?") -->
+      <article class="tarjeta-panel" style="margin-bottom: 1.25rem;">
+        <h2 class="titulo-seccion">
+          <span>🎯 ¿Cuál es tu objetivo?</span>
+          <span id="badge-objetivo-activo">CONSTANCIA DIARIA</span>
+        </h2>
+        <div id="selector-objetivos-tacticos" class="grid-objetivos-tacticos" role="radiogroup" aria-label="Selector de objetivo activo"></div>
+      </article>
+
+      <!-- Carrusel horizontal de Programas y Series Tácticas -->
+      <section class="tarjeta-panel seccion-programas-inicio" aria-label="Programas y Series Tácticas">
+        <h2 class="titulo-seccion">
+          <span>⚡ Programas y Series Tácticas</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Desliza y pulsa ▶ para iniciar</span>
+        </h2>
+        <div id="carrusel-programas-tacticos" class="carrusel-programas-tacticos"></div>
+      </section>
+
+      <!-- Tarjetas interactivas estilo Mazo 3D ("Entrenamientos Instantáneos") -->
+      <section id="seccion-mazo-3d" class="tarjeta-panel seccion-mazo-3d" aria-label="Entrenamientos Instantáneos Mazo 3D">
+        <h2 class="titulo-seccion">
+          <span>🃏 Entrenamientos Instantáneos (Mazo 3D)</span>
+          <span id="badge-modo-mazo">CONSTANTE</span>
+        </h2>
+        <div id="selector-modos-mazo" class="selector-modos-mazo" role="tablist" aria-label="Modos del mazo 3D">
+          <button type="button" class="btn-modo-mazo" data-modo-mazo="mas_facil">🟢 Más fácil</button>
+          <button type="button" class="btn-modo-mazo activo" data-modo-mazo="constante">🟠 Constante</button>
+          <button type="button" class="btn-modo-mazo" data-modo-mazo="mas_dificil">🔴 Más difícil</button>
+          <button type="button" class="btn-modo-mazo" data-modo-mazo="variedad">⚡ Variedad</button>
+        </div>
+        <div id="pila-mazo-3d" class="escenario-mazo-3d" aria-live="polite"></div>
+        <div class="controles-mazo-3d">
+          <button type="button" id="btn-mazo-anterior" class="btn-secundario-tactico">◀ Anterior</button>
+          <span id="indicador-mazo-3d" class="indicador-mazo-3d">1 / 3</span>
+          <button type="button" id="btn-mazo-siguiente" class="btn-secundario-tactico">Siguiente ▶</button>
+        </div>
+      </section>
+
+      <main id="vista-entrenamiento" class="layout-principal">
       <!-- Panel Lateral: Configuración y Temporizador -->
       <aside class="panel-lateral">
         <section class="tarjeta-panel" aria-label="Configuración de Rutina">
@@ -2078,6 +3228,10 @@
           ▶ Iniciar Entrenamiento Guiado
         </button>
 
+        <div id="banner-objetivo-rutina" class="banner-objetivo-rutina">
+          <strong>🔥 Enfoque Constancia diaria:</strong> Completa el volumen estándar con RPE controlado (6-7/10) para entrenar mañana al 100%.
+        </div>
+
         <!-- Sección colapsable: Calentamiento Táctico (5 min) antes de los ejercicios -->
         <details id="seccion-calentamiento" class="seccion-colapsable-tactica" open>
           <summary class="cabecera-colapsable">
@@ -2144,9 +3298,32 @@
           </div>
         </details>
 
+        <!-- Selector de Esfuerzo Percibido (RPE 1-10) -->
+        <section id="panel-rpe-registro" class="panel-rpe-registro" aria-label="Registro de Esfuerzo Percibido RPE">
+          <div class="cabecera-rpe">
+            <span><strong>Esfuerzo Percibido (RPE 1–10):</strong> <span id="etiqueta-rpe-seleccionado">7/10 — Esfuerzo intenso</span></span>
+            <small style="color: var(--text-muted);">Calcula tu curva de Fitness y Fatiga</small>
+          </div>
+          <div id="botones-rpe" class="botones-rpe" role="radiogroup" aria-label="Escala de esfuerzo percibido de 1 a 10">
+            <button type="button" class="btn-rpe" data-rpe="1">1</button>
+            <button type="button" class="btn-rpe" data-rpe="2">2</button>
+            <button type="button" class="btn-rpe" data-rpe="3">3</button>
+            <button type="button" class="btn-rpe" data-rpe="4">4</button>
+            <button type="button" class="btn-rpe" data-rpe="5">5</button>
+            <button type="button" class="btn-rpe" data-rpe="6">6</button>
+            <button type="button" class="btn-rpe activo" data-rpe="7">7</button>
+            <button type="button" class="btn-rpe" data-rpe="8">8</button>
+            <button type="button" class="btn-rpe" data-rpe="9">9</button>
+            <button type="button" class="btn-rpe" data-rpe="10">10</button>
+          </div>
+        </section>
+
         <div class="acciones-finalizar-entrenamiento">
           <button type="button" id="btn-completar-entrenamiento" class="btn-completar-entrenamiento">
             ✅ Completar entrenamiento
+          </button>
+          <button type="button" id="btn-registro-rapido" class="btn-registro-rapido">
+            ⚡ Registrar entrenamiento rápido (sin temporizador)
           </button>
           <button type="button" id="btn-abrir-compartible" class="btn-abrir-compartible">
             🏅 Ver tarjeta compartible
@@ -2155,7 +3332,200 @@
         <div id="mensaje-progreso" class="mensaje-progreso" role="status" aria-live="polite"></div>
       </section>
     </main>
+    </div>
+
+    <!-- ================= VISTA 2: PROGRESO ================= -->
+    <section id="vista-progreso" class="vista-perfil-contenedor vista-oculta" aria-label="Progreso y Analítica">
+      <!-- Meta Semanal Editable -->
+      <article class="tarjeta-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h2 class="titulo-seccion" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <span>🎯 Meta Semanal de Entrenamiento</span>
+          </h2>
+          <button type="button" id="btn-meta-semanal" class="btn-secundario-tactico">🎯 Establecer meta semanal</button>
+        </div>
+
+        <div id="editor-meta-semanal" class="editor-meta-semanal">
+          <label class="etiqueta-control" for="select-meta-dias">Días objetivo por semana (1 a 7)</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <select id="select-meta-dias">
+              <option value="1">1 día / semana</option>
+              <option value="2">2 días / semana</option>
+              <option value="3">3 días / semana</option>
+              <option value="4" selected>4 días / semana</option>
+              <option value="5">5 días / semana</option>
+              <option value="6">6 días / semana</option>
+              <option value="7">7 días / semana</option>
+            </select>
+            <button type="button" id="btn-confirmar-meta" class="btn-secundario-tactico">Aplicar</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 0.9rem;">
+          <div class="texto-siguiente" style="display: flex; justify-content: space-between; font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+            <span id="texto-meta-semanal">0 / 4 días esta semana</span>
+            <span id="porcentaje-meta-semanal">0%</span>
+          </div>
+          <div class="barra-progreso-contenedor">
+            <div id="barra-meta-semanal" class="barra-progreso-relleno" style="width: 0%;"></div>
+          </div>
+        </div>
+        <p id="estado-guardado-meta" style="font-size: 0.8rem; color: var(--accent); margin-top: 0.55rem; min-height: 1.2em;"></p>
+      </article>
+
+      <!-- Gráfica de 12 Semanas -->
+      <article class="tarjeta-panel">
+        <h2 class="titulo-seccion">
+          <span>📈 Evolución de las Últimas 12 Semanas (Volumen y Sesiones)</span>
+          <span id="pico-12-semanas">Pico: 0 reps</span>
+        </h2>
+        <div id="grafica-12-semanas" class="contenedor-grafica-svg"></div>
+      </article>
+
+      <!-- Curva de Fitness y Fatiga (RPE 1-10) -->
+      <article class="tarjeta-panel">
+        <h2 class="titulo-seccion">
+          <span>⚡ Curva de Fitness y Fatiga (Modelo RPE 1–10)</span>
+          <span id="kpi-forma-estado">Sin carga registrada</span>
+        </h2>
+        <div class="kpis-fitness-fatiga">
+          <div class="kpi-curva">
+            <small>Fitness (Forma Base)</small>
+            <strong id="kpi-fitness" style="color: var(--accent);">0</strong>
+          </div>
+          <div class="kpi-curva">
+            <small>Fatiga Aguda</small>
+            <strong id="kpi-fatiga" style="color: #ff6b2b;">0</strong>
+          </div>
+          <div class="kpi-curva">
+            <small>Balance (Frescura)</small>
+            <strong id="kpi-balance" style="color: var(--cyan-tactico);">0</strong>
+          </div>
+        </div>
+        <div id="grafica-fitness-fatiga" class="contenedor-grafica-svg"></div>
+      </article>
+    </section>
+
+    <!-- ================= VISTA 3: RETOS Y TROFEOS ================= -->
+    <section id="vista-retos" class="vista-perfil-contenedor vista-oculta" aria-label="Retos y Trofeos">
+      <article class="tarjeta-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.65rem;">
+          <h2 style="font-size: 0.92rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent);">
+            🎖️ Retos Tácticos Activos
+          </h2>
+          <button type="button" id="btn-crear-reto" class="btn-secundario-tactico">
+            ➕ Crear mi propio reto
+          </button>
+        </div>
+
+        <form id="form-crear-reto" class="form-crear-reto">
+          <div>
+            <label class="etiqueta-control" for="input-titulo-reto">Nombre del reto</label>
+            <input type="text" id="input-titulo-reto" class="input-tactico" placeholder="Ej. 300 flexiones semanales" maxlength="60" required />
+          </div>
+          <div>
+            <label class="etiqueta-control" for="select-tipo-reto">Métrica</label>
+            <select id="select-tipo-reto">
+              <option value="repeticiones">Repeticiones totales</option>
+              <option value="dias">Días entrenados</option>
+              <option value="sesiones">Sesiones completadas</option>
+              <option value="dias_semana">Días en la semana</option>
+            </select>
+          </div>
+          <div>
+            <label class="etiqueta-control" for="input-meta-reto">Meta</label>
+            <input type="number" id="input-meta-reto" class="input-tactico" min="1" max="50000" value="300" required />
+          </div>
+          <button type="submit" id="btn-guardar-reto" class="btn-secundario-tactico" style="height: 42px;">Guardar reto</button>
+        </form>
+
+        <div id="lista-retos-tacticos" class="grid-retos-tacticos"></div>
+      </article>
+
+      <article class="tarjeta-panel">
+        <h2 class="titulo-seccion">
+          <span>🏆 Vitrina de Trofeos Hexagonales</span>
+          <span id="contador-trofeos">0 / 4 DESBLOQUEADOS</span>
+        </h2>
+        <div id="vitrina-trofeos" class="grid-trofeos-hexagonales"></div>
+      </article>
+    </section>
+
+    <!-- ================= VISTA 4: PERFIL ================= -->
+    <section id="vista-perfil" class="vista-perfil-contenedor vista-oculta" aria-label="Perfil del Operador">
+      <div class="grid-perfil-dos-col">
+        <article class="tarjeta-panel">
+          <h2 class="titulo-seccion">
+            <span>🪖 Ficha del Operador</span>
+            <span id="perfil-rango-actual" class="insignia-rango rango-recluta">Recluta</span>
+          </h2>
+
+          <label class="etiqueta-control" for="input-nombre-usuario">Nombre de usuario</label>
+          <div class="fila-nombre-perfil">
+            <input type="text" id="input-nombre-usuario" class="input-tactico" maxlength="40" value="Operador Táctico" />
+            <button type="button" id="btn-guardar-nombre" class="btn-secundario-tactico">💾 Guardar</button>
+          </div>
+
+          <div style="margin-top: 1.15rem;">
+            <span class="etiqueta-control">Equipamiento casero disponible</span>
+            <div id="selector-equipamiento" class="grid-equipamiento-casero" role="group" aria-label="Equipamiento casero usado"></div>
+          </div>
+
+          <div class="acciones-perfil-respaldo" style="margin-top: 1.25rem;">
+            <button type="button" id="btn-perfil-compartir" class="btn-abrir-compartible" style="padding: 0.7rem;">
+              🏅 Compartir logros
+            </button>
+            <button type="button" id="btn-respaldar-datos" class="btn-secundario-tactico">
+              💾 Respaldar datos (JSON)
+            </button>
+            <button type="button" id="btn-restaurar-datos" class="btn-secundario-tactico">
+              📂 Restaurar datos (JSON)
+            </button>
+            <input type="file" id="input-restaurar-datos" accept=".json,application/json" style="display: none;" />
+          </div>
+          <p id="estado-guardado-perfil" style="font-size: 0.82rem; color: var(--accent); margin-top: 0.75rem; min-height: 1.2em;"></p>
+        </article>
+
+        <!-- Espacio para el Mapa Anatómico de Calor Muscular en Perfil (sincronizado con Inicio) -->
+        <article class="tarjeta-panel" aria-label="Mapa Anatómico de Calor Muscular en Perfil">
+          <h2 class="titulo-seccion">
+            <span>🔥 Mapa Anatómico de Calor Muscular</span>
+            <span id="perfil-subtitulo-mapa">TREN SUPERIOR</span>
+          </h2>
+          <div id="perfil-contenedor-mapa-muscular" class="contenedor-mapa-muscular"></div>
+          <div id="perfil-tooltip-mapa" class="tooltip-mapa-muscular" role="status" aria-live="polite">
+            Pasa el cursor o toca un músculo para ver su % de activación.
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
+
+  <!-- Barra de Navegación Inferior Fija (5 Pestañas Estilo App Móvil) -->
+  <nav id="nav-inferior-app" class="nav-inferior-app" role="tablist" aria-label="Navegación principal de la aplicación">
+    <div class="nav-inferior-interna">
+      <button type="button" id="nav-btn-inicio" class="btn-nav-inferior activo" role="tab" aria-selected="true" data-vista="inicio">
+        <span class="icono-nav">🏠</span>
+        <span>Inicio</span>
+      </button>
+      <button type="button" id="nav-btn-progreso" class="btn-nav-inferior" role="tab" aria-selected="false" data-vista="progreso">
+        <span class="icono-nav">📈</span>
+        <span>Progreso</span>
+      </button>
+      <button type="button" id="nav-btn-entrenar" class="btn-nav-inferior btn-nav-entrenar-central" aria-label="Iniciar Entrenamiento Guiado">
+        <span class="icono-nav">▶</span>
+        <span>Entrenar</span>
+      </button>
+      <button type="button" id="nav-btn-retos" class="btn-nav-inferior" role="tab" aria-selected="false" data-vista="retos">
+        <span class="icono-nav">🏆</span>
+        <span>Retos</span>
+      </button>
+      <button type="button" id="nav-btn-perfil" class="btn-nav-inferior" role="tab" aria-selected="false" data-vista="perfil">
+        <span class="icono-nav">🪖</span>
+        <span>Perfil</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Modal de Tarjeta Compartible de Entrenamiento Completado (Estilo Strava Strength) -->
   <div id="modal-tarjeta-compartible" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-compartible">
@@ -2234,6 +3604,18 @@
       <div class="barra-global-guiado" aria-label="Progreso total del entrenamiento guiado">
         <div id="guiado-barra-global" class="relleno-global-guiado"></div>
       </div>
+
+      <!-- Selector de Intensidad Instantánea (4 botones circulares) -->
+      <section id="panel-intensidad-guiado" class="panel-intensidad-guiado" aria-label="Selector de Intensidad Instantánea">
+        <div class="titulo-intensidad-guiado">
+          <span>⚡ Intensidad Instantánea Hoy</span>
+          <span id="etiqueta-intensidad-activa" style="color: #ff9c6e;">CONSTANTE</span>
+        </div>
+        <div id="selector-intensidad-guiado" class="grid-intensidad-circular" role="radiogroup" aria-label="Ajustar intensidad de la rutina al instante"></div>
+        <p id="descripcion-intensidad-guiado" class="descripcion-intensidad-guiado">
+          Mantiene el plan táctico equilibrado recomendado para tu nivel actual.
+        </p>
+      </section>
 
       <div class="encabezado-ejercicio-guiado">
         <span id="guiado-indicador-serie" class="indicador-serie-guiado">Serie 1 de 4</span>
@@ -2315,6 +3697,62 @@
     </div>
   </div>
 
+  <!-- Modal de Registro Rápido de Entrenamiento (10 segundos, sin temporizador) -->
+  <div id="modal-registro-rapido" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-registro-rapido">
+    <div class="modal-contenido modal-registro-rapido-contenido">
+      <div class="modal-cabecera">
+        <div>
+          <h2 id="titulo-registro-rapido">⚡ Registro Rápido (10 s)</h2>
+          <p>Anota una rutina ya realizada sin usar el temporizador para sumarla al historial, gráficas y trofeos.</p>
+        </div>
+        <button type="button" id="btn-cerrar-registro-rapido" class="btn-cerrar-modal">✕ Cerrar</button>
+      </div>
+
+      <form id="form-registro-rapido" class="form-registro-rapido">
+        <div class="grupo-campo-rapido">
+          <label for="rapido-select-area">Área localizada trabajada</label>
+          <select id="rapido-select-area" required>
+            <option value="tren_superior">Tren Superior (Pecho, Espalda y Brazos)</option>
+            <option value="core">Core y Abdomen Militar</option>
+            <option value="tren_inferior">Tren Inferior (Piernas y Glúteos)</option>
+            <option value="cuerpo_completo">Cuerpo Completo (Full Body Táctico)</option>
+          </select>
+        </div>
+
+        <div class="grupo-campo-rapido">
+          <label for="rapido-input-reps">Repeticiones totales realizadas</label>
+          <input type="number" id="rapido-input-reps" min="1" max="5000" value="120" required />
+          <div class="chips-reps-rapidas" aria-label="Atajos rápidos de repeticiones">
+            <button type="button" class="chip-rep-rapida" data-reps="50">50 reps</button>
+            <button type="button" class="chip-rep-rapida" data-reps="100">100 reps</button>
+            <button type="button" class="chip-rep-rapida" data-reps="150">150 reps</button>
+            <button type="button" class="chip-rep-rapida" data-reps="250">250 reps</button>
+          </div>
+        </div>
+
+        <div class="grupo-campo-rapido">
+          <label>Esfuerzo Percibido (RPE 1–10): <span id="rapido-rpe-texto" style="color: #ff9c6e;">7/10</span></label>
+          <div id="rapido-grid-rpe" class="grid-rpe-rapido" role="radiogroup" aria-label="RPE del entrenamiento rápido">
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="1">1</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="2">2</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="3">3</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="4">4</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="5">5</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="6">6</button>
+            <button type="button" class="btn-rpe-rapido activo" data-rpe-rapido="7">7</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="8">8</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="9">9</button>
+            <button type="button" class="btn-rpe-rapido" data-rpe-rapido="10">10</button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-guardar-registro-rapido" class="btn-completar-entrenamiento" style="width: 100%;">
+          ⚡ Guardar entrenamiento en historial
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Conexión directa con el módulo de lógica src/calisteniaMilitar.js -->
   <script src="src/calisteniaMilitar.js"></script>
   <script src="src/progresoEntrenamiento.js"></script>
@@ -2323,9 +3761,14 @@
      * Estado reactivo de la aplicación web de Calistenia Militar.
      */
     const estadoApp = {
+      pestanaActiva: 'entrenamiento',
       genero: 'hombre',
       area: 'tren_superior',
       nivel: 'operativo',
+      rpeActual: 7,
+      rpeRapido: 7,
+      intensidadInstantanea: 'constante',
+      rutinaBaseActual: null,
       rutinaActual: null,
       mapaCalorActual: null,
       musculoSeleccionado: null,
@@ -2361,6 +3804,11 @@
           etiqueta: 'Recuperación completa (180 s)'
         }
       },
+      mazo3D: {
+        modo: 'constante',
+        indiceActual: 0,
+        tarjetasActuales: []
+      },
       guiado: {
         activo: false,
         indiceEjercicio: 0,
@@ -2386,7 +3834,9 @@
     };
 
     /**
-     * Genera las definiciones SVG reutilizables (marcadores de punta de flecha, cuadrícula y línea de suelo).
+     * Genera las definiciones SVG reutilizables de estudio deportivo (paleta Strava Strength):
+     * piel bronceada con sombras anatómicas, camiseta azul marino táctico, leggings gris pizarra
+     * con contornos musculares, zapatillas azul marino con suela naranja #fc5200 y brillo muscular.
      *
      * @returns {string} Bloque SVG con `<defs>` y línea de suelo de referencia graduada.
      */
@@ -2396,30 +3846,60 @@
           <marker id="flecha-cyan" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 10 5 L 0 9 z" fill="#4dd0e1" />
           </marker>
-          <marker id="flecha-verde" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#a6d658" />
-          </marker>
+          <linearGradient id="gradPiel" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d2865e" />
+            <stop offset="60%" stop-color="#b86c47" />
+            <stop offset="100%" stop-color="#8f4f30" />
+          </linearGradient>
+          <linearGradient id="gradPielSombra" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#a85e3b" />
+            <stop offset="100%" stop-color="#7c4125" />
+          </linearGradient>
+          <linearGradient id="gradCamiseta" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#324158" />
+            <stop offset="55%" stop-color="#253042" />
+            <stop offset="100%" stop-color="#171f2c" />
+          </linearGradient>
+          <linearGradient id="gradShort" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c8498" />
+            <stop offset="60%" stop-color="#636a7c" />
+            <stop offset="100%" stop-color="#484e5d" />
+          </linearGradient>
+          <linearGradient id="gradLeggingSombra" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#585f70" />
+            <stop offset="100%" stop-color="#3d4250" />
+          </linearGradient>
+          <linearGradient id="gradZapatilla" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#25354d" />
+            <stop offset="100%" stop-color="#141e2e" />
+          </linearGradient>
+          <radialGradient id="sombraSuelo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#000000" stop-opacity="0.78" />
+            <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+          </radialGradient>
         </defs>
-        <!-- Cuadrícula táctica de fondo -->
-        <line x1="25" y1="55" x2="455" y2="55" stroke="#18261c" stroke-width="1" />
-        <line x1="25" y1="105" x2="455" y2="105" stroke="#18261c" stroke-width="1" />
-        <line x1="25" y1="155" x2="455" y2="155" stroke="#18261c" stroke-width="1" />
+        <!-- Fondo oscuro limpio estilo estudio -->
+        <rect x="0" y="0" width="480" height="202" fill="#050608" opacity="0.65" />
+        <line x1="25" y1="55" x2="455" y2="55" stroke="#141c17" stroke-width="1" />
+        <line x1="25" y1="105" x2="455" y2="105" stroke="#141c17" stroke-width="1" />
+        <line x1="25" y1="155" x2="455" y2="155" stroke="#141c17" stroke-width="1" />
         <!-- Línea de suelo de referencia con marcas de escala -->
         <g class="svg-suelo-referencia" aria-label="Línea de suelo de referencia">
-          <line x1="20" y1="202" x2="460" y2="202" stroke="#a6d658" stroke-width="3" />
-          <line x1="20" y1="208" x2="460" y2="208" stroke="#2e3e33" stroke-width="2" stroke-dasharray="8 6" />
+          <line x1="20" y1="202" x2="460" y2="202" stroke="#a6d658" stroke-width="2.5" />
+          <line x1="20" y1="208" x2="460" y2="208" stroke="#2e3e33" stroke-width="1.5" stroke-dasharray="8 6" />
           <text x="26" y="220" fill="#a6d658" font-size="9.5" font-weight="700">NIVEL DE SUELO DE REFERENCIA (0.00 m)</text>
-          <text x="360" y="220" fill="#9eb0a2" font-size="9">PLANO HORIZONTAL</text>
+          <text x="348" y="220" fill="#ff8c5a" font-size="9" font-weight="700">● MÚSCULO EN TENSIÓN</text>
         </g>
       `;
     }
 
     /**
-     * Genera el código SVG animado y didáctico que ilustra biomecánicamente el movimiento del ejercicio,
-     * incluyendo línea de suelo de referencia, articulaciones resaltadas (hombros, codos, cadera y rodillas)
-     * y flechas indicadoras de dirección del movimiento.
+     * Genera el código SVG animado de estudio deportivo (60 FPS, estilo Strava Strength)
+     * con atleta anatómico ilustrado (piel con volumen, peinado recogido, camiseta navy #253042,
+     * leggings escultóricos #636a7c con pliegues de sombra, zapatillas navy con suela naranja #fc5200)
+     * y resaltado muscular dinámico en tiempo real (.musculo-en-tension).
      *
-     * @param {string} tipoAnimacion - Identificador del patrón de movimiento ('flexion', 'dominada', 'fondo', 'plancha', 'flutter', 'situp', 'sentadilla', 'zancada', 'puente', 'burpee', 'bear_crawl').
+     * @param {string} tipoAnimacion - Patrón de movimiento ('flexion', 'dominada', 'fondo', 'plancha', 'flutter', 'situp', 'sentadilla', 'zancada', 'puente', 'burpee', 'bear_crawl').
      * @returns {string} Cadena HTML con el elemento SVG animado.
      */
     function generarIlustracionSVGAnimada(tipoAnimacion) {
@@ -2428,106 +3908,117 @@
       switch (tipoAnimacion) {
         case 'dominada':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de dominada táctica">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en dominada táctica">
               ${base}
               <!-- Estructura de barra fija -->
-              <line x1="100" y1="24" x2="380" y2="24" stroke="#9eb0a2" stroke-width="6" stroke-linecap="round" />
-              <line x1="120" y1="24" x2="120" y2="202" stroke="#2e3e33" stroke-width="4" />
-              <line x1="360" y1="24" x2="360" y2="202" stroke="#2e3e33" stroke-width="4" />
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flechas de dirección vertical">
-                <line x1="70" y1="135" x2="70" y2="55" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="32" y="45" class="texto-vector">↑ TRACCIÓN</text>
-                <text x="32" y="152" class="texto-vector">↓ DESCENSO</text>
+              <rect x="110" y="18" width="260" height="8" rx="4" fill="#52606e" stroke="#fc5200" stroke-width="1.2" />
+              <rect x="122" y="26" width="6" height="176" fill="#1c232b" />
+              <rect x="352" y="26" width="6" height="176" fill="#1c232b" />
+              <ellipse cx="240" cy="200" rx="45" ry="6" fill="url(#sombraSuelo)" class="sombra-atleta-suelo" />
+              <g class="flecha-direccion">
+                <line x1="68" y1="138" x2="68" y2="52" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="26" y="42" class="texto-vector">↑ TRACCIÓN</text>
+                <text x="26" y="154" class="texto-vector">↓ CONTROL</text>
               </g>
-              <!-- Antebrazos de agarre -->
-              <line x1="195" y1="24" x2="210" y2="62" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-              <line x1="285" y1="24" x2="270" y2="62" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-              <g class="anim-dominada">
-                <!-- Cabeza y segmentos corporales -->
-                <circle cx="240" cy="48" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-                <line x1="210" y1="62" x2="222" y2="74" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <line x1="270" y1="62" x2="258" y2="74" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <line x1="222" y1="74" x2="258" y2="74" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="240" y1="74" x2="240" y2="126" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-                <line x1="240" y1="126" x2="228" y2="156" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="240" y1="126" x2="252" y2="156" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="228" y1="156" x2="225" y2="182" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <line x1="252" y1="156" x2="255" y2="182" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <!-- Puntos de articulación resaltados -->
-                <circle cx="210" cy="62" r="6" class="punto-articulacion" />
-                <text x="165" y="65" class="etiqueta-articulacion">Codo</text>
-                <circle cx="222" cy="74" r="6" class="punto-articulacion" />
-                <text x="266" y="77" class="etiqueta-articulacion">Hombro</text>
-                <circle cx="240" cy="126" r="6" class="punto-articulacion" />
-                <text x="252" y="129" class="etiqueta-articulacion">Cadera</text>
-                <circle cx="228" cy="156" r="6" class="punto-articulacion" />
-                <text x="182" y="160" class="etiqueta-articulacion">Rodilla</text>
+              <!-- Antebrazos y manos sujetando la barra -->
+              <path d="M192 22 C192 18 202 18 202 22 L212 60 L200 63 Z" fill="url(#gradPiel)" />
+              <path d="M288 22 C288 18 278 18 278 22 L268 60 L280 63 Z" fill="url(#gradPiel)" />
+              <g class="anim-dominada atleta-anim-smooth">
+                <!-- Cabeza con moño/trenzas y cuello -->
+                <circle cx="240" cy="30" r="6" fill="#23160f" />
+                <path d="M240 33 C231 33 227 40 228 49 C229 56 234 61 240 61 C246 61 251 56 252 49 C253 40 249 33 240 33 Z" fill="url(#gradPiel)" />
+                <path d="M228 44 C229 33 251 33 252 44 C247 38 233 38 228 44 Z" fill="#23160f" />
+                <path d="M234 59 L246 59 L249 68 L231 68 Z" fill="url(#gradPielSombra)" />
+                <!-- Brazos esculpidos (bíceps y deltoides en tensión) -->
+                <path d="M200 60 C206 58 218 64 224 68 L218 82 C208 79 200 72 198 64 Z" fill="url(#gradPiel)" />
+                <path d="M280 60 C274 58 262 64 256 68 L262 82 C272 79 280 72 282 64 Z" fill="url(#gradPiel)" />
+                <ellipse cx="211" cy="70" rx="8" ry="5" class="musculo-en-tension" />
+                <ellipse cx="269" cy="70" rx="8" ry="5" class="musculo-en-tension" />
+                <!-- Camiseta táctica navy con espalda en V y dorsales iluminados -->
+                <path d="M218 67 L262 67 C264 85 258 106 255 124 L225 124 C222 106 216 85 218 67 Z" fill="url(#gradCamiseta)" />
+                <path d="M219 72 L236 88 L226 116 Z" class="musculo-en-tension" />
+                <path d="M261 72 L244 88 L254 116 Z" class="musculo-en-tension" />
+                <!-- Leggings gris pizarra con sombra interior y contorno -->
+                <path d="M225 123 L255 123 C259 140 258 160 256 178 L244 178 L240 144 L236 178 L224 178 C222 160 221 140 225 123 Z" fill="url(#gradShort)" />
+                <path d="M237 136 L243 136 L244 178 L236 178 Z" fill="url(#gradLeggingSombra)" opacity="0.55" />
+                <!-- Zapatillas navy con suela naranja #fc5200 -->
+                <path d="M218 178 L236 178 L237 187 L216 187 Z" fill="url(#gradZapatilla)" />
+                <rect x="216" y="185" width="21" height="3.2" rx="1.5" fill="#fc5200" />
+                <path d="M244 178 L262 178 L264 187 L243 187 Z" fill="url(#gradZapatilla)" />
+                <rect x="243" y="185" width="21" height="3.2" rx="1.5" fill="#fc5200" />
+                <!-- Articulaciones -->
+                <circle cx="204" cy="62" r="4.5" class="punto-articulacion" />
+                <circle cx="220" cy="72" r="4.5" class="punto-articulacion" />
+                <circle cx="240" cy="124" r="4.5" class="punto-articulacion" />
+                <circle cx="229" cy="154" r="4.5" class="punto-articulacion" />
               </g>
             </svg>
           `;
 
         case 'flutter':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de patadas de tijera">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en patadas de tijera">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flechas de batida alterna">
-                <line x1="385" y1="100" x2="385" y2="175" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="396" y="128" class="texto-vector">↑↓ BATIDA</text>
-                <text x="396" y="142" class="texto-vector">ALTERNA</text>
+              <ellipse cx="185" cy="200" rx="105" ry="6" fill="url(#sombraSuelo)" />
+              <g class="flecha-direccion">
+                <line x1="392" y1="98" x2="392" y2="178" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="402" y="128" class="texto-vector">↑↓ BATIDA</text>
+                <text x="402" y="142" class="texto-vector">CORE ACTIVO</text>
               </g>
-              <!-- Cabeza, torso y brazos apoyados -->
-              <circle cx="88" cy="170" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-              <line x1="102" y1="178" x2="185" y2="188" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-              <line x1="120" y1="180" x2="152" y2="194" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-              <line x1="152" y1="194" x2="182" y2="196" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-              <!-- Piernas animadas con rodillas articuladas -->
-              <g class="anim-flutter-izq">
-                <line x1="185" y1="150" x2="270" y2="145" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
-                <line x1="270" y1="145" x2="345" y2="142" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <circle cx="270" cy="145" r="6" class="punto-articulacion" />
-                <text x="260" y="133" class="etiqueta-articulacion">Rodilla</text>
+              <!-- Cabeza con moño, torso con camiseta navy -->
+              <circle cx="67" cy="171" r="5.5" fill="#23160f" />
+              <ellipse cx="84" cy="174" rx="14" ry="12" fill="url(#gradPiel)" />
+              <path d="M72 170 C75 160 92 160 95 169 Z" fill="#23160f" />
+              <path d="M98 173 C128 172 160 175 188 178 L186 198 C156 198 124 196 100 193 Z" fill="url(#gradCamiseta)" />
+              <!-- Core iluminado en tensión -->
+              <path d="M132 174 L182 177 L180 190 L130 187 Z" class="musculo-en-tension" />
+              <!-- Brazo esculpido apoyado -->
+              <path d="M110 184 L150 192 L182 193 L182 200 L146 199 L108 192 Z" fill="url(#gradPiel)" />
+              <!-- Pierna derecha (atrás) con legging y zapatilla -->
+              <g class="anim-flutter-der atleta-anim-smooth">
+                <path d="M184 152 L268 162 L340 168 L338 180 L264 176 L182 168 Z" fill="url(#gradLeggingSombra)" />
+                <path d="M338 164 L352 160 L354 183 L338 181 Z" fill="url(#gradZapatilla)" />
+                <rect x="350" y="160" width="3.5" height="23" rx="1.5" fill="#fc5200" />
               </g>
-              <g class="anim-flutter-der">
-                <line x1="185" y1="150" x2="270" y2="168" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
-                <line x1="270" y1="168" x2="345" y2="172" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
+              <!-- Pierna izquierda (frente) con legging gris pizarra, cuádriceps en tensión y zapatilla -->
+              <g class="anim-flutter-izq atleta-anim-smooth">
+                <path d="M182 144 C215 138 245 138 272 141 L344 138 L344 151 L270 156 L184 162 Z" fill="url(#gradShort)" />
+                <ellipse cx="234" cy="147" rx="26" ry="6.5" class="musculo-en-tension" />
+                <path d="M342 134 L356 130 L357 154 L342 152 Z" fill="url(#gradZapatilla)" />
+                <rect x="354" y="130" width="3.5" height="24" rx="1.5" fill="#fc5200" />
+                <circle cx="270" cy="147" r="4.5" class="punto-articulacion" />
               </g>
-              <!-- Articulaciones de hombro, codo y cadera -->
-              <circle cx="120" cy="180" r="6" class="punto-articulacion" />
-              <text x="100" y="154" class="etiqueta-articulacion">Hombro</text>
-              <circle cx="152" cy="194" r="6" class="punto-articulacion" />
-              <text x="136" y="172" class="etiqueta-articulacion">Codo</text>
-              <circle cx="185" cy="188" r="6" class="punto-articulacion" />
-              <text x="175" y="172" class="etiqueta-articulacion">Cadera</text>
+              <circle cx="114" cy="186" r="4.5" class="punto-articulacion" />
+              <circle cx="185" cy="186" r="4.5" class="punto-articulacion" />
             </svg>
           `;
 
         case 'situp':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de abdominales sit-up">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en abdominales sit-up">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flecha de flexión de tronco">
-                <path d="M 135 125 Q 175 75 230 95" fill="none" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="145" y="72" class="texto-vector">↗ FLEXIÓN TRONCO / ↙ CONTROL</text>
+              <ellipse cx="205" cy="200" rx="115" ry="6" fill="url(#sombraSuelo)" />
+              <g class="flecha-direccion">
+                <path d="M 130 120 Q 175 68 235 92" fill="none" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="140" y="64" class="texto-vector">↗ FLEXIÓN ABDOMINAL</text>
               </g>
-              <g class="anim-situp">
-                <circle cx="105" cy="160" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-                <line x1="120" y1="168" x2="195" y2="168" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
-                <line x1="132" y1="168" x2="164" y2="146" stroke="#f1f6f2" stroke-width="5" stroke-linecap="round" />
-                <circle cx="132" cy="168" r="6" class="punto-articulacion" />
-                <text x="108" y="186" class="etiqueta-articulacion">Hombro</text>
-                <circle cx="164" cy="146" r="6" class="punto-articulacion" />
-                <text x="148" y="135" class="etiqueta-articulacion">Codo</text>
+              <g class="anim-situp atleta-anim-smooth">
+                <circle cx="88" cy="158" r="5.5" fill="#23160f" />
+                <ellipse cx="104" cy="162" rx="14" ry="12" fill="url(#gradPiel)" />
+                <path d="M92 158 C95 148 112 148 115 157 Z" fill="#23160f" />
+                <path d="M116 158 L196 162 L194 185 L118 182 Z" fill="url(#gradCamiseta)" />
+                <rect x="144" y="160" width="44" height="14" rx="6" class="musculo-en-tension" />
+                <path d="M128 164 L168 142 L175 151 L136 174 Z" fill="url(#gradPiel)" />
+                <circle cx="132" cy="168" r="4.5" class="punto-articulacion" />
+                <circle cx="166" cy="148" r="4.5" class="punto-articulacion" />
               </g>
-              <!-- Piernas ancladas -->
-              <line x1="195" y1="168" x2="265" y2="122" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-              <line x1="265" y1="122" x2="325" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-              <circle cx="195" cy="168" r="6" class="punto-articulacion" />
-              <text x="185" y="190" class="etiqueta-articulacion">Cadera</text>
-              <circle cx="265" cy="122" r="6" class="punto-articulacion" />
-              <text x="255" y="110" class="etiqueta-articulacion">Rodilla</text>
+              <!-- Leggings flexionados y zapatillas navy con suela naranja -->
+              <path d="M190 164 L264 114 C271 114 276 119 276 126 L206 186 Z" fill="url(#gradShort)" />
+              <path d="M262 120 L320 190 L305 196 L254 130 Z" fill="url(#gradShort)" />
+              <path d="M304 188 L336 190 L338 199 L303 199 Z" fill="url(#gradZapatilla)" />
+              <rect x="303" y="197" width="35" height="3.2" rx="1.5" fill="#fc5200" />
+              <circle cx="195" cy="172" r="4.5" class="punto-articulacion" />
+              <circle cx="265" cy="122" r="4.5" class="punto-articulacion" />
             </svg>
           `;
 
@@ -2535,93 +4026,96 @@
         case 'zancada':
         case 'burpee':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de tren inferior y potencia">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en sentadilla y potencia de piernas">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flechas de descenso y empuje vertical">
-                <line x1="115" y1="55" x2="115" y2="155" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="35" y="75" class="texto-vector">↑ EXPLOSIÓN</text>
-                <text x="35" y="145" class="texto-vector">↓ EXCÉNTRICA</text>
+              <ellipse cx="242" cy="200" rx="68" ry="6.5" fill="url(#sombraSuelo)" class="sombra-atleta-suelo" />
+              <g class="flecha-direccion">
+                <line x1="108" y1="54" x2="108" y2="156" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="26" y="72" class="texto-vector">↑ POTENCIA</text>
+                <text x="26" y="148" class="texto-vector">↓ EXCÉNTRICA</text>
               </g>
-              <g class="anim-flexion">
-                <circle cx="235" cy="48" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-                <!-- Torso y brazo con codo marcado -->
-                <line x1="235" y1="64" x2="222" y2="124" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-                <line x1="232" y1="74" x2="262" y2="92" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <line x1="262" y1="92" x2="282" y2="76" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <!-- Muslo y pantorrilla -->
-                <line x1="222" y1="124" x2="266" y2="152" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
-                <line x1="266" y1="152" x2="245" y2="196" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <!-- Articulaciones resaltadas -->
-                <circle cx="232" cy="74" r="6" class="punto-articulacion" />
-                <text x="178" y="76" class="etiqueta-articulacion">Hombro</text>
-                <circle cx="262" cy="92" r="6" class="punto-articulacion" />
-                <text x="272" y="102" class="etiqueta-articulacion">Codo</text>
-                <circle cx="222" cy="124" r="6" class="punto-articulacion" />
-                <text x="170" y="128" class="etiqueta-articulacion">Cadera</text>
-                <circle cx="266" cy="152" r="6" class="punto-articulacion" />
-                <text x="278" y="156" class="etiqueta-articulacion">Rodilla</text>
+              <g class="anim-flexion atleta-anim-smooth">
+                <!-- Cabeza perfil izquierdo/derecho estilo Strava (con coleta) -->
+                <circle cx="212" cy="38" r="6" fill="#23160f" />
+                <path d="M228 25 C220 25 216 32 217 41 C218 49 224 54 231 54 C238 54 242 48 242 40 C242 31 236 25 228 25 Z" fill="url(#gradPiel)" />
+                <path d="M217 37 C218 25 239 24 241 34 C234 30 223 31 217 37 Z" fill="#23160f" />
+                <path d="M224 52 L235 52 L238 63 L222 63 Z" fill="url(#gradPielSombra)" />
+                <!-- Pierna trasera extendida en zancada/sentadilla con legging en sombra y zapatilla naranja -->
+                <path d="M226 116 L278 148 L316 174 L309 183 L268 160 L216 130 Z" fill="url(#gradLeggingSombra)" />
+                <path d="M312 170 L326 168 L324 193 L311 186 Z" fill="url(#gradZapatilla)" />
+                <rect x="321" y="168" width="3.5" height="25" rx="1.5" fill="#fc5200" />
+                <!-- Torso esculpido con camiseta táctica navy #253042 -->
+                <path d="M216 61 C226 59 240 61 246 68 L244 120 L212 118 C210 98 211 76 216 61 Z" fill="url(#gradCamiseta)" />
+                <!-- Pierna delantera con legging gris pizarra y cuádriceps/glúteo iluminados -->
+                <path d="M212 114 C228 112 244 116 246 126 L202 156 L216 190 L203 192 L184 152 C183 144 196 124 212 114 Z" fill="url(#gradShort)" />
+                <ellipse cx="214" cy="136" rx="22" ry="9" transform="rotate(-32 214 136)" class="musculo-en-tension" />
+                <!-- Zapatilla delantera navy con detalles y suela naranja #fc5200 -->
+                <path d="M188 190 L219 188 L221 198 L185 198 C184 194 186 191 188 190 Z" fill="url(#gradZapatilla)" />
+                <rect x="185" y="196" width="36" height="3.2" rx="1.5" fill="#fc5200" />
+                <!-- Brazo flexionado estilo Strava con mano en cadera -->
+                <path d="M226 65 L254 85 L238 108 L230 103 L242 87 L220 73 Z" fill="url(#gradPiel)" />
+                <!-- Articulaciones -->
+                <circle cx="226" cy="68" r="4.5" class="punto-articulacion" />
+                <circle cx="248" cy="87" r="4.5" class="punto-articulacion" />
+                <circle cx="226" cy="122" r="4.5" class="punto-articulacion" />
+                <circle cx="194" cy="152" r="4.5" class="punto-articulacion" />
               </g>
             </svg>
           `;
 
         case 'puente':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de puente de glúteo unilateral">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en puente de glúteo unilateral">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flecha de extensión de cadera">
-                <line x1="225" y1="175" x2="225" y2="95" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="165" y="82" class="texto-vector">↑ EXTENSIÓN CADERA (PAUSA 2s)</text>
+              <ellipse cx="210" cy="200" rx="115" ry="6" fill="url(#sombraSuelo)" />
+              <g class="flecha-direccion">
+                <line x1="226" y1="176" x2="226" y2="90" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="160" y="78" class="texto-vector">↑ EXTENSIÓN GLÚTEO</text>
               </g>
-              <circle cx="95" cy="182" r="12" fill="none" stroke="#a6d658" stroke-width="4" />
-              <!-- Brazo y codo apoyados en el suelo -->
-              <line x1="118" y1="186" x2="155" y2="196" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-              <circle cx="118" cy="186" r="6" class="punto-articulacion" />
-              <text x="85" y="162" class="etiqueta-articulacion">Hombro</text>
-              <circle cx="155" cy="196" r="6" class="punto-articulacion" />
-              <text x="145" y="182" class="etiqueta-articulacion">Codo</text>
-              <g class="anim-puente">
-                <line x1="118" y1="186" x2="225" y2="138" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
-                <line x1="225" y1="138" x2="295" y2="120" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="225" y1="138" x2="345" y2="96" stroke="#a6d658" stroke-width="4" stroke-dasharray="5 3" />
-                <circle cx="225" cy="138" r="6" class="punto-articulacion" />
-                <text x="205" y="125" class="etiqueta-articulacion">Cadera</text>
-                <circle cx="295" cy="120" r="6" class="punto-articulacion" />
-                <text x="285" y="108" class="etiqueta-articulacion">Rodilla</text>
+              <circle cx="77" cy="182" r="5" fill="#23160f" />
+              <ellipse cx="92" cy="184" rx="13" ry="11" fill="url(#gradPiel)" />
+              <path d="M114 188 L172 195 L172 201 L114 196 Z" fill="url(#gradPiel)" />
+              <g class="anim-puente atleta-anim-smooth">
+                <path d="M110 176 L216 132 L224 150 L118 194 Z" fill="url(#gradCamiseta)" />
+                <path d="M210 132 L294 114 L298 132 L218 152 Z" fill="url(#gradShort)" />
+                <ellipse cx="232" cy="142" rx="22" ry="10" class="musculo-en-tension" />
+                <!-- Pierna unilateral extendida -->
+                <path d="M224 134 L344 90 L348 102 L228 146 Z" fill="url(#gradLeggingSombra)" />
+                <path d="M342 84 L355 80 L360 103 L346 104 Z" fill="url(#gradZapatilla)" />
+                <rect x="354" y="80" width="3.5" height="23" rx="1.5" transform="rotate(-14 354 80)" fill="#fc5200" />
+                <circle cx="222" cy="142" r="4.5" class="punto-articulacion" />
+                <circle cx="294" cy="122" r="4.5" class="punto-articulacion" />
               </g>
-              <line x1="295" y1="120" x2="320" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
+              <path d="M290 120 L320 192 L306 196 L278 128 Z" fill="url(#gradShort)" />
+              <path d="M304 189 L336 190 L338 199 L303 199 Z" fill="url(#gradZapatilla)" />
+              <rect x="303" y="197" width="35" height="3.2" rx="1.5" fill="#fc5200" />
+              <circle cx="116" cy="186" r="4.5" class="punto-articulacion" />
             </svg>
           `;
 
         case 'bear_crawl':
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de desplazamiento del oso">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en desplazamiento del oso">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flecha de avance horizontal">
-                <line x1="145" y1="72" x2="315" y2="72" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="165" y="60" class="texto-vector">↔ AVANCE CUADRÚPEDO CRUZADO</text>
+              <ellipse cx="240" cy="200" rx="105" ry="6" fill="url(#sombraSuelo)" />
+              <g class="flecha-direccion">
+                <line x1="142" y1="68" x2="322" y2="68" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="160" y="56" class="texto-vector">↔ AVANCE CUADRÚPEDO</text>
               </g>
-              <g class="anim-bear">
-                <circle cx="325" cy="118" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-                <!-- Torso horizontal -->
-                <line x1="175" y1="120" x2="305" y2="120" stroke="#a6d658" stroke-width="7" stroke-linecap="round" />
-                <!-- Brazo con hombro y codo -->
-                <line x1="295" y1="120" x2="282" y2="158" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="282" y1="158" x2="298" y2="198" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <!-- Pierna con cadera y rodilla a 5 cm del suelo -->
-                <line x1="175" y1="120" x2="205" y2="166" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
-                <line x1="205" y1="166" x2="155" y2="198" stroke="#a6d658" stroke-width="5" stroke-linecap="round" />
-                <!-- Articulaciones resaltadas -->
-                <circle cx="295" cy="120" r="6" class="punto-articulacion" />
-                <text x="275" y="106" class="etiqueta-articulacion">Hombro</text>
-                <circle cx="282" cy="158" r="6" class="punto-articulacion" />
-                <text x="242" y="162" class="etiqueta-articulacion">Codo</text>
-                <circle cx="175" cy="120" r="6" class="punto-articulacion" />
-                <text x="155" y="106" class="etiqueta-articulacion">Cadera</text>
-                <circle cx="205" cy="166" r="6" class="punto-articulacion" />
-                <text x="215" y="172" class="etiqueta-articulacion">Rodilla</text>
+              <g class="anim-bear atleta-anim-smooth">
+                <ellipse cx="334" cy="116" rx="14" ry="12" fill="url(#gradPiel)" />
+                <path d="M324 106 C332 100 344 104 346 112 Z" fill="#23160f" />
+                <path d="M178 106 L316 106 L312 132 L180 132 Z" fill="url(#gradCamiseta)" />
+                <rect x="212" y="114" width="76" height="14" rx="6" class="musculo-en-tension" />
+                <path d="M294 122 L308 124 L296 198 L284 198 Z" fill="url(#gradPiel)" />
+                <path d="M174 114 L200 118 L216 164 L196 170 Z" fill="url(#gradShort)" />
+                <path d="M198 162 L212 168 L166 196 L156 188 Z" fill="url(#gradShort)" />
+                <path d="M142 186 L166 190 L164 199 L140 198 Z" fill="url(#gradZapatilla)" />
+                <rect x="140" y="196" width="25" height="3.2" rx="1.5" fill="#fc5200" />
+                <circle cx="298" cy="122" r="4.5" class="punto-articulacion" />
+                <circle cx="292" cy="158" r="4.5" class="punto-articulacion" />
+                <circle cx="182" cy="122" r="4.5" class="punto-articulacion" />
+                <circle cx="204" cy="166" r="4.5" class="punto-articulacion" />
               </g>
             </svg>
           `;
@@ -2631,34 +4125,43 @@
         case 'plancha':
         default:
           return `
-            <svg viewBox="0 0 480 230" aria-label="Ilustración SVG animada de empuje y plancha táctica">
+            <svg viewBox="0 0 480 230" aria-label="Atleta anatómico animado en flexión táctica">
               ${base}
-              <!-- Flechas de dirección del movimiento -->
-              <g class="flecha-direccion" aria-label="Flechas de descenso excéntrico y empuje concéntrico">
-                <line x1="385" y1="68" x2="385" y2="162" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
-                <text x="396" y="95" class="texto-vector">↑ EMPUJE</text>
-                <text x="396" y="142" class="texto-vector">↓ DESCENSO</text>
+              <ellipse cx="232" cy="200" rx="125" ry="7" fill="url(#sombraSuelo)" class="sombra-atleta-suelo" />
+              <g class="flecha-direccion">
+                <line x1="396" y1="68" x2="396" y2="162" stroke="#4dd0e1" stroke-width="2.5" marker-start="url(#flecha-cyan)" marker-end="url(#flecha-cyan)" />
+                <text x="406" y="95" class="texto-vector">↑ EMPUJE</text>
+                <text x="406" y="142" class="texto-vector">↓ DESCENSO</text>
               </g>
-              <g class="anim-flexion">
-                <circle cx="332" cy="100" r="13" fill="none" stroke="#a6d658" stroke-width="4" />
-                <!-- Línea corporal hombro-cadera-rodilla-tobillo -->
-                <line x1="105" y1="168" x2="215" y2="136" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-                <line x1="215" y1="136" x2="312" y2="108" stroke="#f1f6f2" stroke-width="7" stroke-linecap="round" />
-                <!-- Brazo y antebrazo con codo a 45 grados -->
-                <line x1="292" y1="114" x2="268" y2="154" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
-                <line x1="268" y1="154" x2="295" y2="198" stroke="#a6d658" stroke-width="6" stroke-linecap="round" />
-                <!-- Puntos de articulación resaltados (Hombro, Codo, Cadera, Rodilla) -->
-                <circle cx="292" cy="114" r="6" class="punto-articulacion" />
-                <text x="272" y="98" class="etiqueta-articulacion">Hombro</text>
-                <circle cx="268" cy="154" r="6" class="punto-articulacion" />
-                <text x="228" y="160" class="etiqueta-articulacion">Codo</text>
-                <circle cx="215" cy="136" r="6" class="punto-articulacion" />
-                <text x="195" y="120" class="etiqueta-articulacion">Cadera</text>
-                <circle cx="155" cy="153" r="6" class="punto-articulacion" />
-                <text x="135" y="138" class="etiqueta-articulacion">Rodilla</text>
+              <g class="anim-flexion atleta-anim-smooth">
+                <!-- Zapatillas tácticas navy con suela naranja #fc5200 (perspectiva 3/4 como en captura 3) -->
+                <path d="M98 124 L118 118 L124 134 L102 142 Z" fill="url(#gradZapatilla)" />
+                <rect x="96" y="122" width="4" height="20" rx="1.5" transform="rotate(-18 96 122)" fill="#fc5200" />
+                <path d="M88 136 L110 130 L116 148 L92 154 Z" fill="url(#gradZapatilla)" />
+                <rect x="86" y="134" width="4" height="21" rx="1.5" transform="rotate(-18 86 134)" fill="#fc5200" />
+                <!-- Leggings gris pizarra esculpidos (pantorrillas + muslos + glúteos en 3/4) -->
+                <path d="M114 124 L162 144 L224 134 L228 152 L158 164 L106 144 Z" fill="url(#gradLeggingSombra)" />
+                <path d="M106 136 L156 156 C182 146 206 140 226 144 C236 146 240 160 228 166 C202 172 176 174 152 172 L100 150 Z" fill="url(#gradShort)" />
+                <!-- Brazo trasero en perspectiva 3/4 -->
+                <path d="M286 116 L316 126 L304 154 L294 150 L302 132 L278 124 Z" fill="url(#gradPielSombra)" />
+                <!-- Camiseta táctica navy #253042 con logo y volumen dorsal/pectoral -->
+                <path d="M222 142 C246 132 276 126 306 134 L298 168 C270 172 242 168 220 164 Z" fill="url(#gradCamiseta)" />
+                <!-- Resaltado muscular dinámico en pectoral, deltoides y core -->
+                <ellipse cx="282" cy="152" rx="22" ry="10" transform="rotate(8 282 152)" class="musculo-en-tension" />
+                <!-- Cabeza inclinada mirando al suelo con trenzas/moño oscuro (idéntica a captura 3) -->
+                <circle cx="348" cy="148" r="6" fill="#23160f" />
+                <ellipse cx="332" cy="158" rx="15" ry="13" transform="rotate(18 332 158)" fill="url(#gradPiel)" />
+                <path d="M322 146 C332 142 346 146 346 158 C338 150 328 149 322 146 Z" fill="#23160f" />
+                <!-- Brazo delantero articulado (deltoides + tríceps en tensión + antebrazo + mano abierta en suelo) -->
+                <path d="M266 152 L294 146 L278 176 L254 170 Z" fill="url(#gradPiel)" />
+                <ellipse cx="276" cy="160" rx="13" ry="6" transform="rotate(-24 276 160)" class="musculo-en-tension" />
+                <path d="M254 166 L268 168 L286 196 L298 197 L296 201 L274 200 Z" fill="url(#gradPiel)" />
+                <!-- Articulaciones resaltadas -->
+                <circle cx="288" cy="150" r="4.5" class="punto-articulacion" />
+                <circle cx="262" cy="170" r="4.5" class="punto-articulacion" />
+                <circle cx="224" cy="154" r="4.5" class="punto-articulacion" />
+                <circle cx="156" cy="162" r="4.5" class="punto-articulacion" />
               </g>
-              <!-- Apoyo de pies en el suelo -->
-              <line x1="105" y1="168" x2="96" y2="198" stroke="#f1f6f2" stroke-width="6" stroke-linecap="round" />
             </svg>
           `;
       }
@@ -2751,6 +4254,7 @@
         .join('');
 
       document.getElementById('modal-tecnica').classList.add('abierto');
+      completarPasoOnboardingUI('tecnica_vista');
     }
 
     /**
@@ -3021,6 +4525,7 @@
       boton.classList.toggle('silenciado', !estadoApp.sonido.activado);
       boton.setAttribute('aria-pressed', String(estadoApp.sonido.activado));
       boton.textContent = estadoApp.sonido.activado ? '🔊 Sonido activado' : '🔇 Sonido silenciado';
+      completarPasoOnboardingUI('sonido_probado');
     }
 
     /**
@@ -3337,11 +4842,19 @@
       }
 
       estadoApp.seriesCompletadasPorEjercicio = {};
-      estadoApp.rutinaActual = window.CalisteniaMilitar.generarRutinaMilitar({
+      estadoApp.rutinaBaseActual = window.CalisteniaMilitar.generarRutinaMilitar({
         genero: estadoApp.genero,
         area: estadoApp.area,
         nivel: estadoApp.nivel
       });
+      estadoApp.rutinaActual =
+        window.ProgresoEntrenamiento &&
+        typeof window.ProgresoEntrenamiento.ajustarRutinaPorIntensidadInstantanea === 'function'
+          ? window.ProgresoEntrenamiento.ajustarRutinaPorIntensidadInstantanea(
+              estadoApp.rutinaBaseActual,
+              estadoApp.intensidadInstantanea
+            )
+          : estadoApp.rutinaBaseActual;
 
       // Actualizar botones de género
       document.querySelectorAll('.btn-segmento').forEach((btn) => {
@@ -3992,7 +5505,8 @@
           genero: rutina.perfil,
           nivel: rutina.nivelMilitar,
           seriesCompletadas: contarSeriesCompletadas(),
-          seriesTotales: rutina.seriesTotales
+          seriesTotales: rutina.seriesTotales,
+          rpe: estadoApp.rpeActual
         });
         window.ProgresoEntrenamiento.guardarRegistro(almacenamiento, registro);
       } catch (error) {
@@ -4001,6 +5515,8 @@
       }
 
       renderizarBarraProgreso();
+      renderizarPanelPerfilTactico();
+      completarPasoOnboardingUI('primera_rutina');
       const resumen = window.ProgresoEntrenamiento.calcularResumenProgreso(
         window.ProgresoEntrenamiento.cargarHistorial(almacenamiento)
       );
@@ -4039,6 +5555,7 @@
       estadoApp.guiado.indiceEjercicio = 0;
       estadoApp.guiado.serieActual = 1;
 
+      renderizarSelectorIntensidadGuiado();
       renderizarVistaEntrenamientoGuiado();
       document.getElementById('overlay-entrenamiento-guiado').classList.add('abierto');
     }
@@ -4217,11 +5734,989 @@
     }
 
     /**
+     * Cambia entre las 4 vistas principales de la barra de navegación inferior sin recargar la página
+     * ('inicio', 'progreso', 'retos', 'perfil').
+     *
+     * @param {'inicio'|'progreso'|'retos'|'perfil'} vista - Vista a activar.
+     * @returns {void}
+     */
+    function cambiarPestanaPrincipal(vista) {
+      const vistasValidas = ['inicio', 'progreso', 'retos', 'perfil'];
+      const destino = vistasValidas.includes(vista) ? vista : 'inicio';
+      estadoApp.pestanaActiva = destino;
+
+      vistasValidas.forEach((v) => {
+        const panel = document.getElementById(`vista-${v}`);
+        if (panel) {
+          panel.classList.toggle('vista-oculta', v !== destino);
+        }
+        const btnNav = document.getElementById(`nav-btn-${v}`);
+        if (btnNav) {
+          btnNav.classList.toggle('activo', v === destino);
+          btnNav.setAttribute('aria-selected', String(v === destino));
+        }
+      });
+
+      if (destino !== 'inicio') {
+        renderizarPanelPerfilTactico();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Genera la ilustración SVG de estudio deportivo a cuerpo completo (estilo Strava Strength)
+     * para las tarjetas de programas y el Mazo 3D, replicando las poses de las capturas de referencia:
+     * 1) 'frontal' (Cuerpo completo de pie), 2) 'flexion_34' (Parte superior y core en flexión 3/4),
+     * 3) 'zancada_perfil' (Tren inferior en zancada lateral), 4) 'hiit_explosivo' (HIIT Militar).
+     *
+     * @param {'frontal'|'flexion_34'|'zancada_perfil'|'hiit_explosivo'} pose - Identificador de la pose atlética.
+     * @returns {string} Código SVG del atleta articulado y animado a 60 FPS.
+     */
+    function generarSVGAtletaEstudioPrograma(pose) {
+      const defsEstudio = `
+        <defs>
+          <linearGradient id="stPiel" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d2865e" />
+            <stop offset="65%" stop-color="#b56944" />
+            <stop offset="100%" stop-color="#8c4c2d" />
+          </linearGradient>
+          <linearGradient id="stPielSombra" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#9e5634" />
+            <stop offset="100%" stop-color="#753c20" />
+          </linearGradient>
+          <linearGradient id="stTop" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#313f57" />
+            <stop offset="55%" stop-color="#242f42" />
+            <stop offset="100%" stop-color="#171e2b" />
+          </linearGradient>
+          <linearGradient id="stLegging" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c8498" />
+            <stop offset="55%" stop-color="#646b7d" />
+            <stop offset="100%" stop-color="#494f5e" />
+          </linearGradient>
+          <linearGradient id="stLeggingOsc" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#555c6d" />
+            <stop offset="100%" stop-color="#3b404d" />
+          </linearGradient>
+        </defs>
+      `;
+
+      if (pose === 'flexion_34') {
+        // Captura 3: Atleta en flexión isométrica 3/4 diagonal sobre fondo negro de estudio
+        return `
+          <svg viewBox="0 0 260 175" role="img" aria-label="Atleta en flexión 3/4 de parte superior y core">
+            ${defsEstudio}
+            <g class="anim-flexion atleta-anim-smooth">
+              <!-- Zapatillas azul marino con suela naranja #fc5200 arriba a la izquierda -->
+              <path d="M58 56 L73 50 L78 65 L62 72 Z" fill="#1b2638" />
+              <rect x="56" y="54" width="3.2" height="17" rx="1.5" transform="rotate(-18 56 54)" fill="#fc5200" />
+              <path d="M48 66 L64 60 L69 76 L52 82 Z" fill="#151e2d" />
+              <rect x="46" y="64" width="3.2" height="17" rx="1.5" transform="rotate(-18 46 64)" fill="#fc5200" />
+              <!-- Leggings gris pizarra en perspectiva 3/4 (pantorrillas, muslos y glúteo) -->
+              <path d="M70 56 L106 76 L142 74 L144 88 L102 92 L64 70 Z" fill="url(#stLeggingOsc)" />
+              <path d="M62 66 L98 88 C116 80 132 76 146 80 C154 83 156 96 146 102 C126 106 108 106 92 102 L56 78 Z" fill="url(#stLegging)" />
+              <!-- Pliegue anatómico de cadera/muslo -->
+              <path d="M118 83 C128 86 134 93 130 101" fill="none" stroke="#454b59" stroke-width="1.4" />
+              <!-- Brazo derecho (trasero) en apoyo -->
+              <path d="M174 68 L194 78 L186 102 L178 98 L184 82 L168 76 Z" fill="url(#stPielSombra)" />
+              <!-- Top deportivo azul marino #242f42 con detalle blanco en espalda -->
+              <path d="M142 80 C162 74 182 74 202 84 L194 112 C174 114 154 108 140 102 Z" fill="url(#stTop)" />
+              <polygon points="184,91 189,93 186,97" fill="#dce3f0" opacity="0.85" />
+              <!-- Resaltado muscular dinámico en deltoides, pectoral y tríceps -->
+              <ellipse cx="176" cy="98" rx="15" ry="7" transform="rotate(14 176 98)" class="musculo-en-tension" />
+              <!-- Cabeza inclinada con trenzas/moño -->
+              <circle cx="226" cy="96" r="5" fill="#22150e" />
+              <ellipse cx="214" cy="105" rx="12" ry="10" transform="rotate(24 214 105)" fill="url(#stPiel)" />
+              <path d="M206 95 C215 92 225 97 224 107 C218 100 211 98 206 95 Z" fill="#22150e" />
+              <!-- Brazo izquierdo (delantero) flexionado + mano con dedos apoyados -->
+              <path d="M158 98 L182 94 L168 118 L148 112 Z" fill="url(#stPiel)" />
+              <ellipse cx="166" cy="106" rx="10" ry="4.5" transform="rotate(-22 166 106)" class="musculo-en-tension" />
+              <path d="M148 110 L160 112 L174 134 L186 136 L184 140 L165 138 Z" fill="url(#stPiel)" />
+            </g>
+          </svg>
+        `;
+      }
+
+      if (pose === 'zancada_perfil') {
+        // Captura 2: Atleta de perfil en zancada (Tren inferior) con mano en cadera
+        return `
+          <svg viewBox="0 0 260 175" role="img" aria-label="Atleta en zancada de tren inferior">
+            ${defsEstudio}
+            <g class="anim-flexion atleta-anim-smooth">
+              <!-- Cabeza de perfil mirando a la izquierda + moño trasero -->
+              <circle cx="136" cy="30" r="5.5" fill="#22150e" />
+              <path d="M123 19 C116 19 113 25 114 33 C115 39 120 43 126 43 C131 43 135 38 135 31 C135 24 130 19 123 19 Z" fill="url(#stPiel)" />
+              <path d="M115 27 C117 18 133 18 135 28 C129 24 120 24 115 27 Z" fill="#22150e" />
+              <path d="M121 41 L130 41 L132 50 L119 50 Z" fill="url(#stPielSombra)" />
+              <!-- Pierna trasera extendida hacia la derecha con talón elevado y suela naranja -->
+              <path d="M132 94 L168 118 L196 138 L190 145 L158 128 L122 106 Z" fill="url(#stLeggingOsc)" />
+              <path d="M192 134 L203 132 L201 153 L191 147 Z" fill="#1b2638" />
+              <rect x="200" y="132" width="2.8" height="21" rx="1.2" fill="#fc5200" />
+              <!-- Torso erguido con top deportivo navy #242f42 -->
+              <path d="M117 49 C125 47 136 50 140 57 L142 94 L118 93 C115 78 114 62 117 49 Z" fill="url(#stTop)" />
+              <!-- Pierna delantera flexionada en zancada con legging gris pizarra y cuádriceps/glúteo iluminado -->
+              <path d="M118 90 C132 88 144 92 145 102 L110 124 L122 151 L112 153 L95 120 C94 113 105 98 118 90 Z" fill="url(#stLegging)" />
+              <ellipse cx="121" cy="108" rx="17" ry="7" transform="rotate(-32 121 108)" class="musculo-en-tension" />
+              <!-- Zapatilla delantera navy con detalles naranjas #fc5200 -->
+              <path d="M100 151 L125 149 L126 157 L97 157 Z" fill="#1b2638" />
+              <rect x="97" y="155" width="29" height="2.6" rx="1.2" fill="#fc5200" />
+              <polygon points="116,151 122,151 120,155" fill="#fc5200" />
+              <!-- Brazo flexionado con mano en la cadera (idéntico a captura 2) -->
+              <path d="M126 52 L149 69 L136 88 L129 84 L139 70 L121 59 Z" fill="url(#stPiel)" />
+              <ellipse cx="136" cy="62" rx="8" ry="4" transform="rotate(35 136 62)" class="musculo-en-tension" />
+            </g>
+          </svg>
+        `;
+      }
+
+      if (pose === 'hiit_explosivo') {
+        // Tarjeta 4: Atleta en salto explosivo / sprint táctico HIIT
+        return `
+          <svg viewBox="0 0 260 175" role="img" aria-label="Atleta en salto explosivo HIIT Militar">
+            ${defsEstudio}
+            <g class="anim-dominada atleta-anim-smooth">
+              <circle cx="138" cy="24" r="5" fill="#22150e" />
+              <ellipse cx="126" cy="28" rx="10" ry="12" fill="url(#stPiel)" />
+              <path d="M117 22 C120 14 134 14 136 23 Z" fill="#22150e" />
+              <path d="M114 42 L138 44 L134 88 L110 86 Z" fill="url(#stTop)" />
+              <!-- Brazos dinámicos de sprint -->
+              <path d="M114 45 L94 64 L104 78 L110 73 L103 63 L118 51 Z" fill="url(#stPiel)" />
+              <path d="M136 45 L156 62 L146 74 L134 52 Z" fill="url(#stPiel)" />
+              <!-- Pierna delantera elevada en rodilla alta y pierna trasera de impulso -->
+              <path d="M124 86 L154 118 L174 146 L166 151 L144 124 L114 94 Z" fill="url(#stLeggingOsc)" />
+              <path d="M112 84 L146 96 L138 128 L128 126 L134 103 L108 94 Z" fill="url(#stLegging)" />
+              <ellipse cx="128" cy="93" rx="14" ry="6" class="musculo-en-tension" />
+              <path d="M124 126 L142 128 L142 135 L122 134 Z" fill="#1b2638" />
+              <rect x="122" y="133" width="20" height="2.6" rx="1.2" fill="#fc5200" />
+              <path d="M165 147 L179 146 L178 158 L165 154 Z" fill="#1b2638" />
+              <rect x="176" y="146" width="2.6" height="12" rx="1.2" fill="#fc5200" />
+            </g>
+          </svg>
+        `;
+      }
+
+      // Captura 1 ('frontal'): Atleta de cuerpo completo de pie en pose atlética frontal
+      return `
+        <svg viewBox="0 0 260 175" role="img" aria-label="Atleta de cuerpo completo en postura atlética">
+          ${defsEstudio}
+          <g class="anim-flexion atleta-anim-smooth">
+            <!-- Cabello recogido y cabeza frontal -->
+            <circle cx="123" cy="21" r="5" fill="#22150e" />
+            <path d="M130 17 C124 17 120 22 121 30 C122 36 125 40 130 40 C135 40 138 36 139 30 C140 22 136 17 130 17 Z" fill="url(#stPiel)" />
+            <path d="M121 25 C122 16 138 16 139 25 C135 21 125 21 121 25 Z" fill="#22150e" />
+            <path d="M126 39 L134 39 L136 47 L124 47 Z" fill="url(#stPielSombra)" />
+            <!-- Brazos anatómicos articulados (deltoides, bíceps, antebrazos y manos) -->
+            <path d="M114 48 C108 50 105 58 104 68 L99 92 L105 94 L111 72 L116 58 Z" fill="url(#stPiel)" />
+            <path d="M146 48 C152 50 155 58 156 68 L161 92 L155 94 L149 72 L144 58 Z" fill="url(#stPiel)" />
+            <ellipse cx="109" cy="57" rx="4.5" ry="7" transform="rotate(12 109 57)" class="musculo-en-tension" />
+            <ellipse cx="151" cy="57" rx="4.5" ry="7" transform="rotate(-12 151 57)" class="musculo-en-tension" />
+            <!-- Top deportivo azul marino ajustado #242f42 -->
+            <path d="M116 47 L124 46 L130 50 L136 46 L144 47 C146 58 144 72 143 85 L117 85 C116 72 114 58 116 47 Z" fill="url(#stTop)" />
+            <!-- Leggings gris pizarra esculpidos a cuerpo completo (cintura alta, muslos y gemelos) -->
+            <path d="M117 84 L143 84 C148 98 148 114 146 128 L150 150 L142 151 L136 126 L130 102 L124 126 L118 151 L110 150 L114 128 C112 114 112 98 117 84 Z" fill="url(#stLegging)" />
+            <!-- Sombras interiores de muslos y rodillas (como en captura 1) -->
+            <path d="M127 98 L130 103 L124 128 L120 126 Z" fill="url(#stLeggingOsc)" opacity="0.65" />
+            <path d="M133 98 L130 103 L136 128 L140 126 Z" fill="url(#stLeggingOsc)" opacity="0.65" />
+            <ellipse cx="120" cy="106" rx="5" ry="13" class="musculo-en-tension" />
+            <ellipse cx="140" cy="106" rx="5" ry="13" class="musculo-en-tension" />
+            <!-- Zapatillas azul marino con detalles naranjas #fc5200 -->
+            <path d="M105 150 L119 150 L120 158 L103 158 Z" fill="#1b2638" />
+            <rect x="103" y="156" width="17" height="2.4" rx="1" fill="#fc5200" />
+            <path d="M141 150 L155 150 L158 158 L140 158 Z" fill="#1b2638" />
+            <rect x="140" y="156" width="18" height="2.4" rx="1" fill="#fc5200" />
+          </g>
+        </svg>
+      `;
+    }
+
+    /**
+     * Renderiza el carrusel horizontal de "Programas y Series Tácticas" en la pestaña Inicio,
+     * replicando el diseño de estudio Strava Strength de las capturas (escenario negro superior
+     * con atleta anatómico a cuerpo completo y pie oscuro con icono de pesa y botón circular naranja ▶).
+     *
+     * @returns {void}
+     */
+    function renderizarCarruselProgramasTacticos() {
+      const contenedor = document.getElementById('carrusel-programas-tacticos');
+      if (!contenedor) return;
+
+      const iconoPesaSVG = `
+        <svg class="icono-pesa-strava" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.5 6.5 L17.5 17.5 M3 10 L10 3 M14 21 L21 14 M2 7 L7 2 M17 22 L22 17" />
+        </svg>
+      `;
+
+      const programas = [
+        {
+          id: 'prog-full',
+          titulo: 'Cuerpo completo',
+          subtitulo: 'Calistenia táctica · 25 min · Operativo',
+          area: 'cuerpo_completo',
+          nivel: 'operativo',
+          pose: 'frontal'
+        },
+        {
+          id: 'prog-sup-core',
+          titulo: 'Parte superior del cuerpo y core',
+          subtitulo: 'Calistenia táctica · 26 min · Operativo',
+          area: 'tren_superior',
+          nivel: 'operativo',
+          pose: 'flexion_34'
+        },
+        {
+          id: 'prog-inf',
+          titulo: 'Tren inferior',
+          subtitulo: 'Calistenia táctica · 22 min · Fácil / Op.',
+          area: 'tren_inferior',
+          nivel: 'operativo',
+          pose: 'zancada_perfil'
+        },
+        {
+          id: 'prog-hiit',
+          titulo: 'HIIT Militar',
+          subtitulo: 'Acondicionamiento · 30 min · Élite',
+          area: 'cuerpo_completo',
+          nivel: 'fuerzas_especiales',
+          pose: 'hiit_explosivo'
+        }
+      ];
+
+      contenedor.innerHTML = programas
+        .map(
+          (prog) => `
+            <article class="tarjeta-programa-tactico" data-programa-id="${prog.id}">
+              <div class="escenario-negro-programa">
+                ${generarSVGAtletaEstudioPrograma(prog.pose)}
+              </div>
+              <div class="pie-programa-tactico">
+                <div class="info-programa-strava">
+                  <h3>${prog.titulo}</h3>
+                  <div class="meta-programa-strava">
+                    ${iconoPesaSVG}
+                    <span>${prog.subtitulo}</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn-play-programa"
+                  data-programa-area="${prog.area}"
+                  data-programa-nivel="${prog.nivel}"
+                  title="Iniciar ${prog.titulo}"
+                  aria-label="Iniciar programa ${prog.titulo}"
+                >▶</button>
+              </div>
+            </article>
+          `
+        )
+        .join('');
+    }
+
+    /**
+     * Genera la pila de tarjetas del Mazo 3D ("Entrenamientos Instantáneos") según el modo elegido
+     * ('mas_facil', 'constante', 'mas_dificil', 'variedad') con efecto 3D apilado y brillo diagonal.
+     *
+     * @returns {void}
+     */
+    function renderizarMazo3D() {
+      const pila = document.getElementById('pila-mazo-3d');
+      const badgeModo = document.getElementById('badge-modo-mazo');
+      const indicador = document.getElementById('indicador-mazo-3d');
+      if (!pila) return;
+
+      const modosConfig = {
+        mas_facil: {
+          nombre: 'MÁS FÁCIL',
+          tarjetas: [
+            { titulo: 'Base Tren Superior', sub: 'Cadencia controlada y técnica pura', area: 'tren_superior', nivel: 'recluta', duracion: '18 min', etiqueta: 'Recluta • 75%' },
+            { titulo: 'Core Estabilizador', sub: 'Activación profunda sin impacto lumbar', area: 'core', nivel: 'recluta', duracion: '15 min', etiqueta: 'Recluta • 75%' },
+            { titulo: 'Piernas de Resistencia', sub: 'Sentadillas y zancadas fluidas', area: 'tren_inferior', nivel: 'recluta', duracion: '18 min', etiqueta: 'Recluta • 75%' }
+          ]
+        },
+        constante: {
+          nombre: 'CONSTANTE',
+          tarjetas: [
+            { titulo: 'Asalto Tren Superior', sub: 'Flexiones, dominadas y fondos tácticos', area: 'tren_superior', nivel: 'operativo', duracion: '26 min', etiqueta: 'Operativo • 100%' },
+            { titulo: 'Cintura de Acero', sub: 'Plancha comando, tijeras y sit-ups', area: 'core', nivel: 'operativo', duracion: '20 min', etiqueta: 'Operativo • 100%' },
+            { titulo: 'Patrulla Tren Inferior', sub: 'Potencia de cuádriceps y glúteos', area: 'tren_inferior', nivel: 'operativo', duracion: '22 min', etiqueta: 'Operativo • 100%' }
+          ]
+        },
+        mas_dificil: {
+          nombre: 'MÁS DIFÍCIL',
+          tarjetas: [
+            { titulo: 'Élite Empuje & Tracción', sub: '+1 serie extra y 135% de volumen', area: 'tren_superior', nivel: 'fuerzas_especiales', duracion: '34 min', etiqueta: 'Fuerzas Esp. • 135%' },
+            { titulo: 'Infierno Metabólico HIIT', sub: 'Burpees de 8 tiempos y Bear Crawl', area: 'cuerpo_completo', nivel: 'fuerzas_especiales', duracion: '32 min', etiqueta: 'Fuerzas Esp. • 135%' },
+            { titulo: 'Piernas Comando Élite', sub: 'Máxima potencia explosiva y glúteo', area: 'tren_inferior', nivel: 'fuerzas_especiales', duracion: '30 min', etiqueta: 'Fuerzas Esp. • 135%' }
+          ]
+        },
+        variedad: {
+          nombre: 'VARIEDAD',
+          tarjetas: [
+            { titulo: 'Circuito Cuerpo Completo', sub: 'Fuerza funcional y cardio militar', area: 'cuerpo_completo', nivel: 'operativo', duracion: '25 min', etiqueta: 'Mixto • Operativo' },
+            { titulo: 'Core Blindado Élite', sub: 'Alta densidad abdominal táctica', area: 'core', nivel: 'fuerzas_especiales', duracion: '26 min', etiqueta: 'Core • Élite' },
+            { titulo: 'Tren Superior Ligero', sub: 'Descarga técnica y bombeo limpio', area: 'tren_superior', nivel: 'recluta', duracion: '18 min', etiqueta: 'Técnica • Recluta' }
+          ]
+        }
+      };
+
+      const cfg = modosConfig[estadoApp.mazo3D.modo] || modosConfig.constante;
+      estadoApp.mazo3D.tarjetasActuales = cfg.tarjetas;
+      const total = cfg.tarjetas.length;
+      const actual = ((estadoApp.mazo3D.indiceActual % total) + total) % total;
+      estadoApp.mazo3D.indiceActual = actual;
+
+      if (badgeModo) badgeModo.textContent = cfg.nombre;
+      if (indicador) indicador.textContent = `${actual + 1} / ${total}`;
+
+      document.querySelectorAll('#selector-modos-mazo .btn-modo-mazo').forEach((btn) => {
+        btn.classList.toggle('activo', btn.dataset.modoMazo === estadoApp.mazo3D.modo);
+      });
+
+      pila.innerHTML = cfg.tarjetas
+        .map((t, idx) => {
+          const offset = (idx - actual + total) % total;
+          const clasePos = offset === 0 ? 'pos-0' : offset === 1 ? 'pos-1' : offset === 2 ? 'pos-2' : 'oculta-mazo';
+          const poseMazo =
+            t.area === 'tren_superior'
+              ? 'flexion_34'
+              : t.area === 'tren_inferior'
+              ? 'zancada_perfil'
+              : t.area === 'cuerpo_completo' && t.nivel === 'fuerzas_especiales'
+              ? 'hiit_explosivo'
+              : 'frontal';
+
+          return `
+            <article class="tarjeta-mazo-3d ${clasePos}" data-mazo-indice="${idx}">
+              ${offset === 0 ? '<div class="brillo-diagonal-3d" aria-hidden="true"></div>' : ''}
+              <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 0.75rem; align-items: center; height: 100%;">
+                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <span class="badge-dificultad-prog">${t.etiqueta}</span>
+                    <span style="font-size: 0.8rem; color: var(--accent); font-weight: 800;">⏱ ${t.duracion}</span>
+                  </div>
+                  <div>
+                    <h3 style="font-size: 1.2rem; color: #ffffff; margin-bottom: 0.25rem;">${t.titulo}</h3>
+                    <p style="font-size: 0.8rem; color: #b0b3bc;">${t.sub}</p>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <button
+                      type="button"
+                      class="btn-play-programa"
+                      data-mazo-area="${t.area}"
+                      data-mazo-nivel="${t.nivel}"
+                      style="width: 40px; height: 40px; font-size: 0.95rem;"
+                      aria-label="Iniciar misión ${t.titulo}"
+                    >▶</button>
+                    <small style="color: #b0b3bc; font-size: 0.74rem;">Iniciar misión</small>
+                  </div>
+                </div>
+                <div style="background: #040406; border-radius: 12px; height: 175px; display: flex; align-items: center; justify-content: center; border: 1px solid #252830; overflow: hidden;">
+                  ${generarSVGAtletaEstudioPrograma(poseMazo)}
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    /**
+     * Cambia el modo activo del Mazo 3D ('mas_facil', 'constante', 'mas_dificil', 'variedad')
+     * y reinicia la pila a la primera tarjeta.
+     *
+     * @param {string} modo - Identificador del modo del mazo.
+     * @returns {void}
+     */
+    function seleccionarModoMazo3D(modo) {
+      estadoApp.mazo3D.modo = modo;
+      estadoApp.mazo3D.indiceActual = 0;
+      renderizarMazo3D();
+    }
+
+    /**
+     * Avanza o retrocede la tarjeta activa dentro del Mazo 3D con efecto cíclico suave.
+     *
+     * @param {number} delta - Desplazamiento (+1 para siguiente, -1 para anterior).
+     * @returns {void}
+     */
+    function navegarMazo3D(delta) {
+      const total = estadoApp.mazo3D.tarjetasActuales.length || 3;
+      estadoApp.mazo3D.indiceActual = (estadoApp.mazo3D.indiceActual + delta + total) % total;
+      renderizarMazo3D();
+    }
+
+    /**
+     * Habilita el desplazamiento táctil (swipe horizontal) y botones de control del Mazo 3D.
+     *
+     * @returns {void}
+     */
+    function inicializarGestosMazo3D() {
+      const pila = document.getElementById('pila-mazo-3d');
+      if (!pila) return;
+
+      let inicioX = null;
+
+      pila.addEventListener('pointerdown', (evento) => {
+        if (evento.target.closest('button')) return;
+        inicioX = evento.clientX;
+      });
+
+      pila.addEventListener('pointerup', (evento) => {
+        if (inicioX === null) return;
+        const deltaX = evento.clientX - inicioX;
+        inicioX = null;
+        if (Math.abs(deltaX) > 40) {
+          navegarMazo3D(deltaX < 0 ? 1 : -1);
+        }
+      });
+
+      pila.addEventListener('click', (evento) => {
+        const btnIniciar = evento.target.closest('button[data-mazo-area]');
+        if (!btnIniciar) return;
+        iniciarProgramaTactico(btnIniciar.dataset.mazoArea, btnIniciar.dataset.mazoNivel);
+      });
+
+      document.getElementById('selector-modos-mazo').addEventListener('click', (evento) => {
+        const btnModo = evento.target.closest('button[data-modo-mazo]');
+        if (!btnModo) return;
+        seleccionarModoMazo3D(btnModo.dataset.modoMazo);
+      });
+
+      document.getElementById('btn-mazo-anterior').addEventListener('click', () => navegarMazo3D(-1));
+      document.getElementById('btn-mazo-siguiente').addEventListener('click', () => navegarMazo3D(1));
+    }
+
+    /**
+     * Activa un programa táctico del carrusel configurando su área y nivel, y lanza el modo guiado.
+     *
+     * @param {string} area - Área muscular del programa.
+     * @param {string} nivel - Nivel de exigencia del programa.
+     * @returns {void}
+     */
+    function iniciarProgramaTactico(area, nivel) {
+      estadoApp.area = area;
+      estadoApp.nivel = nivel;
+      actualizarRutinaActiva();
+      abrirEntrenamientoGuiado();
+    }
+
+    /**
+     * Renderiza la lista de retos activos (3 predefinidos + personalizados) en la pestaña Retos y Trofeos.
+     *
+     * @param {Object[]} historial - Historial de entrenamientos.
+     * @param {Storage|null} almacenamiento - Almacenamiento local.
+     * @returns {void}
+     */
+    function renderizarSeccionRetos(historial, almacenamiento) {
+      const contenedor = document.getElementById('lista-retos-tacticos');
+      if (!contenedor || !window.ProgresoEntrenamiento) return;
+
+      const personalizados = almacenamiento
+        ? window.ProgresoEntrenamiento.cargarRetosPersonalizados(almacenamiento)
+        : [];
+      const retos = window.ProgresoEntrenamiento.evaluarRetosActivos(historial, personalizados);
+
+      contenedor.innerHTML = retos
+        .map(
+          (r) => `
+            <div class="tarjeta-reto-tactico ${r.completado ? 'completado' : ''}" data-reto-id="${r.id}">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                <strong style="font-size: 0.95rem; color: var(--text-main);">${r.icono} ${r.titulo}</strong>
+                <span class="badge-progreso-trofeo">${r.completado ? '✓ Cumplido' : `${r.porcentaje}%`}</span>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">${r.descripcion}</p>
+              <div class="barra-progreso-contenedor" style="margin-top: 0;">
+                <div class="barra-progreso-relleno" style="width: ${r.porcentaje}%;"></div>
+              </div>
+              <small style="display: block; margin-top: 0.35rem; color: var(--accent); font-weight: 700;">
+                ${r.actual} / ${r.meta} ${r.unidad}
+              </small>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    /**
+     * Renderiza los botones de equipamiento casero usado en la pestaña Perfil y persiste cada cambio.
+     *
+     * @param {string[]} equipamientoActivo - Lista de IDs de equipamiento seleccionado.
+     * @returns {void}
+     */
+    function renderizarEquipamientoPerfil(equipamientoActivo) {
+      const contenedor = document.getElementById('selector-equipamiento');
+      if (!contenedor || !window.ProgresoEntrenamiento) return;
+
+      contenedor.innerHTML = window.ProgresoEntrenamiento.EQUIPAMIENTO_CASERO.map((eq) => {
+        const activo = equipamientoActivo.includes(eq.id);
+        return `
+          <button
+            type="button"
+            class="chip-equipo ${activo ? 'activo' : ''}"
+            data-equipo-id="${eq.id}"
+            aria-pressed="${activo}"
+          >
+            ${eq.icono} ${eq.nombre}
+          </button>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Activa o desactiva un elemento de equipamiento casero en el perfil del usuario.
+     *
+     * @param {string} idEquipo - Identificador del equipamiento.
+     * @returns {void}
+     */
+    function alternarEquipamientoUsuario(idEquipo) {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (!almacenamiento) return;
+      const perfil = window.ProgresoEntrenamiento.cargarPerfilUsuario(almacenamiento);
+      const conjunto = new Set(perfil.equipamiento);
+      if (conjunto.has(idEquipo) && conjunto.size > 1) {
+        conjunto.delete(idEquipo);
+      } else {
+        conjunto.add(idEquipo);
+      }
+      window.ProgresoEntrenamiento.guardarPerfilUsuario(almacenamiento, {
+        equipamiento: [...conjunto]
+      });
+      document.getElementById('estado-guardado-perfil').textContent = '✅ Equipamiento casero actualizado.';
+      renderizarPanelPerfilTactico();
+    }
+
+    /**
+     * Exporta todos los datos guardados en localStorage (historial, perfil y retos) como archivo JSON descargable.
+     *
+     * @returns {void}
+     */
+    function descargarRespaldoJSON() {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (!almacenamiento) return;
+      const contenido = window.ProgresoEntrenamiento.exportarRespaldoCompleto(almacenamiento);
+      const blob = new Blob([contenido], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const enlace = document.createElement('a');
+      enlace.href = url;
+      enlace.download = `calistenia-militar-respaldo-${window.ProgresoEntrenamiento.formatearFechaLocal()}.json`;
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+      URL.revokeObjectURL(url);
+      document.getElementById('estado-guardado-perfil').textContent = '💾 Respaldo JSON descargado correctamente.';
+    }
+
+    /**
+     * Restaura los datos de localStorage a partir de un archivo JSON seleccionado por el usuario.
+     *
+     * @param {Event} evento - Evento change del input file.
+     * @returns {void}
+     */
+    function manejarRestauracionArchivoJSON(evento) {
+      const archivo = evento.target.files && evento.target.files[0];
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (!archivo || !almacenamiento) return;
+
+      const lector = new FileReader();
+      lector.onload = () => {
+        try {
+          const res = window.ProgresoEntrenamiento.importarRespaldoCompleto(almacenamiento, String(lector.result));
+          renderizarBarraProgreso();
+          renderizarPanelPerfilTactico();
+          document.getElementById('estado-guardado-perfil').textContent =
+            `📂 Respaldo restaurado: ${res.sesionesRestauradas} sesiones y ${res.retosRestaurados} retos.`;
+        } catch (error) {
+          document.getElementById('estado-guardado-perfil').textContent = `❌ Error al restaurar: ${error.message}`;
+        }
+      };
+      lector.readAsText(archivo);
+      evento.target.value = '';
+    }
+
+    /**
+     * Actualiza el valor de Esfuerzo Percibido (RPE 1-10) seleccionado antes de completar la rutina.
+     *
+     * @param {number} valorRPE - Entero entre 1 y 10.
+     * @returns {void}
+     */
+    function seleccionarRPE(valorRPE) {
+      const limpio = Math.max(1, Math.min(10, Math.round(Number(valorRPE) || 7)));
+      estadoApp.rpeActual = limpio;
+
+      const descripciones = {
+        1: 'Muy suave',
+        2: 'Suave',
+        3: 'Ligero',
+        4: 'Moderado bajo',
+        5: 'Moderado',
+        6: 'Exigente controlado',
+        7: 'Esfuerzo intenso',
+        8: 'Muy intenso',
+        9: 'Casi máximo',
+        10: 'Esfuerzo máximo'
+      };
+
+      document.getElementById('etiqueta-rpe-seleccionado').textContent =
+        `${limpio}/10 — ${descripciones[limpio]}`;
+
+      document.querySelectorAll('#botones-rpe .btn-rpe').forEach((btn) => {
+        btn.classList.toggle('activo', Number(btn.dataset.rpe) === limpio);
+      });
+    }
+
+    /**
+     * Genera la gráfica SVG de líneas mostrando el volumen de repeticiones de las últimas 12 semanas.
+     *
+     * @param {Array<{ etiqueta: string, repeticiones: number, sesiones: number }>} semanas - Datos de las 12 semanas.
+     * @returns {string} Código SVG de la gráfica de líneas.
+     */
+    function generarSVGLinea12Semanas(semanas) {
+      const ancho = 540;
+      const alto = 200;
+      const padIzq = 44;
+      const padDer = 18;
+      const padSup = 22;
+      const padInf = 30;
+      const anchoUtil = ancho - padIzq - padDer;
+      const altoUtil = alto - padSup - padInf;
+      const maxValor = Math.max(100, ...semanas.map((s) => s.repeticiones));
+
+      const coords = semanas.map((s, idx) => {
+        const x = padIzq + (idx / Math.max(1, semanas.length - 1)) * anchoUtil;
+        const y = padSup + altoUtil - (s.repeticiones / maxValor) * altoUtil;
+        return { ...s, x: Math.round(x), y: Math.round(y) };
+      });
+
+      const polylinePuntos = coords.map((c) => `${c.x},${c.y}`).join(' ');
+      const areaPuntos = `${padIzq},${padSup + altoUtil} ${polylinePuntos} ${coords[coords.length - 1].x},${padSup + altoUtil}`;
+
+      const lineasGuia = [0, 0.5, 1].map((frac) => {
+        const y = Math.round(padSup + altoUtil - frac * altoUtil);
+        const val = Math.round(maxValor * frac);
+        return `
+          <line x1="${padIzq}" y1="${y}" x2="${ancho - padDer}" y2="${y}" stroke="#25332a" stroke-dasharray="4 4" />
+          <text x="${padIzq - 6}" y="${y + 4}" text-anchor="end" fill="#9eb0a2" font-size="9">${val}</text>
+        `;
+      }).join('');
+
+      const puntosSVG = coords.map((c, idx) => {
+        const mostrarEtiqueta = idx % 2 === 0 || idx === coords.length - 1;
+        return `
+          <circle cx="${c.x}" cy="${c.y}" r="4.2" fill="#a6d658" stroke="#0d120e" stroke-width="1.5">
+            <title>${c.etiqueta}: ${c.repeticiones} repeticiones (${c.sesiones} sesiones)</title>
+          </circle>
+          ${mostrarEtiqueta ? `<text x="${c.x}" y="${alto - 8}" text-anchor="middle" fill="#9eb0a2" font-size="9">${c.etiqueta}</text>` : ''}
+        `;
+      }).join('');
+
+      return `
+        <svg viewBox="0 0 ${ancho} ${alto}" role="img" aria-label="Gráfica de líneas del volumen de repeticiones de las últimas 12 semanas">
+          <defs>
+            <linearGradient id="gradVolumen12" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a6d658" stop-opacity="0.32" />
+              <stop offset="100%" stop-color="#a6d658" stop-opacity="0.02" />
+            </linearGradient>
+          </defs>
+          ${lineasGuia}
+          <polygon points="${areaPuntos}" fill="url(#gradVolumen12)" />
+          <polyline points="${polylinePuntos}" fill="none" stroke="#a6d658" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+          ${puntosSVG}
+        </svg>
+      `;
+    }
+
+    /**
+     * Genera la gráfica SVG dual de Fitness (forma base) y Fatiga aguda basada en RPE 1-10.
+     *
+     * @param {{ puntos: Array<{ etiqueta: string, fitness: number, fatiga: number }> }} curva - Datos de los últimos 14 días.
+     * @returns {string} Código SVG de la curva de Fitness y Fatiga.
+     */
+    function generarSVGCurvaFitnessFatiga(curva) {
+      const puntos = curva.puntos || [];
+      const ancho = 540;
+      const alto = 200;
+      const padIzq = 40;
+      const padDer = 18;
+      const padSup = 24;
+      const padInf = 30;
+      const anchoUtil = ancho - padIzq - padDer;
+      const altoUtil = alto - padSup - padInf;
+      const maxVal = Math.max(40, ...puntos.map((p) => Math.max(p.fitness, p.fatiga)));
+
+      const mapear = (campo) =>
+        puntos.map((p, idx) => {
+          const x = Math.round(padIzq + (idx / Math.max(1, puntos.length - 1)) * anchoUtil);
+          const y = Math.round(padSup + altoUtil - (p[campo] / maxVal) * altoUtil);
+          return { x, y, val: p[campo], etiqueta: p.etiqueta };
+        });
+
+      const ptsFitness = mapear('fitness');
+      const ptsFatiga = mapear('fatiga');
+      const lineaFitness = ptsFitness.map((c) => `${c.x},${c.y}`).join(' ');
+      const lineaFatiga = ptsFatiga.map((c) => `${c.x},${c.y}`).join(' ');
+
+      const guias = [0, 0.5, 1].map((frac) => {
+        const y = Math.round(padSup + altoUtil - frac * altoUtil);
+        return `
+          <line x1="${padIzq}" y1="${y}" x2="${ancho - padDer}" y2="${y}" stroke="#25332a" stroke-dasharray="4 4" />
+          <text x="${padIzq - 6}" y="${y + 4}" text-anchor="end" fill="#9eb0a2" font-size="9">${Math.round(maxVal * frac)}</text>
+        `;
+      }).join('');
+
+      const etiquetasX = ptsFitness
+        .filter((_, idx) => idx % 3 === 0 || idx === ptsFitness.length - 1)
+        .map((c) => `<text x="${c.x}" y="${alto - 8}" text-anchor="middle" fill="#9eb0a2" font-size="9">${c.etiqueta}</text>`)
+        .join('');
+
+      return `
+        <svg viewBox="0 0 ${ancho} ${alto}" role="img" aria-label="Gráfica SVG de curva de Fitness y Fatiga">
+          ${guias}
+          <polyline points="${lineaFatiga}" fill="none" stroke="#ff6b2b" stroke-width="2.4" stroke-dasharray="6 3" />
+          <polyline points="${lineaFitness}" fill="none" stroke="#a6d658" stroke-width="3" />
+          ${ptsFitness.map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3.2" fill="#a6d658"><title>${c.etiqueta} • Fitness: ${c.val}</title></circle>`).join('')}
+          ${ptsFatiga.map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3.2" fill="#ff6b2b"><title>${c.etiqueta} • Fatiga: ${c.val}</title></circle>`).join('')}
+          ${etiquetasX}
+          <text x="${padIzq + 8}" y="14" fill="#a6d658" font-size="10" font-weight="700">● Fitness</text>
+          <text x="${padIzq + 78}" y="14" fill="#ff6b2b" font-size="10" font-weight="700">--- Fatiga</text>
+        </svg>
+      `;
+    }
+
+    /**
+     * Selecciona un objetivo táctico activo, lo persiste en localStorage y ajusta
+     * la recomendación en la rutina principal.
+     *
+     * @param {string} idObjetivo - Identificador ('fuerza_maxima', 'prueba_militar', 'constancia_diaria', 'recuperacion_activa').
+     * @returns {void}
+     */
+    function seleccionarObjetivoTactico(idObjetivo) {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (almacenamiento) {
+        window.ProgresoEntrenamiento.guardarPerfilUsuario(almacenamiento, { objetivoActivo: idObjetivo });
+      }
+      const objetivo = window.ProgresoEntrenamiento.OBJETIVOS_TACTICOS[idObjetivo];
+      if (objetivo && objetivo.nivelSugerido) {
+        estadoApp.nivel = objetivo.nivelSugerido;
+        actualizarRutinaActiva();
+      }
+      renderizarPanelPerfilTactico();
+      completarPasoOnboardingUI('objetivo_elegido');
+    }
+
+    /**
+     * Renderiza toda la sección de "Perfil y Progreso Táctico": objetivo activo, perfil editable,
+     * meta semanal, gráfica SVG de 12 semanas, vitrina de trofeos hexagonales y curva de Fitness y Fatiga.
+     *
+     * @returns {void}
+     */
+    function renderizarPanelPerfilTactico() {
+      if (!window.ProgresoEntrenamiento) return;
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const historial = almacenamiento ? window.ProgresoEntrenamiento.cargarHistorial(almacenamiento) : [];
+      const perfil = almacenamiento
+        ? window.ProgresoEntrenamiento.cargarPerfilUsuario(almacenamiento)
+        : { nombreUsuario: 'Operador Táctico', objetivoActivo: 'constancia_diaria', metaSemanalDias: 4 };
+
+      const resumen = window.ProgresoEntrenamiento.calcularResumenProgreso(historial);
+      const objetivos = window.ProgresoEntrenamiento.OBJETIVOS_TACTICOS;
+      const objetivoActual = objetivos[perfil.objetivoActivo] || objetivos.constancia_diaria;
+
+      // 1) Banner de recomendación en pestaña Entrenamiento + selector en Perfil
+      const banner = document.getElementById('banner-objetivo-rutina');
+      if (banner) {
+        banner.innerHTML = `<strong>${objetivoActual.icono} Enfoque ${objetivoActual.nombre}:</strong> ${objetivoActual.recomendacionRutina}`;
+      }
+      document.getElementById('badge-objetivo-activo').textContent = objetivoActual.nombre.toUpperCase();
+      document.getElementById('selector-objetivos-tacticos').innerHTML = Object.values(objetivos)
+        .map(
+          (obj) => `
+            <button
+              type="button"
+              class="tarjeta-objetivo ${obj.id === objetivoActual.id ? 'activo' : ''}"
+              data-objetivo="${obj.id}"
+              role="radio"
+              aria-checked="${obj.id === objetivoActual.id}"
+            >
+              <strong>${obj.icono} ${obj.nombre}</strong>
+              <p>${obj.descripcion}</p>
+            </button>
+          `
+        )
+        .join('');
+
+      // 2) Perfil editable, rango militar y meta semanal
+      const inputNombre = document.getElementById('input-nombre-usuario');
+      if (document.activeElement !== inputNombre) {
+        inputNombre.value = perfil.nombreUsuario;
+      }
+      const elRango = document.getElementById('perfil-rango-actual');
+      elRango.textContent = resumen.rango.nombre;
+      elRango.className = `insignia-rango rango-${resumen.rango.id}`;
+
+      document.getElementById('select-meta-dias').value = String(perfil.metaSemanalDias);
+      const diasSemana = resumen.semanal.diasEntrenadosSemana;
+      const porcentajeMeta = Math.min(100, Math.round((diasSemana / perfil.metaSemanalDias) * 100));
+      document.getElementById('texto-meta-semanal').textContent =
+        `${diasSemana} / ${perfil.metaSemanalDias} días esta semana`;
+      document.getElementById('porcentaje-meta-semanal').textContent = `${porcentajeMeta}%`;
+      document.getElementById('barra-meta-semanal').style.width = `${porcentajeMeta}%`;
+
+      // 3) Gráfica SVG de 12 semanas
+      const semanas12 = window.ProgresoEntrenamiento.calcularVolumen12Semanas(historial);
+      const pico12 = Math.max(0, ...semanas12.map((s) => s.repeticiones));
+      document.getElementById('pico-12-semanas').textContent = `Pico: ${pico12} reps`;
+      document.getElementById('grafica-12-semanas').innerHTML = generarSVGLinea12Semanas(semanas12);
+
+      // 4) Vitrina de Trofeos Hexagonales
+      const trofeos = window.ProgresoEntrenamiento.evaluarTrofeos(historial);
+      const desbloqueadosCount = trofeos.filter((t) => t.desbloqueado).length;
+      document.getElementById('contador-trofeos').textContent = `${desbloqueadosCount} / ${trofeos.length} DESBLOQUEADOS`;
+      document.getElementById('vitrina-trofeos').innerHTML = trofeos
+        .map(
+          (t) => `
+            <div class="tarjeta-trofeo ${t.desbloqueado ? 'desbloqueado' : 'bloqueado'}" data-trofeo="${t.id}">
+              <div class="medalla-hexagonal ${t.desbloqueado ? 'desbloqueado' : 'bloqueado'}" aria-label="${t.titulo}: ${t.desbloqueado ? 'Desbloqueado' : 'Bloqueado'}">
+                <span>${t.desbloqueado ? t.icono : '🔒'}</span>
+              </div>
+              <h4>${t.titulo}</h4>
+              <p>${t.descripcion}</p>
+              <span class="badge-progreso-trofeo">${t.desbloqueado ? '✓ Desbloqueado' : t.progresoTexto}</span>
+            </div>
+          `
+        )
+        .join('');
+
+      // 5) Curva de Fitness y Fatiga (RPE 1-10)
+      const curva = window.ProgresoEntrenamiento.calcularCurvaFitnessFatiga(historial);
+      document.getElementById('kpi-fitness').textContent = curva.fitnessActual;
+      document.getElementById('kpi-fatiga').textContent = curva.fatigaActual;
+      document.getElementById('kpi-balance').textContent =
+        curva.formaActual > 0 ? `+${curva.formaActual}` : curva.formaActual;
+      document.getElementById('kpi-forma-estado').textContent = curva.estadoForma;
+      document.getElementById('grafica-fitness-fatiga').innerHTML = generarSVGCurvaFitnessFatiga(curva);
+
+      // 6) Retos, Equipamiento casero y Mapa Muscular en Perfil
+      renderizarSeccionRetos(historial, almacenamiento);
+      renderizarEquipamientoPerfil(perfil.equipamiento || ['peso_corporal']);
+
+      const mapaPerfil = document.getElementById('perfil-contenedor-mapa-muscular');
+      const subMapaPerfil = document.getElementById('perfil-subtitulo-mapa');
+      if (mapaPerfil && estadoApp.mapaCalorActual) {
+        mapaPerfil.innerHTML = generarSVGMapaAnatomicoMuscular(estadoApp.mapaCalorActual);
+      }
+      if (subMapaPerfil) {
+        subMapaPerfil.textContent = (NOMBRES_AREAS[estadoApp.area] || estadoApp.area).toUpperCase();
+      }
+    }
+
+    /**
      * Inicializa todos los escuchadores de eventos de la interfaz gráfica.
      *
      * @returns {void}
      */
     function inicializarEventosUI() {
+      // Barra de navegación inferior fija (5 pestañas)
+      document.querySelectorAll('#nav-inferior-app button[data-vista]').forEach((btn) => {
+        btn.addEventListener('click', () => cambiarPestanaPrincipal(btn.dataset.vista));
+      });
+      document.getElementById('nav-btn-entrenar').addEventListener('click', abrirEntrenamientoGuiado);
+
+      // Carrusel horizontal de Programas y Series Tácticas
+      document.getElementById('carrusel-programas-tacticos').addEventListener('click', (evento) => {
+        const btnPlay = evento.target.closest('button[data-programa-area]');
+        if (!btnPlay) return;
+        iniciarProgramaTactico(btnPlay.dataset.programaArea, btnPlay.dataset.programaNivel);
+      });
+
+      // Retos: abrir formulario y crear reto personalizado
+      document.getElementById('btn-crear-reto').addEventListener('click', () => {
+        document.getElementById('form-crear-reto').classList.toggle('abierto');
+      });
+      document.getElementById('form-crear-reto').addEventListener('submit', (evento) => {
+        evento.preventDefault();
+        const almacenamiento = obtenerAlmacenamientoLocal();
+        if (!almacenamiento) return;
+        const titulo = document.getElementById('input-titulo-reto').value.trim();
+        const tipo = document.getElementById('select-tipo-reto').value;
+        const meta = Number(document.getElementById('input-meta-reto').value);
+        try {
+          window.ProgresoEntrenamiento.guardarRetoPersonalizado(almacenamiento, { titulo, tipo, meta });
+          document.getElementById('input-titulo-reto').value = '';
+          document.getElementById('form-crear-reto').classList.remove('abierto');
+          renderizarPanelPerfilTactico();
+        } catch (error) {
+          // Validación HTML nativa ya avisa al usuario
+        }
+      });
+
+      // Equipamiento casero, compartir logros y respaldo/restauración en Perfil
+      document.getElementById('selector-equipamiento').addEventListener('click', (evento) => {
+        const chip = evento.target.closest('button[data-equipo-id]');
+        if (!chip) return;
+        alternarEquipamientoUsuario(chip.dataset.equipoId);
+      });
+      document.getElementById('btn-perfil-compartir').addEventListener('click', abrirModalTarjetaCompartible);
+      document.getElementById('btn-respaldar-datos').addEventListener('click', descargarRespaldoJSON);
+      document.getElementById('btn-restaurar-datos').addEventListener('click', () => {
+        document.getElementById('input-restaurar-datos').click();
+      });
+      document.getElementById('input-restaurar-datos').addEventListener('change', manejarRestauracionArchivoJSON);
+
+      // Interactividad del Mapa Muscular en la vista Perfil
+      const mapaPerfilEl = document.getElementById('perfil-contenedor-mapa-muscular');
+      if (mapaPerfilEl) {
+        const actualizarTooltipPerfil = (evento) => {
+          const nodo = evento.target.closest('[data-musculo]');
+          if (!nodo || !estadoApp.mapaCalorActual) return;
+          const info = estadoApp.mapaCalorActual.musculos[nodo.dataset.musculo];
+          if (!info) return;
+          const tip = document.getElementById('perfil-tooltip-mapa');
+          tip.classList.add('activo');
+          tip.innerHTML = `<strong>${info.nombre}</strong> <span class="tooltip-porcentaje">${info.porcentajeActivacion}% activación</span>`;
+        };
+        mapaPerfilEl.addEventListener('mouseover', actualizarTooltipPerfil);
+        mapaPerfilEl.addEventListener('click', actualizarTooltipPerfil);
+      }
+
+      // Selector de Esfuerzo Percibido (RPE 1-10)
+      document.getElementById('botones-rpe').addEventListener('click', (evento) => {
+        const btn = evento.target.closest('button[data-rpe]');
+        if (!btn) return;
+        seleccionarRPE(Number(btn.dataset.rpe));
+      });
+
+      // Selector de Objetivo Activo en Perfil
+      document.getElementById('selector-objetivos-tacticos').addEventListener('click', (evento) => {
+        const btnObj = evento.target.closest('button[data-objetivo]');
+        if (!btnObj) return;
+        seleccionarObjetivoTactico(btnObj.dataset.objetivo);
+      });
+
+      // Edición de nombre de usuario y meta semanal en Perfil
+      document.getElementById('btn-guardar-nombre').addEventListener('click', () => {
+        const almacenamiento = obtenerAlmacenamientoLocal();
+        const nombre = document.getElementById('input-nombre-usuario').value.trim();
+        if (almacenamiento && nombre) {
+          window.ProgresoEntrenamiento.guardarPerfilUsuario(almacenamiento, { nombreUsuario: nombre });
+          document.getElementById('estado-guardado-perfil').textContent = `✅ Nombre guardado: ${nombre}`;
+          renderizarPanelPerfilTactico();
+        }
+      });
+
+      document.getElementById('btn-meta-semanal').addEventListener('click', () => {
+        document.getElementById('editor-meta-semanal').classList.toggle('abierto');
+      });
+
+      document.getElementById('btn-confirmar-meta').addEventListener('click', () => {
+        const almacenamiento = obtenerAlmacenamientoLocal();
+        const dias = Number(document.getElementById('select-meta-dias').value);
+        if (almacenamiento) {
+          window.ProgresoEntrenamiento.guardarPerfilUsuario(almacenamiento, { metaSemanalDias: dias });
+          document.getElementById('editor-meta-semanal').classList.remove('abierto');
+          document.getElementById('estado-guardado-meta').textContent = `🎯 Meta semanal actualizada a ${dias} días/semana.`;
+          renderizarPanelPerfilTactico();
+        }
+      });
+
       // Botones de género (Hombre / Mujer)
       document.querySelectorAll('.btn-segmento').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -4346,13 +6841,338 @@
           cerrarModalTecnica();
         }
       });
+
+      // Lista de iniciación (onboarding 4 pasos)
+      document.getElementById('lista-pasos-onboarding').addEventListener('click', (evento) => {
+        const boton = evento.target.closest('button[data-paso-onboarding]');
+        if (!boton) return;
+        ejecutarAccionPasoOnboarding(boton.dataset.pasoOnboarding);
+      });
+
+      // Selector de Intensidad Instantánea en modo Entrenar
+      document.getElementById('selector-intensidad-guiado').addEventListener('click', (evento) => {
+        const boton = evento.target.closest('button[data-modo-intensidad]');
+        if (!boton) return;
+        aplicarIntensidadInstantanea(boton.dataset.modoIntensidad);
+      });
+
+      // Modal de Registro Rápido (sin temporizador)
+      document.getElementById('btn-registro-rapido').addEventListener('click', abrirModalRegistroRapido);
+      document.getElementById('btn-cerrar-registro-rapido').addEventListener('click', cerrarModalRegistroRapido);
+      document.getElementById('modal-registro-rapido').addEventListener('click', (evento) => {
+        if (evento.target.id === 'modal-registro-rapido') {
+          cerrarModalRegistroRapido();
+        }
+      });
+      document.querySelectorAll('.chip-rep-rapida').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          document.getElementById('rapido-input-reps').value = chip.dataset.reps;
+        });
+      });
+      document.getElementById('rapido-grid-rpe').addEventListener('click', (evento) => {
+        const boton = evento.target.closest('button[data-rpe-rapido]');
+        if (!boton) return;
+        seleccionarRpeRapido(Number(boton.dataset.rpeRapido));
+      });
+      document.getElementById('form-registro-rapido').addEventListener('submit', guardarEntrenamientoRapido);
+
       document.addEventListener('keydown', (evento) => {
         if (evento.key === 'Escape') {
           cerrarModalTecnica();
           cerrarModalTarjetaCompartible();
           cerrarEntrenamientoGuiado();
+          cerrarModalRegistroRapido();
         }
       });
+    }
+
+    /**
+     * Renderiza la tarjeta de lista de iniciación ("¡No pierdas el ritmo! (X/4)") en Inicio,
+     * mostrando la barra de progreso y los 4 pasos interactivos. Se oculta automáticamente al llegar a 4/4.
+     *
+     * @returns {void}
+     */
+    function renderizarListaIniciacion() {
+      if (!window.ProgresoEntrenamiento || typeof window.ProgresoEntrenamiento.cargarEstadoOnboarding !== 'function') {
+        return;
+      }
+
+      const tarjeta = document.getElementById('tarjeta-onboarding-inicio');
+      const lista = document.getElementById('lista-pasos-onboarding');
+      const contador = document.getElementById('contador-onboarding');
+      const barraRelleno = document.getElementById('barra-onboarding-relleno');
+      const barraAria = document.getElementById('barra-onboarding-aria');
+      if (!tarjeta || !lista || !contador || !barraRelleno || !barraAria) return;
+
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      const historial = almacenamiento ? window.ProgresoEntrenamiento.cargarHistorial(almacenamiento) : [];
+      const estado = window.ProgresoEntrenamiento.cargarEstadoOnboarding(almacenamiento, historial);
+
+      if (estado.todoCompletado) {
+        tarjeta.classList.add('vista-oculta');
+        return;
+      }
+
+      tarjeta.classList.remove('vista-oculta');
+      contador.textContent = `${estado.completados}/${estado.total}`;
+      barraRelleno.style.width = `${estado.porcentaje}%`;
+      barraAria.setAttribute('aria-valuenow', String(estado.porcentaje));
+
+      lista.innerHTML = estado.pasos
+        .map(
+          (paso, idx) => `
+            <button
+              type="button"
+              class="paso-onboarding ${paso.completado ? 'completado' : ''}"
+              data-paso-onboarding="${paso.id}"
+              aria-pressed="${paso.completado}"
+            >
+              <span class="paso-onboarding-info">
+                <span class="paso-onboarding-estado">${paso.completado ? '✓' : idx + 1}</span>
+                <span class="paso-onboarding-texto">
+                  <strong>${paso.titulo}</strong>
+                  <small>${paso.completado ? 'Completado' : paso.descripcion}</small>
+                </span>
+              </span>
+              <span style="font-size: 0.9rem; color: var(--text-muted);">${paso.completado ? '🏅' : '→'}</span>
+            </button>
+          `
+        )
+        .join('');
+    }
+
+    /**
+     * Marca un paso específico de la lista de iniciación como completado en localStorage
+     * y actualiza inmediatamente la tarjeta de progreso en Inicio.
+     *
+     * @param {string} idPaso - Identificador del paso ('objetivo_elegido', 'sonido_probado', 'tecnica_vista', 'primera_rutina').
+     * @returns {void}
+     */
+    function completarPasoOnboardingUI(idPaso) {
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (
+        !almacenamiento ||
+        !window.ProgresoEntrenamiento ||
+        typeof window.ProgresoEntrenamiento.marcarPasoOnboarding !== 'function'
+      ) {
+        return;
+      }
+
+      const historial = window.ProgresoEntrenamiento.cargarHistorial(almacenamiento);
+      try {
+        window.ProgresoEntrenamiento.marcarPasoOnboarding(almacenamiento, idPaso, historial);
+      } catch (error) {
+        return;
+      }
+      renderizarListaIniciacion();
+    }
+
+    /**
+     * Ejecuta la acción guiada correspondiente al hacer clic en uno de los 4 pasos de la lista de iniciación.
+     *
+     * @param {string} idPaso - Identificador del paso pulsado por el usuario.
+     * @returns {void}
+     */
+    function ejecutarAccionPasoOnboarding(idPaso) {
+      if (idPaso === 'objetivo_elegido') {
+        const selector = document.getElementById('selector-objetivos-tacticos');
+        if (selector) {
+          selector.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } else if (idPaso === 'sonido_probado') {
+        estadoApp.sonido.activado = true;
+        desbloquearContextoAudio();
+        reproducirTono(780, 0.12, 0, 'triangle', 0.16);
+        reproducirTono(1040, 0.16, 0.14, 'sine', 0.16);
+        const btnSonido = document.getElementById('btn-sonido');
+        if (btnSonido) {
+          btnSonido.classList.remove('silenciado');
+          btnSonido.setAttribute('aria-pressed', 'true');
+          btnSonido.textContent = '🔊 Sonido activado';
+        }
+        completarPasoOnboardingUI('sonido_probado');
+      } else if (idPaso === 'tecnica_vista') {
+        const primerEjercicio =
+          estadoApp.rutinaActual && estadoApp.rutinaActual.ejercicios && estadoApp.rutinaActual.ejercicios[0];
+        if (primerEjercicio) {
+          abrirModalTecnica(primerEjercicio.id);
+        }
+      } else if (idPaso === 'primera_rutina') {
+        abrirModalRegistroRapido();
+      }
+    }
+
+    /**
+     * Renderiza los 4 botones circulares del Selector de Intensidad Instantánea dentro del modo Entrenar
+     * junto con la descripción dinámica del modo seleccionado.
+     *
+     * @returns {void}
+     */
+    function renderizarSelectorIntensidadGuiado() {
+      if (!window.ProgresoEntrenamiento || !window.ProgresoEntrenamiento.MODOS_INTENSIDAD_INSTANTANEA) {
+        return;
+      }
+
+      const contenedor = document.getElementById('selector-intensidad-guiado');
+      const descripcion = document.getElementById('descripcion-intensidad-guiado');
+      const etiqueta = document.getElementById('etiqueta-intensidad-activa');
+      if (!contenedor || !descripcion || !etiqueta) return;
+
+      const modos = window.ProgresoEntrenamiento.MODOS_INTENSIDAD_INSTANTANEA;
+      const modoActivo = modos[estadoApp.intensidadInstantanea] || modos.constante;
+
+      etiqueta.textContent = modoActivo.nombre.toUpperCase();
+      descripcion.textContent = `${modoActivo.icono} ${modoActivo.nombre}: ${modoActivo.descripcion}`;
+
+      contenedor.innerHTML = Object.values(modos)
+        .map(
+          (modo) => `
+            <button
+              type="button"
+              class="btn-intensidad-circular ${modo.id === modoActivo.id ? 'activo' : ''}"
+              data-modo-intensidad="${modo.id}"
+              role="radio"
+              aria-checked="${modo.id === modoActivo.id}"
+            >
+              <span class="circulo-intensidad">${modo.icono}</span>
+              <span class="etiqueta-intensidad-circular">${modo.nombre}</span>
+            </button>
+          `
+        )
+        .join('');
+    }
+
+    /**
+     * Ajusta al instante las series, repeticiones y descansos de la rutina propuesta según el modo
+     * de intensidad elegido hoy ("Más fácil", "Constante", "Más difícil", "Variedad").
+     *
+     * @param {string} idModo - Identificador del modo de intensidad instantánea.
+     * @returns {void}
+     */
+    function aplicarIntensidadInstantanea(idModo) {
+      if (
+        !estadoApp.rutinaBaseActual ||
+        !window.ProgresoEntrenamiento ||
+        typeof window.ProgresoEntrenamiento.ajustarRutinaPorIntensidadInstantanea !== 'function'
+      ) {
+        return;
+      }
+
+      estadoApp.intensidadInstantanea = idModo;
+      estadoApp.rutinaActual = window.ProgresoEntrenamiento.ajustarRutinaPorIntensidadInstantanea(
+        estadoApp.rutinaBaseActual,
+        idModo
+      );
+
+      // Mantener el índice de ejercicio y la serie actual dentro de límites válidos
+      const totalEjercicios = estadoApp.rutinaActual.ejercicios.length;
+      if (estadoApp.guiado.indiceEjercicio >= totalEjercicios) {
+        estadoApp.guiado.indiceEjercicio = Math.max(0, totalEjercicios - 1);
+      }
+      const ejercicioActual = estadoApp.rutinaActual.ejercicios[estadoApp.guiado.indiceEjercicio];
+      if (ejercicioActual && estadoApp.guiado.serieActual > ejercicioActual.series) {
+        estadoApp.guiado.serieActual = ejercicioActual.series;
+      }
+
+      renderizarSelectorIntensidadGuiado();
+      renderizarVistaEntrenamientoGuiado();
+      renderizarMetricas();
+      renderizarTarjetasEjercicios();
+    }
+
+    /**
+     * Abre el modal de Registro Rápido (sin temporizador) preseleccionando el área y volumen estimados actuales.
+     *
+     * @returns {void}
+     */
+    function abrirModalRegistroRapido() {
+      const selectArea = document.getElementById('rapido-select-area');
+      const inputReps = document.getElementById('rapido-input-reps');
+      if (selectArea && estadoApp.area) {
+        selectArea.value = estadoApp.area;
+      }
+      if (inputReps && estadoApp.rutinaActual) {
+        inputReps.value = String(estadoApp.rutinaActual.repeticionesTotales || 120);
+      }
+      seleccionarRpeRapido(estadoApp.rpeRapido || 7);
+      document.getElementById('modal-registro-rapido').classList.add('abierto');
+    }
+
+    /**
+     * Cierra el modal de Registro Rápido de entrenamiento.
+     *
+     * @returns {void}
+     */
+    function cerrarModalRegistroRapido() {
+      const modal = document.getElementById('modal-registro-rapido');
+      if (modal) {
+        modal.classList.remove('abierto');
+      }
+    }
+
+    /**
+     * Actualiza el valor de Esfuerzo Percibido (RPE 1-10) seleccionado dentro del modal de Registro Rápido.
+     *
+     * @param {number} valorRpe - Nivel de esfuerzo percibido entre 1 y 10.
+     * @returns {void}
+     */
+    function seleccionarRpeRapido(valorRpe) {
+      const rpeSeguro = Math.min(10, Math.max(1, Math.round(Number(valorRpe) || 7)));
+      estadoApp.rpeRapido = rpeSeguro;
+      const texto = document.getElementById('rapido-rpe-texto');
+      if (texto) {
+        texto.textContent = `${rpeSeguro}/10`;
+      }
+      document.querySelectorAll('#rapido-grid-rpe .btn-rpe-rapido').forEach((btn) => {
+        btn.classList.toggle('activo', Number(btn.dataset.rpeRapido) === rpeSeguro);
+      });
+    }
+
+    /**
+     * Guarda un entrenamiento manual registrado rápidamente (sin temporizador) en localStorage,
+     * actualizando el historial, la gráfica de 12 semanas, la curva de Fitness/Fatiga, trofeos y lista de iniciación.
+     *
+     * @param {Event} evento - Evento submit del formulario de registro rápido.
+     * @returns {void}
+     */
+    function guardarEntrenamientoRapido(evento) {
+      evento.preventDefault();
+      const almacenamiento = obtenerAlmacenamientoLocal();
+      if (!almacenamiento) {
+        mostrarMensajeProgreso('No se pudo acceder al almacenamiento local del navegador.', 'error');
+        return;
+      }
+
+      const area = document.getElementById('rapido-select-area').value;
+      const repeticionesTotales = Math.max(1, Math.round(Number(document.getElementById('rapido-input-reps').value) || 0));
+      const rpe = estadoApp.rpeRapido || 7;
+
+      try {
+        const registro = window.ProgresoEntrenamiento.crearRegistroEntrenamiento({
+          fecha: window.ProgresoEntrenamiento.formatearFechaLocal(new Date()),
+          area,
+          repeticionesTotales,
+          genero: estadoApp.genero,
+          nivel: estadoApp.nivel,
+          seriesCompletadas: 4,
+          seriesTotales: 4,
+          rpe
+        });
+        window.ProgresoEntrenamiento.guardarRegistro(almacenamiento, registro);
+      } catch (error) {
+        mostrarMensajeProgreso(`Error al guardar entrenamiento rápido: ${error.message}`, 'error');
+        return;
+      }
+
+      cerrarModalRegistroRapido();
+      renderizarBarraProgreso();
+      renderizarPanelPerfilTactico();
+      completarPasoOnboardingUI('primera_rutina');
+
+      mostrarMensajeProgreso(
+        `⚡ Entrenamiento rápido guardado: ${NOMBRES_AREAS[area] || area} • ${repeticionesTotales} reps • RPE ${rpe}/10.`,
+        'exito'
+      );
     }
 
     /**
@@ -4433,9 +7253,15 @@
     // Inicialización al cargar la página
     inicializarEventosUI();
     inicializarInteractividadMapaMuscular();
+    inicializarGestosMazo3D();
+    renderizarCarruselProgramasTacticos();
+    renderizarMazo3D();
     actualizarRutinaActiva();
     actualizarVistaTemporizador();
     renderizarBarraProgreso();
+    renderizarPanelPerfilTactico();
+    renderizarListaIniciacion();
+    renderizarSelectorIntensidadGuiado();
     inicializarInstalacionPWA();
     registrarServiceWorkerPWA();
   </script>

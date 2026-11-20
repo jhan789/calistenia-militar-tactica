@@ -4,7 +4,7 @@
  * para permitir la instalación en dispositivos móviles y el funcionamiento 100% sin conexión.
  */
 
-const NOMBRE_CACHE = 'calistenia-militar-pwa-v4';
+const NOMBRE_CACHE = 'calistenia-militar-pwa-v9';
 const RECURSOS_NUCLEO = [
   './',
   './index.html',
